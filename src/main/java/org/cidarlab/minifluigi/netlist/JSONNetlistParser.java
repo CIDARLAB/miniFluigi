@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.cidarlab.minifluigi.core;
+package org.cidarlab.minifluigi.netlist;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -11,10 +11,7 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.cidarlab.minifluigi.netlist.Component;
-import org.cidarlab.minifluigi.netlist.Connection;
-import org.cidarlab.minifluigi.netlist.Device;
-import org.cidarlab.minifluigi.netlist.LogicalLayer;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -24,7 +21,7 @@ import org.json.simple.parser.ParseException;
  *
  * @author krishna
  */
-class JSONNetlistParser {
+public class JSONNetlistParser {
 
     JSONObject netlistJSONObject;
     Device device;
@@ -107,15 +104,15 @@ class JSONNetlistParser {
     Trivial Helpers
      */
     private String getComments(JSONObject netlistJSONObject) {
-        return (String) netlistJSONObject.get("comments");
+        return (String) netlistJSONObject.get(JSONKeyWords.COMMENTS);
     }
 
     private String getName(JSONObject netlistJSONObject) {
-        return (String) netlistJSONObject.get("name");
+        return (String) netlistJSONObject.get(JSONKeyWords.NAME);
     }
     
     private String getID(JSONObject netlistJSONObject) {
-        return (String) netlistJSONObject.get("id");
+        return (String) netlistJSONObject.get(JSONKeyWords.ID);
     }
 
 

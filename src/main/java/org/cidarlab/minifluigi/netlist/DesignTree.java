@@ -5,10 +5,20 @@
  */
 package org.cidarlab.minifluigi.netlist;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 /**
  *
  * @author krishna
  */
 public class DesignTree {
-    
+    HashMap<String, Device> devices;
+
+    public class Leaf{
+        /**
+         * This will have to be imported from Fluigi
+         */
+    }
+
 }

@@ -13,12 +13,46 @@ import org.json.simple.JSONObject;
  */
 public class LogicalLayer {
 
+    private LogicalLayerType layerType;
+
+    /**
+     * @return the id
+     */
+    public String getId() {
+        return id;
+    }
+
+    public enum LogicalLayerType {
+        FLOW,
+        CONTROL,
+        EXT_INTEGRATION
+    }
+
+    private final String id;
+
     public LogicalLayer(String id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.id = id;
     }
 
     public void importFromJSON(JSONObject jsonlayer) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        JSONObject paramsObject = (JSONObject) jsonlayer.get("params");
+        String layertype = (String) paramsObject.get("type");
+        if (null != layertype) {
+            switch (layertype) {
+                case "FLOW":
+                    this.layerType = LogicalLayerType.FLOW;
+                    break;
+                case "CONTROL":
+                    this.layerType = LogicalLayerType.CONTROL;
+                    break;
+                case "EXT":
+                    this.layerType = LogicalLayerType.EXT_INTEGRATION;
+                    break;
+                default:
+                    this.layerType = LogicalLayerType.FLOW;
+            }
+        }
+
     }
-    
+
 }

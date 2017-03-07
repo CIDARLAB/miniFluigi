@@ -5,36 +5,70 @@
  */
 package org.cidarlab.minifluigi.netlist;
 
-import org.cidarlab.minifluigi.core.Placement;
+import java.util.ArrayList;
+import java.util.HashMap;
+import org.cidarlab.minifluigi.layout.Placement;
 
 /**
  *
  * @author krishna
  */
 public class Device {
+     
+    private final String name;
+    private String comments;
+    private HashMap<String,LogicalLayer> layersHashMap;
+    private ArrayList<Component> components;
+    private ArrayList<Connection> connections;
     
     public Device(String string) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.name = string;
+        layersHashMap = new HashMap<>();
+        connections = new ArrayList<>();
+        components = new ArrayList<>();
     }
 
     public void setComments(String string) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.comments = string;
     }
 
     public void addLayer(LogicalLayer layer) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        layersHashMap.put(layer.getId(), layer);
     }
 
     public void addComponent(Component component) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        components.add(component);
     }
 
     public void addConnection(Connection connection) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        connections.add(connection);
     }
 
     public Placement getPlacement() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        /**
+         * Loop through all the components in the device and generate rectangles
+         * each of the rectangles have a position (x,y) and dimensions (w,h). 
+         * Maybe thats all there is to this.
+         * 
+         * Also make abstract connections for each of the rectangles.
+         */
+        Placement placement = new Placement();
+        for(Component c : components){
+            placement.addCell(
+                    c.getId(),
+                    c.getX(), c.getY(),
+                    c.getW(), c.getH()
+            );
+        }
+        
+        for(Connection c : connections){
+            placement.addConnection(
+                    c.getSourceID(),
+                    c.getTargets()
+            );
+        }
+        
+        return placement;
     }
 
     public void loadPlacement(Placement placementproblem) {

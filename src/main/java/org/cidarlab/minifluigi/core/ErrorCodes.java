@@ -9,10 +9,10 @@ package org.cidarlab.minifluigi.core;
  *
  * @author krishna
  */
-class ErrorCodes {
+public class ErrorCodes {
 
-    static int MISSING_ARG_VALUES = 100;
-    static int NO_ARGS = 200;
-    static int BAD_ARGS = 300;
-    
+    public static final int MISSING_ARG_VALUES = 100;
+    public static final int NO_ARGS = 200;
+    public static final int BAD_ARGS = 300;
+    public static final int PROBLEM_GENERATION_ERROR = 400;
 }

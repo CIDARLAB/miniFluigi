@@ -11,7 +11,9 @@ import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+import org.cidarlab.minifluigi.layout.Placement;
 import org.cidarlab.minifluigi.netlist.Device;
+import org.cidarlab.minifluigi.netlist.JSONNetlistParser;
 import org.cidarlab.minifluigi.output.JSONNetlist;
 import org.cidarlab.minifluigi.place.UCRPlacer;
 
@@ -39,6 +41,7 @@ public class Main {
         options.addOption("c", "cello", false, "This enables Cello Mode of operation");
         options.addOption("u", "user", true, "Give the username");
         options.addOption("p", "pass", true, "Give the password");
+        options.addOption("x", "convert", false, "This enables the MINT conversion mode");
         return options;
     }
 
@@ -50,8 +53,8 @@ public class Main {
      * <p>
      */
     private static void outputCommandLineHelp(final Options options) {
-        final HelpFormatter formater = new HelpFormatter();
-        formater.printHelp("fluigi <filename> [-i <initialization_file>] [-o output directory] [-f output format]", options);
+        final HelpFormatter formatter = new HelpFormatter();
+        formatter.printHelp("fluigi <filename> [-i <initialization_file>] [-o output directory] [-f output format]", options);
         System.exit(0);
     }
 
@@ -127,6 +130,10 @@ public class Main {
         */
         
         device.loadPlacement(placementproblem);
+        
+        /*
+        TODO: Do routing for each of the routes. Call and implement the flowrouter.
+        */
         
         JSONNetlist output = new JSONNetlist();
         output.setOutputDirectory(outputDirectory);
