@@ -5,18 +5,15 @@
  */
 package org.cidarlab.minifluigi.place;
 
-import org.cidarlab.minifluigi.core.Placement;
+import org.cidarlab.minifluigi.layout.Placement;
 
 /**
  *
  * @author krishna
  */
-public class UCRPlacer {
+public class UCRPlacer extends Placer {
 
-    public void loadProblem(Placement placementproblem) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
+    @Override
     public void place() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

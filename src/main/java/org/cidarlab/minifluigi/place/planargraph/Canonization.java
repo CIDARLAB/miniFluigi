@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.cidarlab.minifluigi.place;
+package org.cidarlab.minifluigi.place.planargraph;
 
 import java.util.HashMap;
 import org.jgrapht.Graph;
