@@ -31,7 +31,33 @@ public class Placement {
     }
 
 
-    public void addConnection(String sourceID, List<String> targets) {
+    public void addConnection(String sourceID, String targetID){
+
+        Cell sourceCell = null;
+        Cell targetCell = null;
+
+        for(Cell c : placementGraph.vertexSet()){
+
+            //Find the source cell
+            if(c.getID().equals(sourceID)){
+                sourceCell = c;
+            }
+
+            //Find target
+            if(c.getID().equals(targetID)) {
+                targetCell = c;
+            }
+
+        }
+
+        if((null == sourceCell)||(null==targetCell)){
+            System.exit(ErrorCodes.PROBLEM_GENERATION_ERROR);
+        }
+
+        placementGraph.addEdge(sourceCell,targetCell);
+    }
+
+    public void addConnections(String sourceID, List<String> targets) {
         Cell sourceCell = null;
         ArrayList<Cell> targetCells = new ArrayList<>();
         //Find the source and targets ID

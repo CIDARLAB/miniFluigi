@@ -16,6 +16,7 @@ import org.cidarlab.minifluigi.netlist.Device;
 import org.cidarlab.minifluigi.netlist.JSONNetlistParser;
 import org.cidarlab.minifluigi.output.JSONNetlist;
 import org.cidarlab.minifluigi.place.UCRPlacer;
+import java.util.List;
 
 /**
  *
@@ -117,20 +118,22 @@ public class Main {
         recursively do the place and route.
         */
         
-        Placement placementproblem = device.getPlacement();
-        
-        UCRPlacer placer = new UCRPlacer();
-        
-        placer.loadProblem(placementproblem);
-        
-        placer.place();
-        
-        /*
-        Create a verification system to ensure that the placement is working correctly.
-        */
-        
-        device.loadPlacement(placementproblem);
-        
+        List<Placement> placementproblems = device.getPlacementProblems();
+
+        for(Placement placementproblem : placementproblems){
+            UCRPlacer placer = new UCRPlacer();
+
+            placer.loadProblem(placementproblem);
+
+            placer.place();
+
+            /*
+            Create a verification system to ensure that the placement is working correctly.
+            */
+
+            device.loadPlacement(placementproblem);
+        }
+
         /*
         TODO: Do routing for each of the routes. Call and implement the flowrouter.
         */

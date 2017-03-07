@@ -6,6 +6,8 @@
 package org.cidarlab.minifluigi.netlist;
 
 import java.util.HashMap;
+import java.util.Objects;
+
 import org.json.simple.JSONObject;
 
 /**
@@ -32,6 +34,8 @@ public class Component {
             getParams().put((String)key, value);
         }
     }
+
+
 
     /**
      * @return the id
@@ -130,6 +134,14 @@ public class Component {
     public void setH(int h) {
         this.h = h;
     }
-    
-    
+
+    @Override
+    public boolean equals(Object o){
+        if (o == this) return true;
+        if (!(o instanceof Component)) {
+            return false;
+        }
+        return this.id.equals(((Component) o).getId());
+    }
+
 }

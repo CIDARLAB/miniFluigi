@@ -11,7 +11,7 @@ public abstract class Placer {
 
     Placement problem;
 
-    void loadProblem(Placement placementproblem){
+    public void loadProblem(Placement placementproblem){
         this.problem = placementproblem;
     }
 
