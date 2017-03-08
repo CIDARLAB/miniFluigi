@@ -21,6 +21,10 @@ public class Placement {
 
     SimpleDirectedGraph<Cell, DefaultEdge> placementGraph;
 
+    //These are the global offsets for the positions for this entire placement
+    private int xoffset = 0;
+    private int yoffset = 0;
+
     public Placement(){
         placementGraph = new SimpleDirectedGraph<>(DefaultEdge.class);
     }

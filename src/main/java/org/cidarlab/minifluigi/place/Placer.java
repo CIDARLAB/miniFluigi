@@ -15,5 +15,5 @@ public abstract class Placer {
         this.problem = placementproblem;
     }
 
-    abstract void place();
+    abstract public void place();
 }
