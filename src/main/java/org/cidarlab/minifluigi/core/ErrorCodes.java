@@ -15,4 +15,5 @@ public class ErrorCodes {
     public static final int NO_ARGS = 200;
     public static final int BAD_ARGS = 300;
     public static final int PROBLEM_GENERATION_ERROR = 400;
+    public static final int TECH_LIBRARY_NOT_FOUND = 500;
 }

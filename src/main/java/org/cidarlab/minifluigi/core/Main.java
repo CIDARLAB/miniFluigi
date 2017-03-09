@@ -108,6 +108,8 @@ public class Main {
                 System.exit(ErrorCodes.BAD_ARGS);
             }
         }
+
+        LibraryManager.loadLibraryFromDiskLocation("/Users/krishna/Documents/mint");
         
         JSONNetlistParser jsonparser = new JSONNetlistParser(inputPathName);
         

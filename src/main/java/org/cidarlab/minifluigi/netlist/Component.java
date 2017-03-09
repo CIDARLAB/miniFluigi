@@ -16,8 +16,18 @@ import org.json.simple.JSONObject;
  */
 public class Component {
 
+    public ComponentType getType() {
+        return type;
+    }
+
+    public enum ComponentType{
+        PRIMITIVE,
+        COMPOSITE
+    }
+
     private String id;
     private String technology;
+    protected ComponentType type;
     private HashMap<String, Object> params;
     private int x,y,w,h;
 
@@ -30,9 +40,10 @@ public class Component {
         this.setTechnology((String) jsoncomponent.get(JSONKeyWords.TECHNOLOGY));
         JSONObject paramsoObject = (JSONObject) jsoncomponent.get(JSONKeyWords.PARAMETERS);
         for(Object key : paramsoObject.keySet()){
-            Object value  = jsoncomponent.get((String)key);
+            Object value  = jsoncomponent.get(key);
             getParams().put((String)key, value);
         }
+        this.type =(ComponentType) jsoncomponent.get(JSONKeyWords.TYPE);
     }
 
 

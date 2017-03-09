@@ -1,5 +1,6 @@
 package org.cidarlab.minifluigi.netlist;
 
+import javax.swing.text.html.parser.Entity;
 import java.util.HashMap;
 
 /**
@@ -17,6 +18,10 @@ public class TechLibrary {
 
     public void addEntity(TechEntity entity){
         library.put(entity.getName(), entity);
+    }
+
+    public TechEntity getEntity(String entityname){
+        return library.get(entityname);
     }
 
 }

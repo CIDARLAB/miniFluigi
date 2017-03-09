@@ -19,4 +19,5 @@ public class JSONKeyWords {
     public static final String SINKS = "sinks";
     public static final String POSITION = "position";
     public static final String PINMAP = "map";
- }
+    public static final String TYPE = "type";
+}
