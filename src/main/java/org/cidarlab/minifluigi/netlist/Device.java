@@ -148,5 +148,8 @@ public class Device {
 
         return null;
     }
-    
+
+    public List<Component> getComponents() {
+        return components;
+    }
 }

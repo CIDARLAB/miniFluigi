@@ -10,6 +10,9 @@ import org.jgrapht.DirectedGraph;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DirectedGraphUnion;
 import org.jgrapht.graph.SimpleDirectedGraph;
+import org.jgrapht.graph.SimpleGraph;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +35,15 @@ public class Placement {
     public void addCell(String id, int x, int y, int w, int h) {
         Cell cell = new Cell(id, x, y, w, h);
         placementGraph.addVertex(cell);
+    }
+
+    public Cell getCell(String id){
+        for(Cell c : placementGraph.vertexSet()){
+            if(c.getID().equals(id)){
+                return c;
+            }
+        }
+        return null;
     }
 
 
@@ -92,5 +104,12 @@ public class Placement {
 
 
     }
-    
+
+    public SimpleDirectedGraph<Cell, DefaultEdge> getDirectedGraph() {
+        return placementGraph;
+    }
+
+    public SimpleGraph<Cell, DefaultEdge> getSimpleGraph(){
+        throw new UnsupportedOperationException("Need to convert directed to undirected graph manually");
+    }
 }

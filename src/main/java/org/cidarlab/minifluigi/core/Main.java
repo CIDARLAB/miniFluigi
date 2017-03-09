@@ -15,7 +15,11 @@ import org.cidarlab.minifluigi.layout.Placement;
 import org.cidarlab.minifluigi.netlist.Device;
 import org.cidarlab.minifluigi.netlist.JSONNetlistParser;
 import org.cidarlab.minifluigi.output.JSONNetlist;
+import org.cidarlab.minifluigi.place.Placer;
 import org.cidarlab.minifluigi.place.UCRPlacer;
+import org.cidarlab.minifluigi.place.naive.NaiveAnnotator;
+import org.cidarlab.minifluigi.place.naive.NaivePlacer;
+
 import java.util.List;
 
 /**
@@ -123,10 +127,13 @@ public class Main {
         List<Placement> placementproblems = device.getPlacementProblems();
 
         for(Placement placementproblem : placementproblems){
-            UCRPlacer placer = new UCRPlacer();
 
+            NaiveAnnotator annotator = new NaiveAnnotator();
+            annotator.annotatePlacement(placementproblem,device);
+            NaivePlacer placer = new NaivePlacer();
+
+            placer.loadContraints(76200,101600);    //Dimensions given in microns
             placer.loadProblem(placementproblem);
-
             placer.place();
 
             /*
