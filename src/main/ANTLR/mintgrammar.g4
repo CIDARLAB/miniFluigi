@@ -8,8 +8,7 @@ netlist
     :   importBlock?
         header
         ufmoduleBlock?
-        flowBlock?
-        controlBlock?
+        layerBlocks
         EOF
     ;
 
@@ -22,7 +21,7 @@ importStat
     ;
 
 header
-    :   (tag='3D')? 'DEVICE' ufname
+    :   (tag='3D')? 'DEVICE' ID_SMALL
     ;
 
 ufmoduleBlock
@@ -33,32 +32,20 @@ ufmoduleStat
     :   ufmodulename ufnames ';'
     ;
 
+layerBlocks
+    :   layerBlock+
+    ;
+
+layerBlock
+    :   flowBlock
+        controlBlock?
+    ;
+
+
 flowBlock
     :   'LAYER FLOW'
         (s=flowStat)+
         'END LAYER'
-    ;
-
-flowStat
-    :   portStat
-    |   portBankStat
-    |   channelStat
-    |   nodeStat
-    |   cellTrapStat
-    |   cellTrapBankStat
-    |   logicArrayStat
-    |   muxStat
-    |   treeStat
-    |   setCoordStat
-    |   mixerStat
-    |   gradGenStat
-    |   rotaryStat
-    |   dropletGenStat
-    |   valve3DStat
-    |   viaStat
-    |   transposerStat
-    |   ufterminalStat
-    |   reactionChamberStat
     ;
 
 controlBlock
@@ -67,283 +54,91 @@ controlBlock
         'END LAYER'
     ;
 
-controlStat
-    :   portStat
-    |   portBankStat
+flowStat
+    :   primitiveStat
+    |   compositeStat
     |   channelStat
-    |   nodeStat
-    |   valveStat
-    |   setCoordStat
     |   netStat
-    |   ufmoduleStat
-    |   ufterminalStat
+    |   valveStat
+    |   bankStat
+    |   gridStat
+    |   spanStat
     ;
 
+controlStat
+    :   valveStat
+    |   channelStat
+    |   netStat
+    |   bankStat
+    |   primitiveStat
+    ;
 
 //Flow and Control Statements
 
-portStat
-    :   'PORT' ufnames (radiusParam)';'
+primitiveStat
+    :   entity ufnames paramsStat ';'
     ;
 
-portBankStat
-    :   orientation='V' 'BANK' ufname 'of' number=INT 'PORT'  verticalPortBankStatParams ';'
-    |   orientation='H' 'BANK' ufname 'of' number=INT 'PORT'  horizontalPortBankStatParams ';'
+compositeStat
+    :   ('V'|'H')? entity ufnames paramsStat ';'
     ;
 
-verticalPortBankStatParams
-    :   (verticalPortBankStatParam)+
+bankStat
+    :   ('V'|'H')? 'BANK' ufname 'of' INT entity paramsStat ';'
     ;
 
-verticalPortBankStatParam
-    :   radiusParam
-    |   verticalDirectionParam
-    |   spacingParam
-    |   channelWidthParam
+gridStat
+    :   'GRID' ufname 'of' INT ',' INT entity paramsStat ';'
     ;
 
-horizontalPortBankStatParams
-    :   (horizontalPortBankStatParam)+
+spanStat
+    :   ('V'|'H')? entity ufname  INT 'to' INT paramsStat ';'
     ;
-
-horizontalPortBankStatParam
-    :   radiusParam
-    |   horizontalDirectionParam
-    |   spacingParam
-    |   channelWidthParam
-    ;
-
-channelStat
-    :   'CHANNEL' ufname 'from' component1=ID port1=INT 'to' component2=ID port2=INT widthParam ';'
-    ;
-
-nodeStat
-    :   'NODE' ufnames ';'
-    ;
-
-cellTrapStat
-    :   (type='SQUARE CELL TRAP') ufnames cellTrapStatParams ';'
-    |   orientation=('V'|'H') (type='LONG CELL TRAP') ufnames  cellTrapStatParams ';'
-    ;
-
-cellTrapStatParams
-    :   (cellTrapStatParam)+
-    ;
-
-cellTrapStatParam
-    :   chamberWidthParam
-    |   chamberLengthParam
-    |   channelWidthParam
-    |   numChambersParam
-    |   chamberSpacingParam
-    |   chamberLengthParam
-    ;
-
-cellTrapBankStat
-    :   orientation=('V'|'H') 'BANK' ufname 'of' number=INT 'CELL TRAP'  cellTrapBankStatParams';'
-    ;
-
-cellTrapBankStatParams
-    :   (cellTrapBankStatParam)+
-    ;
-
-cellTrapBankStatParam
-    :   numChambersParam
-    |   chamberWidthParam
-    |   chamberLengthParam
-    |   chamberSpacingParam
-    |   channelWidthParam
-    |   spacingParam
-    ;
-
-
-logicArrayStat
-    :   'LOGIC ARRAY' ufname logicArrayStatParams ';'
-    ;
-
-logicArrayStatParams
-    :   (logicArrayStatParam)+
-    ;
-
-logicArrayStatParam
-    :   flowChannelWidthParam
-    |   controlChannelWidthParam
-    |   chamberLengthParam
-    |   chamberWidthParam
-    |   radiusParam
-    ;
-
-muxStat
-    :   orientation=('V'|'H') (type='MUX') ufname n1=INT 'to' n2=INT muxStatParams ';'
-    ;
-
-muxStatParams
-    :   (muxStatParam)+
-    ;
-
-muxStatParam
-    :   spacingParam
-    |   flowChannelWidthParam
-    |   controlChannelWidthParam
-    ;
-
-treeStat
-    :   orientation=('V'|'H') (type='TREE') ufname n1=INT 'to' n2=INT treeStatParams ';'
-    ;
-
-treeStatParams
-    :   (treeStatParam)+
-    ;
-
-treeStatParam
-    :   spacingParam
-    |   flowChannelWidthParam
-    ;
-
-setCoordStat
-    :   ufname ('SET X' x=INT) ('SET Y' y=INT) ';'
-    ;
-mixerStat
-    :   orientation=('V'|'H') 'MIXER' ufname mixerStatParams ';'
-    ;
-
-mixerStatParams
-    :   (mixerStatParam)+
-    ;
-
-mixerStatParam
-    :   numBendsParam
-    |   bendSpacingParam
-    |   bendLengthParam
-    |   channelWidthParam
-    ;
-
-gradGenStat
-    :   orientation=('V'|'H') 'GRADIENT GENERATOR' ufname in=INT 'to' out=INT gradGenStatParams ';'
-    ;
-
-
-gradGenStatParams
-    :   (gradGenStatParam)+
-    ;
-
-gradGenStatParam
-    :   numBendsParam
-    |   bendSpacingParam
-    |   bendLengthParam
-    |   channelWidthParam
-    ;
-
-
-rotaryStat
-    :   orientation=('V'|'H') 'ROTARY PUMP' ufname rotaryStatParams ';'
-    ;
-
-
-rotaryStatParams
-    :   (rotaryStatParam)+
-    ;
-
-rotaryStatParam
-    :   radiusParam
-    |   flowChannelWidthParam
-    |   controlChannelWidthParam
-    ;
-
-dropletGenStat
-    :   orientation=('V'|'H') 'DROPLET GENERATOR' (type='T') ufname dropletGenStatParams ';'
-    |   orientation=('V'|'H') 'DROPLET GENERATOR' (type='FLOW FOCUS') ufname dropletGenStatParams ';'
-    ;
-
-dropletGenStatParams
-    :   (dropletGenStatParam)+
-    ;
-
-dropletGenStatParam
-    :   radiusParam
-    |   oilChannelWidthParam
-    |   waterChannelWidthParam
-    |   angleParam
-    |   lengthParam
-    ;
-
-
-valve3DStat
-    :   orientation=('V'|'H') '3DVALVE' ufname valve3DStatParams ';'
-    ;
-
-valve3DStatParams
-    :   (valve3DStatParam)+
-    ;
-
-valve3DStatParam
-    :   radiusParam
-    |   gapParam
-    ;
-
-
-
-viaStat
-    :   'VIA' ufnames ';'
-    ;
-
-transposerStat
-    :   'TRANSPOSER' ufname transposerStatParams ';'
-    ;
-
-
-transposerStatParams
-    :   (transposerStatParam)+
-    ;
-
-transposerStatParam
-    :   radiusParam
-    |   gapParam
-    |   flowChannelWidthParam
-    |   controlChannelWidthParam
-    ;
-
 
 valveStat
-    :   'VALVE' ufname 'on' channel=ID widthParam? lengthParam?';'
+    :   ('VALVE'|'3DVALVE') ufname 'on' ufname paramsStat ';'
+    ;
+
+
+channelStat
+    :   'CHANNEL' ufname 'from' uftarget 'to' uftarget widthParam ';'
     ;
 
 netStat
-    :   'NET' ufname 'from' source_name=ID source_terminal=INT 'to' uftargets channelWidthParam ';'
+    :   'NET' ufname 'from' source_name=ID_SMALL source_terminal=INT 'to' uftargets widthParam ';'
     ;
 
-ufterminalStat
-    :   'TERMINAL' ufterminal ufname ('TOP'|'BOTTOM'|'LEFT'|'RIGHT')? ';'
+//Common Parser Rules
+
+entity
+    :   entity_element+
     ;
 
-reactionChamberStat
-    :   'REACTION CHAMBER' ufnames reactionChamberStatParams ';'
+entity_element
+    :   ID_BIG
     ;
 
-reactionChamberStatParams
-    :   (reactionChamberStatParam)+
+paramsStat
+    :   paramStat*
     ;
 
-reactionChamberStatParam
-    :   widthParam
-    |   lengthParam
+paramStat
+    :   param_element '=' value
+    |   verticalDirectionParam
+    |   horizontalDirectionParam
+    |   verticalConnectionParam
+    |   horizontalConnectParam
+    |   widthParam
     ;
 
-//Parameter Stats
-
-radiusParam
-    :   'r''='radius=value
-    |   'radius''=' radius=value
-    |   'valveRadius' '=' valve_radius=value
+param_element
+    :   ID_SMALL
     ;
 
-angleParam
-    :   'angle''=' angle=value
-    ;
-
-lengthParam
-    :   'length''=' length=value
-    |   'l' '=' length=value
+widthParam
+    :   'width' '=' value
+    |   'w' '=' value
+    |   'channelWidth' '=' value
     ;
 
 verticalDirectionParam
@@ -354,76 +149,16 @@ horizontalDirectionParam
     :   'dir''='dir=('UP'|'DOWN')
     ;
 
-numChambersParam
-    :   'numChambers''='num_chambers=value
+horizontalConnectParam
+    :   'horizontalConnect' '=' boolvalue
     ;
 
-chamberWidthParam
-    :   'chamberWidth''='chamber_width=value
+verticalConnectionParam
+    :   'verticalConnect' '=' boolvalue
     ;
-
-chamberLengthParam
-    :   'chamberLength''='chamber_length=value
-    ;
-
-chamberSpacingParam
-    :   'chamberSpacing''='chamber_spacing=value
-    ;
-
-spacingParam
-    :   'spacing''='spacing=value
-    ;
-
-channelWidthParam
-    :   'channelWidth''='channel_width=value
-    ;
-
-widthParam
-    :   'w''='width=value
-    |   'width' '=' width=value
-    ;
-
-flowChannelWidthParam
-    :   'flowChannelWidth''=' flow_channel_width=value
-    ;
-
-controlChannelWidthParam
-    :   'controlChannelWidth''=' control_channel_width=value
-    ;
-
-numBendsParam
-    :   'numBends''=' number_bends=value
-    ;
-
-bendSpacingParam
-    :   'bendSpacing''=' bend_spacing=value
-    ;
-
-bendLengthParam
-    :   'bendLength''=' bend_length=value
-    ;
-
-oilChannelWidthParam
-    :   'oilChannelWidth''=' oil_channel_width=value
-    ;
-
-waterChannelWidthParam
-    :   'waterChannelWidth''=' water_channel_width=value
-    ;
-
-gapParam
-    :   'gap''=' gap=value
-    |   'valveGap''=' valve_gap=value
-    ;
-
-
-
-//Common Parser Rules
-
-
 
 ufmodulename
-    :   ID
+    :   ID_BIG
     ;
 
 ufterminal
@@ -435,11 +170,11 @@ uftargets
     ;
 
 uftarget
-    :   target_name=ID target_terminal=INT
+    :   target_name=ID_SMALL target_terminal=INT
     ;
 
 ufname
-    :   ID
+    :   ID_SMALL
     ;
 
 ufnames
@@ -449,10 +184,17 @@ ufnames
 value
     :   INT
     ;
+
+boolvalue
+    :   'YES'
+    |   'NO'
+    ;
+
 //Common Lexical Rules
 
-ID  :	('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*
-    ;
+ID_BIG  :  ('A'..'Z'|'_') ('A'..'Z'|'_')*  ;
+
+ID_SMALL    :  ('a'..'z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_')* ;
 
 INT :   [0-9]+ ; // Define token INT as one or more digits
 WS  :   [ \t\r\n]+ -> skip ; // Define whitespace rule, toss it out
