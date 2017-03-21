@@ -9,7 +9,7 @@ import org.jgrapht.graph.DefaultEdge;
  */
 public abstract class Placer {
 
-    Placement problem;
+    protected Placement problem;
 
     public void loadProblem(Placement placementproblem){
         this.problem = placementproblem;

@@ -89,8 +89,10 @@ public class Placement {
             placementGraph.addEdge(sourceCell, target);
         }
 
-
-
     }
-    
+
+    /*
+    TODO: Need to figure out a way to retrieve the connection offset for the pins
+     */
+
 }
