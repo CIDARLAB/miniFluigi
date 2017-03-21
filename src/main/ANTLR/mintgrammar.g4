@@ -44,13 +44,13 @@ layerBlock
 
 flowBlock
     :   'LAYER FLOW'
-        (s=flowStat)+
+        (flowStat)*
         'END LAYER'
     ;
 
 controlBlock
     :   'LAYER CONTROL'
-        (s=controlStat)+
+        (controlStat)*
         'END LAYER'
     ;
 
