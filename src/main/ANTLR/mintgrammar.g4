@@ -170,7 +170,7 @@ uftargets
     ;
 
 uftarget
-    :   target_name=ID_SMALL target_terminal=INT
+    :   target_name=ID_SMALL (target_terminal=INT)?
     ;
 
 ufname
