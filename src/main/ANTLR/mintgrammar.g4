@@ -192,7 +192,7 @@ boolvalue
 
 //Common Lexical Rules
 
-ID_BIG  :  ('A'..'Z'|'_') ('A'..'Z'|'_')*  ;
+ID_BIG  :  ('A'..'Z'|'_') ('A'..'Z'|'_'|'0'..'9')*  ;
 
 ID_SMALL    :  ('a'..'z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_')* ;
 
