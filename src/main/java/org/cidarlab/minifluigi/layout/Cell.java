@@ -9,7 +9,7 @@ public class Cell {
     private int x;
     private int y;
     private int w; //width x-span
-    private int h; //height x-span
+    private int h; //height y-span
 
     public Cell(String id, int x, int y, int w, int h) {
         this.id = id;
