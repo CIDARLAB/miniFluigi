@@ -8,7 +8,6 @@ package org.cidarlab.minifluigi.netlist;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -22,14 +21,15 @@ public class Connection {
     private final HashMap<String, Object> params;
     private final String id;
     private String sourceID;
-    private HashMap<String, Integer> pinMap;
-    private ArrayList<String> targets;
+    // Component ID , Pin Number
+    private HashMap<String, Integer> terminalMap;
+    private ArrayList<String> sinks;
     private String layerID;
 
     public Connection(String id) {
         params = new HashMap<>();
-        targets = new ArrayList<>();
-        pinMap = new HashMap<>();
+        sinks = new ArrayList<>();
+        terminalMap = new HashMap<>();
         this.id = id;
 
     }
@@ -39,7 +39,7 @@ public class Connection {
         JSONArray sinks = (JSONArray)jsonconnection.get(JSONKeyWords.SINKS);
 
         for(Object sink : sinks){
-            targets.add((String)sink);
+            this.sinks.add((String)sink);
         }
 
         JSONObject paramsObject = (JSONObject) jsonconnection.get(JSONKeyWords.PARAMETERS);
@@ -47,7 +47,7 @@ public class Connection {
             JSONObject mapObject = (JSONObject) paramsObject.get(JSONKeyWords.PINMAP);
             if (null != mapObject) {
                 for (Object key : mapObject.keySet()) {
-                    pinMap.put((String) key, (int) mapObject.get(key));
+                    terminalMap.put((String) key, (int) mapObject.get(key));
                 }
             }
         }
@@ -83,12 +83,23 @@ public class Connection {
     }
 
     /**
-     * Returns targets of the connection
+     * Returns sinks of the connection
      *
      * @return
      */
-    public List<String> getTargets() {
-        return targets;
+    public List<String> getSinks() {
+        return sinks;
     }
 
+    public void addSinkID(String id) {
+        sinks.add(id);
+    }
+
+    public void updateTerminalMap(String id, int sourceterminal) {
+        terminalMap.put(id, sourceterminal);
+    }
+
+    public String getId() {
+        return id;
+    }
 }

@@ -15,6 +15,14 @@ public class LogicalLayer {
 
     private LogicalLayerType layerType;
 
+    public LogicalLayerType getLayerType() {
+        return layerType;
+    }
+
+    public void setLayerType(LogicalLayerType layerType) {
+        this.layerType = layerType;
+    }
+
     /**
      * @return the id
      */

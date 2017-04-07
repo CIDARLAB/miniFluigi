@@ -6,7 +6,6 @@
 package org.cidarlab.minifluigi.netlist;
 
 import java.util.HashMap;
-import java.util.Objects;
 
 import org.json.simple.JSONObject;
 
@@ -20,6 +19,8 @@ public class Component {
     private String technology;
     private HashMap<String, Object> params;
     private int x,y,w,h;
+    private TechEntity.ComponentType type;
+    private Orientation orientation;
 
     public Component(String id) {
         params = new HashMap<>();
@@ -144,4 +145,20 @@ public class Component {
         return this.id.equals(((Component) o).getId());
     }
 
+    public void addParam(String key, Object o) {
+        params.put(key, o);
+    }
+
+    public Orientation getOrientation() {
+        return orientation;
+    }
+
+    public void setOrientation(Orientation orientation) {
+        this.orientation = orientation;
+    }
+
+    public enum Orientation{
+        HORIZONTAL,
+        VERTICAL
+    }
 }

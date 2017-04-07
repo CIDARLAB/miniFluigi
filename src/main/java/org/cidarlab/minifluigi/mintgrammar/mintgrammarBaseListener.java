@@ -1,4 +1,4 @@
-// Generated from /Users/krishna/CIDAR/MiniFluigi/src/main/ANTLR/mintgrammar.g4 by ANTLR 4.6
+// Generated from /Users/krishna/CIDAR/MiniFluigi/src/main/ANTLR/mintgrammar.g4 by ANTLR 4.7
 package org.cidarlab.minifluigi.mintgrammar;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -172,13 +172,13 @@ public class mintgrammarBaseListener implements mintgrammarListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCompositeStat(mintgrammarParser.CompositeStatContext ctx) { }
+	@Override public void enterPrimitiveWithOrientationStat(mintgrammarParser.PrimitiveWithOrientationStatContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitCompositeStat(mintgrammarParser.CompositeStatContext ctx) { }
+	@Override public void exitPrimitiveWithOrientationStat(mintgrammarParser.PrimitiveWithOrientationStatContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -311,6 +311,30 @@ public class mintgrammarBaseListener implements mintgrammarListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitParam_element(mintgrammarParser.Param_elementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterIntParam(mintgrammarParser.IntParamContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitIntParam(mintgrammarParser.IntParamContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterBoolParam(mintgrammarParser.BoolParamContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitBoolParam(mintgrammarParser.BoolParamContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -467,6 +491,18 @@ public class mintgrammarBaseListener implements mintgrammarListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitBoolvalue(mintgrammarParser.BoolvalueContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterOrientation(mintgrammarParser.OrientationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitOrientation(mintgrammarParser.OrientationContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

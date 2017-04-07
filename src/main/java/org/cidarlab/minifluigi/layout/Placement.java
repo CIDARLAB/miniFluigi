@@ -12,6 +12,7 @@ import org.jgrapht.graph.DirectedGraphUnion;
 import org.jgrapht.graph.SimpleDirectedGraph;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -33,7 +34,6 @@ public class Placement {
         Cell cell = new Cell(id, x, y, w, h);
         placementGraph.addVertex(cell);
     }
-
 
     public void addConnection(String sourceID, String targetID){
 
@@ -89,6 +89,19 @@ public class Placement {
             placementGraph.addEdge(sourceCell, target);
         }
 
+    }
+
+    public ArrayList<Cell> getComponents(){
+        return new ArrayList<>(this.placementGraph.vertexSet());
+    }
+
+    public void updateCellCoordinates(String id, int x, int y){
+        for(Cell cell : placementGraph.vertexSet()){
+            if(cell.getId().equals(id)){
+                cell.setX(x);
+                cell.setY(y);
+            }
+        }
     }
 
     /*

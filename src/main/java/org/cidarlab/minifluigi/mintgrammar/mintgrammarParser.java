@@ -1,4 +1,4 @@
-// Generated from /Users/krishna/CIDAR/MiniFluigi/src/main/ANTLR/mintgrammar.g4 by ANTLR 4.6
+// Generated from /Users/krishna/CIDAR/MiniFluigi/src/main/ANTLR/mintgrammar.g4 by ANTLR 4.7
 package org.cidarlab.minifluigi.mintgrammar;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class mintgrammarParser extends Parser {
-	static { RuntimeMetaData.checkVersion("4.6", RuntimeMetaData.VERSION); }
+	static { RuntimeMetaData.checkVersion("4.7", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
@@ -21,42 +21,42 @@ public class mintgrammarParser extends Parser {
 		T__9=10, T__10=11, T__11=12, T__12=13, T__13=14, T__14=15, T__15=16, T__16=17, 
 		T__17=18, T__18=19, T__19=20, T__20=21, T__21=22, T__22=23, T__23=24, 
 		T__24=25, T__25=26, T__26=27, T__27=28, T__28=29, T__29=30, T__30=31, 
-		T__31=32, T__32=33, ID_BIG=34, ID_SMALL=35, INT=36, WS=37, COMMENT=38;
+		T__31=32, T__32=33, ID=34, ID_BIG=35, INT=36, WS=37, COMMENT=38;
 	public static final int
 		RULE_netlist = 0, RULE_importBlock = 1, RULE_importStat = 2, RULE_header = 3, 
 		RULE_ufmoduleBlock = 4, RULE_ufmoduleStat = 5, RULE_layerBlocks = 6, RULE_layerBlock = 7, 
 		RULE_flowBlock = 8, RULE_controlBlock = 9, RULE_flowStat = 10, RULE_controlStat = 11, 
-		RULE_primitiveStat = 12, RULE_compositeStat = 13, RULE_bankStat = 14, 
+		RULE_primitiveStat = 12, RULE_primitiveWithOrientationStat = 13, RULE_bankStat = 14, 
 		RULE_gridStat = 15, RULE_spanStat = 16, RULE_valveStat = 17, RULE_channelStat = 18, 
 		RULE_netStat = 19, RULE_entity = 20, RULE_entity_element = 21, RULE_paramsStat = 22, 
-		RULE_paramStat = 23, RULE_param_element = 24, RULE_widthParam = 25, RULE_verticalDirectionParam = 26, 
-		RULE_horizontalDirectionParam = 27, RULE_horizontalConnectParam = 28, 
-		RULE_verticalConnectionParam = 29, RULE_ufmodulename = 30, RULE_ufterminal = 31, 
-		RULE_uftargets = 32, RULE_uftarget = 33, RULE_ufname = 34, RULE_ufnames = 35, 
-		RULE_value = 36, RULE_boolvalue = 37;
+		RULE_paramStat = 23, RULE_param_element = 24, RULE_intParam = 25, RULE_boolParam = 26, 
+		RULE_widthParam = 27, RULE_verticalDirectionParam = 28, RULE_horizontalDirectionParam = 29, 
+		RULE_horizontalConnectParam = 30, RULE_verticalConnectionParam = 31, RULE_ufmodulename = 32, 
+		RULE_ufterminal = 33, RULE_uftargets = 34, RULE_uftarget = 35, RULE_ufname = 36, 
+		RULE_ufnames = 37, RULE_value = 38, RULE_boolvalue = 39, RULE_orientation = 40;
 	public static final String[] ruleNames = {
 		"netlist", "importBlock", "importStat", "header", "ufmoduleBlock", "ufmoduleStat", 
 		"layerBlocks", "layerBlock", "flowBlock", "controlBlock", "flowStat", 
-		"controlStat", "primitiveStat", "compositeStat", "bankStat", "gridStat", 
-		"spanStat", "valveStat", "channelStat", "netStat", "entity", "entity_element", 
-		"paramsStat", "paramStat", "param_element", "widthParam", "verticalDirectionParam", 
-		"horizontalDirectionParam", "horizontalConnectParam", "verticalConnectionParam", 
-		"ufmodulename", "ufterminal", "uftargets", "uftarget", "ufname", "ufnames", 
-		"value", "boolvalue"
+		"controlStat", "primitiveStat", "primitiveWithOrientationStat", "bankStat", 
+		"gridStat", "spanStat", "valveStat", "channelStat", "netStat", "entity", 
+		"entity_element", "paramsStat", "paramStat", "param_element", "intParam", 
+		"boolParam", "widthParam", "verticalDirectionParam", "horizontalDirectionParam", 
+		"horizontalConnectParam", "verticalConnectionParam", "ufmodulename", "ufterminal", 
+		"uftargets", "uftarget", "ufname", "ufnames", "value", "boolvalue", "orientation"
 	};
 
 	private static final String[] _LITERAL_NAMES = {
 		null, "'IMPORT'", "'3D'", "'DEVICE'", "';'", "'LAYER FLOW'", "'END LAYER'", 
-		"'LAYER CONTROL'", "'V'", "'H'", "'BANK'", "'of'", "'GRID'", "','", "'to'", 
-		"'VALVE'", "'3DVALVE'", "'on'", "'CHANNEL'", "'from'", "'NET'", "'='", 
-		"'width'", "'w'", "'channelWidth'", "'dir'", "'RIGHT'", "'LEFT'", "'UP'", 
-		"'DOWN'", "'horizontalConnect'", "'verticalConnect'", "'YES'", "'NO'"
+		"'LAYER CONTROL'", "'BANK'", "'of'", "'GRID'", "','", "'to'", "'VALVE'", 
+		"'3DVALVE'", "'on'", "'CHANNEL'", "'from'", "'NET'", "'='", "'width'", 
+		"'w'", "'channelWidth'", "'dir'", "'RIGHT'", "'LEFT'", "'UP'", "'DOWN'", 
+		"'horizontalConnect'", "'verticalConnect'", "'YES'", "'NO'", "'V'", "'H'"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
 		null, null, null, null, null, null, null, null, null, null, null, null, 
 		null, null, null, null, null, null, null, null, null, null, null, null, 
-		null, null, null, null, null, null, null, null, null, null, "ID_BIG", 
-		"ID_SMALL", "INT", "WS", "COMMENT"
+		null, null, null, null, null, null, null, null, null, null, "ID", "ID_BIG", 
+		"INT", "WS", "COMMENT"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -142,31 +142,31 @@ public class mintgrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(77);
+			setState(83);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==T__0) {
 				{
-				setState(76);
+				setState(82);
 				importBlock();
 				}
 			}
 
-			setState(79);
+			setState(85);
 			header();
-			setState(81);
+			setState(87);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==ID_BIG) {
 				{
-				setState(80);
+				setState(86);
 				ufmoduleBlock();
 				}
 			}
 
-			setState(83);
+			setState(89);
 			layerBlocks();
-			setState(84);
+			setState(90);
 			match(EOF);
 			}
 		}
@@ -209,17 +209,17 @@ public class mintgrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(87); 
+			setState(93); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
 				{
-				setState(86);
+				setState(92);
 				importStat();
 				}
 				}
-				setState(89); 
+				setState(95); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			} while ( _la==T__0 );
@@ -260,9 +260,9 @@ public class mintgrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(91);
+			setState(97);
 			match(T__0);
-			setState(92);
+			setState(98);
 			ufmodulename();
 			}
 		}
@@ -279,7 +279,8 @@ public class mintgrammarParser extends Parser {
 
 	public static class HeaderContext extends ParserRuleContext {
 		public Token tag;
-		public TerminalNode ID_SMALL() { return getToken(mintgrammarParser.ID_SMALL, 0); }
+		public Token device_name;
+		public TerminalNode ID() { return getToken(mintgrammarParser.ID, 0); }
 		public HeaderContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -301,20 +302,20 @@ public class mintgrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(95);
+			setState(101);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==T__1) {
 				{
-				setState(94);
+				setState(100);
 				((HeaderContext)_localctx).tag = match(T__1);
 				}
 			}
 
-			setState(97);
+			setState(103);
 			match(T__2);
-			setState(98);
-			match(ID_SMALL);
+			setState(104);
+			((HeaderContext)_localctx).device_name = match(ID);
 			}
 		}
 		catch (RecognitionException re) {
@@ -356,17 +357,17 @@ public class mintgrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(101); 
+			setState(107); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
 				{
-				setState(100);
+				setState(106);
 				ufmoduleStat();
 				}
 				}
-				setState(103); 
+				setState(109); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			} while ( _la==ID_BIG );
@@ -410,11 +411,11 @@ public class mintgrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(105);
+			setState(111);
 			ufmodulename();
-			setState(106);
+			setState(112);
 			ufnames();
-			setState(107);
+			setState(113);
 			match(T__3);
 			}
 		}
@@ -457,17 +458,17 @@ public class mintgrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(110); 
+			setState(116); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
 				{
-				setState(109);
+				setState(115);
 				layerBlock();
 				}
 				}
-				setState(112); 
+				setState(118); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			} while ( _la==T__4 );
@@ -512,14 +513,14 @@ public class mintgrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(114);
+			setState(120);
 			flowBlock();
-			setState(116);
+			setState(122);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==T__6) {
 				{
-				setState(115);
+				setState(121);
 				controlBlock();
 				}
 			}
@@ -565,23 +566,23 @@ public class mintgrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(118);
+			setState(124);
 			match(T__4);
-			setState(122);
+			setState(128);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__7) | (1L << T__8) | (1L << T__9) | (1L << T__11) | (1L << T__14) | (1L << T__15) | (1L << T__17) | (1L << T__19) | (1L << ID_BIG))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__7) | (1L << T__9) | (1L << T__12) | (1L << T__13) | (1L << T__15) | (1L << T__17) | (1L << T__31) | (1L << T__32) | (1L << ID_BIG))) != 0)) {
 				{
 				{
-				setState(119);
+				setState(125);
 				flowStat();
 				}
 				}
-				setState(124);
+				setState(130);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(125);
+			setState(131);
 			match(T__5);
 			}
 		}
@@ -624,23 +625,23 @@ public class mintgrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(127);
+			setState(133);
 			match(T__6);
-			setState(131);
+			setState(137);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__7) | (1L << T__8) | (1L << T__9) | (1L << T__14) | (1L << T__15) | (1L << T__17) | (1L << T__19) | (1L << ID_BIG))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__7) | (1L << T__12) | (1L << T__13) | (1L << T__15) | (1L << T__17) | (1L << T__31) | (1L << T__32) | (1L << ID_BIG))) != 0)) {
 				{
 				{
-				setState(128);
+				setState(134);
 				controlStat();
 				}
 				}
-				setState(133);
+				setState(139);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(134);
+			setState(140);
 			match(T__5);
 			}
 		}
@@ -659,8 +660,8 @@ public class mintgrammarParser extends Parser {
 		public PrimitiveStatContext primitiveStat() {
 			return getRuleContext(PrimitiveStatContext.class,0);
 		}
-		public CompositeStatContext compositeStat() {
-			return getRuleContext(CompositeStatContext.class,0);
+		public PrimitiveWithOrientationStatContext primitiveWithOrientationStat() {
+			return getRuleContext(PrimitiveWithOrientationStatContext.class,0);
 		}
 		public ChannelStatContext channelStat() {
 			return getRuleContext(ChannelStatContext.class,0);
@@ -698,62 +699,62 @@ public class mintgrammarParser extends Parser {
 		FlowStatContext _localctx = new FlowStatContext(_ctx, getState());
 		enterRule(_localctx, 20, RULE_flowStat);
 		try {
-			setState(144);
+			setState(150);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,9,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(136);
+				setState(142);
 				primitiveStat();
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(137);
-				compositeStat();
+				setState(143);
+				primitiveWithOrientationStat();
 				}
 				break;
 			case 3:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(138);
+				setState(144);
 				channelStat();
 				}
 				break;
 			case 4:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(139);
+				setState(145);
 				netStat();
 				}
 				break;
 			case 5:
 				enterOuterAlt(_localctx, 5);
 				{
-				setState(140);
+				setState(146);
 				valveStat();
 				}
 				break;
 			case 6:
 				enterOuterAlt(_localctx, 6);
 				{
-				setState(141);
+				setState(147);
 				bankStat();
 				}
 				break;
 			case 7:
 				enterOuterAlt(_localctx, 7);
 				{
-				setState(142);
+				setState(148);
 				gridStat();
 				}
 				break;
 			case 8:
 				enterOuterAlt(_localctx, 8);
 				{
-				setState(143);
+				setState(149);
 				spanStat();
 				}
 				break;
@@ -804,44 +805,44 @@ public class mintgrammarParser extends Parser {
 		ControlStatContext _localctx = new ControlStatContext(_ctx, getState());
 		enterRule(_localctx, 22, RULE_controlStat);
 		try {
-			setState(151);
+			setState(157);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
-			case T__14:
-			case T__15:
+			case T__12:
+			case T__13:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(146);
+				setState(152);
 				valveStat();
 				}
 				break;
-			case T__17:
+			case T__15:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(147);
+				setState(153);
 				channelStat();
 				}
 				break;
-			case T__19:
+			case T__17:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(148);
+				setState(154);
 				netStat();
 				}
 				break;
 			case T__7:
-			case T__8:
-			case T__9:
+			case T__31:
+			case T__32:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(149);
+				setState(155);
 				bankStat();
 				}
 				break;
 			case ID_BIG:
 				enterOuterAlt(_localctx, 5);
 				{
-				setState(150);
+				setState(156);
 				primitiveStat();
 				}
 				break;
@@ -890,13 +891,13 @@ public class mintgrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(153);
+			setState(159);
 			entity();
-			setState(154);
+			setState(160);
 			ufnames();
-			setState(155);
+			setState(161);
 			paramsStat();
-			setState(156);
+			setState(162);
 			match(T__3);
 			}
 		}
@@ -911,7 +912,10 @@ public class mintgrammarParser extends Parser {
 		return _localctx;
 	}
 
-	public static class CompositeStatContext extends ParserRuleContext {
+	public static class PrimitiveWithOrientationStatContext extends ParserRuleContext {
+		public OrientationContext orientation() {
+			return getRuleContext(OrientationContext.class,0);
+		}
 		public EntityContext entity() {
 			return getRuleContext(EntityContext.class,0);
 		}
@@ -921,52 +925,35 @@ public class mintgrammarParser extends Parser {
 		public ParamsStatContext paramsStat() {
 			return getRuleContext(ParamsStatContext.class,0);
 		}
-		public CompositeStatContext(ParserRuleContext parent, int invokingState) {
+		public PrimitiveWithOrientationStatContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_compositeStat; }
+		@Override public int getRuleIndex() { return RULE_primitiveWithOrientationStat; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof mintgrammarListener ) ((mintgrammarListener)listener).enterCompositeStat(this);
+			if ( listener instanceof mintgrammarListener ) ((mintgrammarListener)listener).enterPrimitiveWithOrientationStat(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof mintgrammarListener ) ((mintgrammarListener)listener).exitCompositeStat(this);
+			if ( listener instanceof mintgrammarListener ) ((mintgrammarListener)listener).exitPrimitiveWithOrientationStat(this);
 		}
 	}
 
-	public final CompositeStatContext compositeStat() throws RecognitionException {
-		CompositeStatContext _localctx = new CompositeStatContext(_ctx, getState());
-		enterRule(_localctx, 26, RULE_compositeStat);
-		int _la;
+	public final PrimitiveWithOrientationStatContext primitiveWithOrientationStat() throws RecognitionException {
+		PrimitiveWithOrientationStatContext _localctx = new PrimitiveWithOrientationStatContext(_ctx, getState());
+		enterRule(_localctx, 26, RULE_primitiveWithOrientationStat);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(159);
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			if (_la==T__7 || _la==T__8) {
-				{
-				setState(158);
-				_la = _input.LA(1);
-				if ( !(_la==T__7 || _la==T__8) ) {
-				_errHandler.recoverInline(this);
-				}
-				else {
-					if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-					_errHandler.reportMatch(this);
-					consume();
-				}
-				}
-			}
-
-			setState(161);
-			entity();
-			setState(162);
-			ufnames();
-			setState(163);
-			paramsStat();
 			setState(164);
+			orientation();
+			setState(165);
+			entity();
+			setState(166);
+			ufnames();
+			setState(167);
+			paramsStat();
+			setState(168);
 			match(T__3);
 			}
 		}
@@ -982,15 +969,19 @@ public class mintgrammarParser extends Parser {
 	}
 
 	public static class BankStatContext extends ParserRuleContext {
+		public Token dim;
 		public UfnameContext ufname() {
 			return getRuleContext(UfnameContext.class,0);
 		}
-		public TerminalNode INT() { return getToken(mintgrammarParser.INT, 0); }
 		public EntityContext entity() {
 			return getRuleContext(EntityContext.class,0);
 		}
 		public ParamsStatContext paramsStat() {
 			return getRuleContext(ParamsStatContext.class,0);
+		}
+		public TerminalNode INT() { return getToken(mintgrammarParser.INT, 0); }
+		public OrientationContext orientation() {
+			return getRuleContext(OrientationContext.class,0);
 		}
 		public BankStatContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -1013,37 +1004,29 @@ public class mintgrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(167);
+			setState(171);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if (_la==T__7 || _la==T__8) {
+			if (_la==T__31 || _la==T__32) {
 				{
-				setState(166);
-				_la = _input.LA(1);
-				if ( !(_la==T__7 || _la==T__8) ) {
-				_errHandler.recoverInline(this);
-				}
-				else {
-					if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-					_errHandler.reportMatch(this);
-					consume();
-				}
+				setState(170);
+				orientation();
 				}
 			}
 
-			setState(169);
-			match(T__9);
-			setState(170);
-			ufname();
-			setState(171);
-			match(T__10);
-			setState(172);
-			match(INT);
 			setState(173);
-			entity();
+			match(T__7);
 			setState(174);
-			paramsStat();
+			ufname();
 			setState(175);
+			match(T__8);
+			setState(176);
+			((BankStatContext)_localctx).dim = match(INT);
+			setState(177);
+			entity();
+			setState(178);
+			paramsStat();
+			setState(179);
 			match(T__3);
 			}
 		}
@@ -1059,18 +1042,20 @@ public class mintgrammarParser extends Parser {
 	}
 
 	public static class GridStatContext extends ParserRuleContext {
+		public Token xdim;
+		public Token ydim;
 		public UfnameContext ufname() {
 			return getRuleContext(UfnameContext.class,0);
-		}
-		public List<TerminalNode> INT() { return getTokens(mintgrammarParser.INT); }
-		public TerminalNode INT(int i) {
-			return getToken(mintgrammarParser.INT, i);
 		}
 		public EntityContext entity() {
 			return getRuleContext(EntityContext.class,0);
 		}
 		public ParamsStatContext paramsStat() {
 			return getRuleContext(ParamsStatContext.class,0);
+		}
+		public List<TerminalNode> INT() { return getTokens(mintgrammarParser.INT); }
+		public TerminalNode INT(int i) {
+			return getToken(mintgrammarParser.INT, i);
 		}
 		public GridStatContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -1092,23 +1077,23 @@ public class mintgrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(177);
-			match(T__11);
-			setState(178);
-			ufname();
-			setState(179);
-			match(T__10);
-			setState(180);
-			match(INT);
 			setState(181);
-			match(T__12);
+			match(T__9);
 			setState(182);
-			match(INT);
+			ufname();
 			setState(183);
-			entity();
+			match(T__8);
 			setState(184);
-			paramsStat();
+			((GridStatContext)_localctx).xdim = match(INT);
 			setState(185);
+			match(T__10);
+			setState(186);
+			((GridStatContext)_localctx).ydim = match(INT);
+			setState(187);
+			entity();
+			setState(188);
+			paramsStat();
+			setState(189);
 			match(T__3);
 			}
 		}
@@ -1137,6 +1122,9 @@ public class mintgrammarParser extends Parser {
 		public ParamsStatContext paramsStat() {
 			return getRuleContext(ParamsStatContext.class,0);
 		}
+		public OrientationContext orientation() {
+			return getRuleContext(OrientationContext.class,0);
+		}
 		public SpanStatContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -1158,37 +1146,29 @@ public class mintgrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(188);
+			setState(192);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if (_la==T__7 || _la==T__8) {
+			if (_la==T__31 || _la==T__32) {
 				{
-				setState(187);
-				_la = _input.LA(1);
-				if ( !(_la==T__7 || _la==T__8) ) {
-				_errHandler.recoverInline(this);
-				}
-				else {
-					if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-					_errHandler.reportMatch(this);
-					consume();
-				}
+				setState(191);
+				orientation();
 				}
 			}
 
-			setState(190);
-			entity();
-			setState(191);
-			ufname();
-			setState(192);
-			match(INT);
-			setState(193);
-			match(T__13);
 			setState(194);
-			match(INT);
+			entity();
 			setState(195);
-			paramsStat();
+			ufname();
 			setState(196);
+			match(INT);
+			setState(197);
+			match(T__11);
+			setState(198);
+			match(INT);
+			setState(199);
+			paramsStat();
+			setState(200);
 			match(T__3);
 			}
 		}
@@ -1204,6 +1184,7 @@ public class mintgrammarParser extends Parser {
 	}
 
 	public static class ValveStatContext extends ParserRuleContext {
+		public Token valve_entity;
 		public List<UfnameContext> ufname() {
 			return getRuleContexts(UfnameContext.class);
 		}
@@ -1234,25 +1215,26 @@ public class mintgrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(198);
+			setState(202);
+			((ValveStatContext)_localctx).valve_entity = _input.LT(1);
 			_la = _input.LA(1);
-			if ( !(_la==T__14 || _la==T__15) ) {
-			_errHandler.recoverInline(this);
+			if ( !(_la==T__12 || _la==T__13) ) {
+				((ValveStatContext)_localctx).valve_entity = (Token)_errHandler.recoverInline(this);
 			}
 			else {
 				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
 				_errHandler.reportMatch(this);
 				consume();
 			}
-			setState(199);
-			ufname();
-			setState(200);
-			match(T__16);
-			setState(201);
-			ufname();
-			setState(202);
-			paramsStat();
 			setState(203);
+			ufname();
+			setState(204);
+			match(T__14);
+			setState(205);
+			ufname();
+			setState(206);
+			paramsStat();
+			setState(207);
 			match(T__3);
 			}
 		}
@@ -1268,17 +1250,19 @@ public class mintgrammarParser extends Parser {
 	}
 
 	public static class ChannelStatContext extends ParserRuleContext {
+		public UftargetContext source;
+		public UftargetContext sink;
 		public UfnameContext ufname() {
 			return getRuleContext(UfnameContext.class,0);
+		}
+		public WidthParamContext widthParam() {
+			return getRuleContext(WidthParamContext.class,0);
 		}
 		public List<UftargetContext> uftarget() {
 			return getRuleContexts(UftargetContext.class);
 		}
 		public UftargetContext uftarget(int i) {
 			return getRuleContext(UftargetContext.class,i);
-		}
-		public WidthParamContext widthParam() {
-			return getRuleContext(WidthParamContext.class,0);
 		}
 		public ChannelStatContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -1300,21 +1284,21 @@ public class mintgrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(205);
-			match(T__17);
-			setState(206);
-			ufname();
-			setState(207);
-			match(T__18);
-			setState(208);
-			uftarget();
 			setState(209);
-			match(T__13);
+			match(T__15);
 			setState(210);
-			uftarget();
+			ufname();
 			setState(211);
-			widthParam();
+			match(T__16);
 			setState(212);
+			((ChannelStatContext)_localctx).source = uftarget();
+			setState(213);
+			match(T__11);
+			setState(214);
+			((ChannelStatContext)_localctx).sink = uftarget();
+			setState(215);
+			widthParam();
+			setState(216);
 			match(T__3);
 			}
 		}
@@ -1330,19 +1314,20 @@ public class mintgrammarParser extends Parser {
 	}
 
 	public static class NetStatContext extends ParserRuleContext {
-		public Token source_name;
-		public Token source_terminal;
+		public UftargetContext source;
+		public UftargetsContext sinks;
 		public UfnameContext ufname() {
 			return getRuleContext(UfnameContext.class,0);
-		}
-		public UftargetsContext uftargets() {
-			return getRuleContext(UftargetsContext.class,0);
 		}
 		public WidthParamContext widthParam() {
 			return getRuleContext(WidthParamContext.class,0);
 		}
-		public TerminalNode ID_SMALL() { return getToken(mintgrammarParser.ID_SMALL, 0); }
-		public TerminalNode INT() { return getToken(mintgrammarParser.INT, 0); }
+		public UftargetContext uftarget() {
+			return getRuleContext(UftargetContext.class,0);
+		}
+		public UftargetsContext uftargets() {
+			return getRuleContext(UftargetsContext.class,0);
+		}
 		public NetStatContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -1363,23 +1348,21 @@ public class mintgrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(214);
-			match(T__19);
-			setState(215);
-			ufname();
-			setState(216);
-			match(T__18);
-			setState(217);
-			((NetStatContext)_localctx).source_name = match(ID_SMALL);
 			setState(218);
-			((NetStatContext)_localctx).source_terminal = match(INT);
+			match(T__17);
 			setState(219);
-			match(T__13);
+			ufname();
 			setState(220);
-			uftargets();
+			match(T__16);
 			setState(221);
-			widthParam();
+			((NetStatContext)_localctx).source = uftarget();
 			setState(222);
+			match(T__11);
+			setState(223);
+			((NetStatContext)_localctx).sinks = uftargets();
+			setState(224);
+			widthParam();
+			setState(225);
 			match(T__3);
 			}
 		}
@@ -1422,17 +1405,17 @@ public class mintgrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(225); 
+			setState(228); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
 				{
-				setState(224);
+				setState(227);
 				entity_element();
 				}
 				}
-				setState(227); 
+				setState(230); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			} while ( _la==ID_BIG );
@@ -1471,7 +1454,7 @@ public class mintgrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(229);
+			setState(232);
 			match(ID_BIG);
 			}
 		}
@@ -1514,17 +1497,17 @@ public class mintgrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(234);
+			setState(237);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__21) | (1L << T__22) | (1L << T__23) | (1L << T__24) | (1L << T__29) | (1L << T__30) | (1L << ID_SMALL))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__19) | (1L << T__20) | (1L << T__21) | (1L << T__22) | (1L << T__27) | (1L << T__28) | (1L << ID))) != 0)) {
 				{
 				{
-				setState(231);
+				setState(234);
 				paramStat();
 				}
 				}
-				setState(236);
+				setState(239);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -1542,11 +1525,11 @@ public class mintgrammarParser extends Parser {
 	}
 
 	public static class ParamStatContext extends ParserRuleContext {
-		public Param_elementContext param_element() {
-			return getRuleContext(Param_elementContext.class,0);
+		public IntParamContext intParam() {
+			return getRuleContext(IntParamContext.class,0);
 		}
-		public ValueContext value() {
-			return getRuleContext(ValueContext.class,0);
+		public BoolParamContext boolParam() {
+			return getRuleContext(BoolParamContext.class,0);
 		}
 		public VerticalDirectionParamContext verticalDirectionParam() {
 			return getRuleContext(VerticalDirectionParamContext.class,0);
@@ -1581,52 +1564,55 @@ public class mintgrammarParser extends Parser {
 		ParamStatContext _localctx = new ParamStatContext(_ctx, getState());
 		enterRule(_localctx, 46, RULE_paramStat);
 		try {
-			setState(246);
+			setState(247);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,16,_ctx) ) {
+			switch ( getInterpreter().adaptivePredict(_input,15,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(237);
-				param_element();
-				setState(238);
-				match(T__20);
-				setState(239);
-				value();
+				setState(240);
+				intParam();
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(241);
-				verticalDirectionParam();
+				boolParam();
 				}
 				break;
 			case 3:
 				enterOuterAlt(_localctx, 3);
 				{
 				setState(242);
-				horizontalDirectionParam();
+				verticalDirectionParam();
 				}
 				break;
 			case 4:
 				enterOuterAlt(_localctx, 4);
 				{
 				setState(243);
-				verticalConnectionParam();
+				horizontalDirectionParam();
 				}
 				break;
 			case 5:
 				enterOuterAlt(_localctx, 5);
 				{
 				setState(244);
-				horizontalConnectParam();
+				verticalConnectionParam();
 				}
 				break;
 			case 6:
 				enterOuterAlt(_localctx, 6);
 				{
 				setState(245);
+				horizontalConnectParam();
+				}
+				break;
+			case 7:
+				enterOuterAlt(_localctx, 7);
+				{
+				setState(246);
 				widthParam();
 				}
 				break;
@@ -1644,7 +1630,7 @@ public class mintgrammarParser extends Parser {
 	}
 
 	public static class Param_elementContext extends ParserRuleContext {
-		public TerminalNode ID_SMALL() { return getToken(mintgrammarParser.ID_SMALL, 0); }
+		public TerminalNode ID() { return getToken(mintgrammarParser.ID, 0); }
 		public Param_elementContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -1665,8 +1651,100 @@ public class mintgrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(248);
-			match(ID_SMALL);
+			setState(249);
+			match(ID);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class IntParamContext extends ParserRuleContext {
+		public Param_elementContext param_element() {
+			return getRuleContext(Param_elementContext.class,0);
+		}
+		public ValueContext value() {
+			return getRuleContext(ValueContext.class,0);
+		}
+		public IntParamContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_intParam; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof mintgrammarListener ) ((mintgrammarListener)listener).enterIntParam(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof mintgrammarListener ) ((mintgrammarListener)listener).exitIntParam(this);
+		}
+	}
+
+	public final IntParamContext intParam() throws RecognitionException {
+		IntParamContext _localctx = new IntParamContext(_ctx, getState());
+		enterRule(_localctx, 50, RULE_intParam);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(251);
+			param_element();
+			setState(252);
+			match(T__18);
+			setState(253);
+			value();
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class BoolParamContext extends ParserRuleContext {
+		public Param_elementContext param_element() {
+			return getRuleContext(Param_elementContext.class,0);
+		}
+		public BoolvalueContext boolvalue() {
+			return getRuleContext(BoolvalueContext.class,0);
+		}
+		public BoolParamContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_boolParam; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof mintgrammarListener ) ((mintgrammarListener)listener).enterBoolParam(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof mintgrammarListener ) ((mintgrammarListener)listener).exitBoolParam(this);
+		}
+	}
+
+	public final BoolParamContext boolParam() throws RecognitionException {
+		BoolParamContext _localctx = new BoolParamContext(_ctx, getState());
+		enterRule(_localctx, 52, RULE_boolParam);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(255);
+			param_element();
+			setState(256);
+			match(T__18);
+			setState(257);
+			boolvalue();
 			}
 		}
 		catch (RecognitionException re) {
@@ -1700,41 +1778,41 @@ public class mintgrammarParser extends Parser {
 
 	public final WidthParamContext widthParam() throws RecognitionException {
 		WidthParamContext _localctx = new WidthParamContext(_ctx, getState());
-		enterRule(_localctx, 50, RULE_widthParam);
+		enterRule(_localctx, 54, RULE_widthParam);
 		try {
-			setState(259);
+			setState(268);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
-			case T__21:
+			case T__19:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(250);
-				match(T__21);
-				setState(251);
-				match(T__20);
-				setState(252);
+				setState(259);
+				match(T__19);
+				setState(260);
+				match(T__18);
+				setState(261);
 				value();
 				}
 				break;
-			case T__22:
+			case T__20:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(253);
-				match(T__22);
-				setState(254);
+				setState(262);
 				match(T__20);
-				setState(255);
+				setState(263);
+				match(T__18);
+				setState(264);
 				value();
 				}
 				break;
-			case T__23:
+			case T__21:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(256);
-				match(T__23);
-				setState(257);
-				match(T__20);
-				setState(258);
+				setState(265);
+				match(T__21);
+				setState(266);
+				match(T__18);
+				setState(267);
 				value();
 				}
 				break;
@@ -1771,19 +1849,19 @@ public class mintgrammarParser extends Parser {
 
 	public final VerticalDirectionParamContext verticalDirectionParam() throws RecognitionException {
 		VerticalDirectionParamContext _localctx = new VerticalDirectionParamContext(_ctx, getState());
-		enterRule(_localctx, 52, RULE_verticalDirectionParam);
+		enterRule(_localctx, 56, RULE_verticalDirectionParam);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(261);
-			match(T__24);
-			setState(262);
-			match(T__20);
-			setState(263);
+			setState(270);
+			match(T__22);
+			setState(271);
+			match(T__18);
+			setState(272);
 			((VerticalDirectionParamContext)_localctx).dir = _input.LT(1);
 			_la = _input.LA(1);
-			if ( !(_la==T__25 || _la==T__26) ) {
+			if ( !(_la==T__23 || _la==T__24) ) {
 				((VerticalDirectionParamContext)_localctx).dir = (Token)_errHandler.recoverInline(this);
 			}
 			else {
@@ -1822,19 +1900,19 @@ public class mintgrammarParser extends Parser {
 
 	public final HorizontalDirectionParamContext horizontalDirectionParam() throws RecognitionException {
 		HorizontalDirectionParamContext _localctx = new HorizontalDirectionParamContext(_ctx, getState());
-		enterRule(_localctx, 54, RULE_horizontalDirectionParam);
+		enterRule(_localctx, 58, RULE_horizontalDirectionParam);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(265);
-			match(T__24);
-			setState(266);
-			match(T__20);
-			setState(267);
+			setState(274);
+			match(T__22);
+			setState(275);
+			match(T__18);
+			setState(276);
 			((HorizontalDirectionParamContext)_localctx).dir = _input.LT(1);
 			_la = _input.LA(1);
-			if ( !(_la==T__27 || _la==T__28) ) {
+			if ( !(_la==T__25 || _la==T__26) ) {
 				((HorizontalDirectionParamContext)_localctx).dir = (Token)_errHandler.recoverInline(this);
 			}
 			else {
@@ -1875,15 +1953,15 @@ public class mintgrammarParser extends Parser {
 
 	public final HorizontalConnectParamContext horizontalConnectParam() throws RecognitionException {
 		HorizontalConnectParamContext _localctx = new HorizontalConnectParamContext(_ctx, getState());
-		enterRule(_localctx, 56, RULE_horizontalConnectParam);
+		enterRule(_localctx, 60, RULE_horizontalConnectParam);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(269);
-			match(T__29);
-			setState(270);
-			match(T__20);
-			setState(271);
+			setState(278);
+			match(T__27);
+			setState(279);
+			match(T__18);
+			setState(280);
 			boolvalue();
 			}
 		}
@@ -1918,15 +1996,15 @@ public class mintgrammarParser extends Parser {
 
 	public final VerticalConnectionParamContext verticalConnectionParam() throws RecognitionException {
 		VerticalConnectionParamContext _localctx = new VerticalConnectionParamContext(_ctx, getState());
-		enterRule(_localctx, 58, RULE_verticalConnectionParam);
+		enterRule(_localctx, 62, RULE_verticalConnectionParam);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(273);
-			match(T__30);
-			setState(274);
-			match(T__20);
-			setState(275);
+			setState(282);
+			match(T__28);
+			setState(283);
+			match(T__18);
+			setState(284);
 			boolvalue();
 			}
 		}
@@ -1959,11 +2037,11 @@ public class mintgrammarParser extends Parser {
 
 	public final UfmodulenameContext ufmodulename() throws RecognitionException {
 		UfmodulenameContext _localctx = new UfmodulenameContext(_ctx, getState());
-		enterRule(_localctx, 60, RULE_ufmodulename);
+		enterRule(_localctx, 64, RULE_ufmodulename);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(277);
+			setState(286);
 			match(ID_BIG);
 			}
 		}
@@ -1996,11 +2074,11 @@ public class mintgrammarParser extends Parser {
 
 	public final UfterminalContext ufterminal() throws RecognitionException {
 		UfterminalContext _localctx = new UfterminalContext(_ctx, getState());
-		enterRule(_localctx, 62, RULE_ufterminal);
+		enterRule(_localctx, 66, RULE_ufterminal);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(279);
+			setState(288);
 			match(INT);
 			}
 		}
@@ -2038,29 +2116,29 @@ public class mintgrammarParser extends Parser {
 
 	public final UftargetsContext uftargets() throws RecognitionException {
 		UftargetsContext _localctx = new UftargetsContext(_ctx, getState());
-		enterRule(_localctx, 64, RULE_uftargets);
+		enterRule(_localctx, 68, RULE_uftargets);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(281);
+			setState(290);
 			uftarget();
-			setState(284); 
+			setState(293); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
 				{
-				setState(282);
-				match(T__12);
-				setState(283);
+				setState(291);
+				match(T__10);
+				setState(292);
 				uftarget();
 				}
 				}
-				setState(286); 
+				setState(295); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			} while ( _la==T__12 );
+			} while ( _la==T__10 );
 			}
 		}
 		catch (RecognitionException re) {
@@ -2077,7 +2155,7 @@ public class mintgrammarParser extends Parser {
 	public static class UftargetContext extends ParserRuleContext {
 		public Token target_name;
 		public Token target_terminal;
-		public TerminalNode ID_SMALL() { return getToken(mintgrammarParser.ID_SMALL, 0); }
+		public TerminalNode ID() { return getToken(mintgrammarParser.ID, 0); }
 		public TerminalNode INT() { return getToken(mintgrammarParser.INT, 0); }
 		public UftargetContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -2095,14 +2173,23 @@ public class mintgrammarParser extends Parser {
 
 	public final UftargetContext uftarget() throws RecognitionException {
 		UftargetContext _localctx = new UftargetContext(_ctx, getState());
-		enterRule(_localctx, 66, RULE_uftarget);
+		enterRule(_localctx, 70, RULE_uftarget);
+		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(288);
-			((UftargetContext)_localctx).target_name = match(ID_SMALL);
-			setState(289);
-			((UftargetContext)_localctx).target_terminal = match(INT);
+			setState(297);
+			((UftargetContext)_localctx).target_name = match(ID);
+			setState(299);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			if (_la==INT) {
+				{
+				setState(298);
+				((UftargetContext)_localctx).target_terminal = match(INT);
+				}
+			}
+
 			}
 		}
 		catch (RecognitionException re) {
@@ -2117,7 +2204,7 @@ public class mintgrammarParser extends Parser {
 	}
 
 	public static class UfnameContext extends ParserRuleContext {
-		public TerminalNode ID_SMALL() { return getToken(mintgrammarParser.ID_SMALL, 0); }
+		public TerminalNode ID() { return getToken(mintgrammarParser.ID, 0); }
 		public UfnameContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -2134,12 +2221,12 @@ public class mintgrammarParser extends Parser {
 
 	public final UfnameContext ufname() throws RecognitionException {
 		UfnameContext _localctx = new UfnameContext(_ctx, getState());
-		enterRule(_localctx, 68, RULE_ufname);
+		enterRule(_localctx, 72, RULE_ufname);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(291);
-			match(ID_SMALL);
+			setState(301);
+			match(ID);
 			}
 		}
 		catch (RecognitionException re) {
@@ -2176,26 +2263,26 @@ public class mintgrammarParser extends Parser {
 
 	public final UfnamesContext ufnames() throws RecognitionException {
 		UfnamesContext _localctx = new UfnamesContext(_ctx, getState());
-		enterRule(_localctx, 70, RULE_ufnames);
+		enterRule(_localctx, 74, RULE_ufnames);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(293);
+			setState(303);
 			ufname();
-			setState(298);
+			setState(308);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while (_la==T__12) {
+			while (_la==T__10) {
 				{
 				{
-				setState(294);
-				match(T__12);
-				setState(295);
+				setState(304);
+				match(T__10);
+				setState(305);
 				ufname();
 				}
 				}
-				setState(300);
+				setState(310);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -2230,11 +2317,11 @@ public class mintgrammarParser extends Parser {
 
 	public final ValueContext value() throws RecognitionException {
 		ValueContext _localctx = new ValueContext(_ctx, getState());
-		enterRule(_localctx, 72, RULE_value);
+		enterRule(_localctx, 76, RULE_value);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(301);
+			setState(311);
 			match(INT);
 			}
 		}
@@ -2266,12 +2353,57 @@ public class mintgrammarParser extends Parser {
 
 	public final BoolvalueContext boolvalue() throws RecognitionException {
 		BoolvalueContext _localctx = new BoolvalueContext(_ctx, getState());
-		enterRule(_localctx, 74, RULE_boolvalue);
+		enterRule(_localctx, 78, RULE_boolvalue);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(303);
+			setState(313);
+			_la = _input.LA(1);
+			if ( !(_la==T__29 || _la==T__30) ) {
+			_errHandler.recoverInline(this);
+			}
+			else {
+				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+				_errHandler.reportMatch(this);
+				consume();
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class OrientationContext extends ParserRuleContext {
+		public OrientationContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_orientation; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof mintgrammarListener ) ((mintgrammarListener)listener).enterOrientation(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof mintgrammarListener ) ((mintgrammarListener)listener).exitOrientation(this);
+		}
+	}
+
+	public final OrientationContext orientation() throws RecognitionException {
+		OrientationContext _localctx = new OrientationContext(_ctx, getState());
+		enterRule(_localctx, 80, RULE_orientation);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(315);
 			_la = _input.LA(1);
 			if ( !(_la==T__31 || _la==T__32) ) {
 			_errHandler.recoverInline(this);
@@ -2295,104 +2427,108 @@ public class mintgrammarParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3(\u0134\4\2\t\2\4"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3(\u0140\4\2\t\2\4"+
 		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t"+
 		"\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
 		"\4\23\t\23\4\24\t\24\4\25\t\25\4\26\t\26\4\27\t\27\4\30\t\30\4\31\t\31"+
 		"\4\32\t\32\4\33\t\33\4\34\t\34\4\35\t\35\4\36\t\36\4\37\t\37\4 \t \4!"+
-		"\t!\4\"\t\"\4#\t#\4$\t$\4%\t%\4&\t&\4\'\t\'\3\2\5\2P\n\2\3\2\3\2\5\2T"+
-		"\n\2\3\2\3\2\3\2\3\3\6\3Z\n\3\r\3\16\3[\3\4\3\4\3\4\3\5\5\5b\n\5\3\5\3"+
-		"\5\3\5\3\6\6\6h\n\6\r\6\16\6i\3\7\3\7\3\7\3\7\3\b\6\bq\n\b\r\b\16\br\3"+
-		"\t\3\t\5\tw\n\t\3\n\3\n\7\n{\n\n\f\n\16\n~\13\n\3\n\3\n\3\13\3\13\7\13"+
-		"\u0084\n\13\f\13\16\13\u0087\13\13\3\13\3\13\3\f\3\f\3\f\3\f\3\f\3\f\3"+
-		"\f\3\f\5\f\u0093\n\f\3\r\3\r\3\r\3\r\3\r\5\r\u009a\n\r\3\16\3\16\3\16"+
-		"\3\16\3\16\3\17\5\17\u00a2\n\17\3\17\3\17\3\17\3\17\3\17\3\20\5\20\u00aa"+
-		"\n\20\3\20\3\20\3\20\3\20\3\20\3\20\3\20\3\20\3\21\3\21\3\21\3\21\3\21"+
-		"\3\21\3\21\3\21\3\21\3\21\3\22\5\22\u00bf\n\22\3\22\3\22\3\22\3\22\3\22"+
-		"\3\22\3\22\3\22\3\23\3\23\3\23\3\23\3\23\3\23\3\23\3\24\3\24\3\24\3\24"+
-		"\3\24\3\24\3\24\3\24\3\24\3\25\3\25\3\25\3\25\3\25\3\25\3\25\3\25\3\25"+
-		"\3\25\3\26\6\26\u00e4\n\26\r\26\16\26\u00e5\3\27\3\27\3\30\7\30\u00eb"+
-		"\n\30\f\30\16\30\u00ee\13\30\3\31\3\31\3\31\3\31\3\31\3\31\3\31\3\31\3"+
-		"\31\5\31\u00f9\n\31\3\32\3\32\3\33\3\33\3\33\3\33\3\33\3\33\3\33\3\33"+
-		"\3\33\5\33\u0106\n\33\3\34\3\34\3\34\3\34\3\35\3\35\3\35\3\35\3\36\3\36"+
-		"\3\36\3\36\3\37\3\37\3\37\3\37\3 \3 \3!\3!\3\"\3\"\3\"\6\"\u011f\n\"\r"+
-		"\"\16\"\u0120\3#\3#\3#\3$\3$\3%\3%\3%\7%\u012b\n%\f%\16%\u012e\13%\3&"+
-		"\3&\3\'\3\'\3\'\2\2(\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \"$&(*,.\60"+
-		"\62\64\668:<>@BDFHJL\2\7\3\2\n\13\3\2\21\22\3\2\34\35\3\2\36\37\3\2\""+
-		"#\u012f\2O\3\2\2\2\4Y\3\2\2\2\6]\3\2\2\2\ba\3\2\2\2\ng\3\2\2\2\fk\3\2"+
-		"\2\2\16p\3\2\2\2\20t\3\2\2\2\22x\3\2\2\2\24\u0081\3\2\2\2\26\u0092\3\2"+
-		"\2\2\30\u0099\3\2\2\2\32\u009b\3\2\2\2\34\u00a1\3\2\2\2\36\u00a9\3\2\2"+
-		"\2 \u00b3\3\2\2\2\"\u00be\3\2\2\2$\u00c8\3\2\2\2&\u00cf\3\2\2\2(\u00d8"+
-		"\3\2\2\2*\u00e3\3\2\2\2,\u00e7\3\2\2\2.\u00ec\3\2\2\2\60\u00f8\3\2\2\2"+
-		"\62\u00fa\3\2\2\2\64\u0105\3\2\2\2\66\u0107\3\2\2\28\u010b\3\2\2\2:\u010f"+
-		"\3\2\2\2<\u0113\3\2\2\2>\u0117\3\2\2\2@\u0119\3\2\2\2B\u011b\3\2\2\2D"+
-		"\u0122\3\2\2\2F\u0125\3\2\2\2H\u0127\3\2\2\2J\u012f\3\2\2\2L\u0131\3\2"+
-		"\2\2NP\5\4\3\2ON\3\2\2\2OP\3\2\2\2PQ\3\2\2\2QS\5\b\5\2RT\5\n\6\2SR\3\2"+
-		"\2\2ST\3\2\2\2TU\3\2\2\2UV\5\16\b\2VW\7\2\2\3W\3\3\2\2\2XZ\5\6\4\2YX\3"+
-		"\2\2\2Z[\3\2\2\2[Y\3\2\2\2[\\\3\2\2\2\\\5\3\2\2\2]^\7\3\2\2^_\5> \2_\7"+
-		"\3\2\2\2`b\7\4\2\2a`\3\2\2\2ab\3\2\2\2bc\3\2\2\2cd\7\5\2\2de\7%\2\2e\t"+
-		"\3\2\2\2fh\5\f\7\2gf\3\2\2\2hi\3\2\2\2ig\3\2\2\2ij\3\2\2\2j\13\3\2\2\2"+
-		"kl\5> \2lm\5H%\2mn\7\6\2\2n\r\3\2\2\2oq\5\20\t\2po\3\2\2\2qr\3\2\2\2r"+
-		"p\3\2\2\2rs\3\2\2\2s\17\3\2\2\2tv\5\22\n\2uw\5\24\13\2vu\3\2\2\2vw\3\2"+
-		"\2\2w\21\3\2\2\2x|\7\7\2\2y{\5\26\f\2zy\3\2\2\2{~\3\2\2\2|z\3\2\2\2|}"+
-		"\3\2\2\2}\177\3\2\2\2~|\3\2\2\2\177\u0080\7\b\2\2\u0080\23\3\2\2\2\u0081"+
-		"\u0085\7\t\2\2\u0082\u0084\5\30\r\2\u0083\u0082\3\2\2\2\u0084\u0087\3"+
-		"\2\2\2\u0085\u0083\3\2\2\2\u0085\u0086\3\2\2\2\u0086\u0088\3\2\2\2\u0087"+
-		"\u0085\3\2\2\2\u0088\u0089\7\b\2\2\u0089\25\3\2\2\2\u008a\u0093\5\32\16"+
-		"\2\u008b\u0093\5\34\17\2\u008c\u0093\5&\24\2\u008d\u0093\5(\25\2\u008e"+
-		"\u0093\5$\23\2\u008f\u0093\5\36\20\2\u0090\u0093\5 \21\2\u0091\u0093\5"+
-		"\"\22\2\u0092\u008a\3\2\2\2\u0092\u008b\3\2\2\2\u0092\u008c\3\2\2\2\u0092"+
-		"\u008d\3\2\2\2\u0092\u008e\3\2\2\2\u0092\u008f\3\2\2\2\u0092\u0090\3\2"+
-		"\2\2\u0092\u0091\3\2\2\2\u0093\27\3\2\2\2\u0094\u009a\5$\23\2\u0095\u009a"+
-		"\5&\24\2\u0096\u009a\5(\25\2\u0097\u009a\5\36\20\2\u0098\u009a\5\32\16"+
-		"\2\u0099\u0094\3\2\2\2\u0099\u0095\3\2\2\2\u0099\u0096\3\2\2\2\u0099\u0097"+
-		"\3\2\2\2\u0099\u0098\3\2\2\2\u009a\31\3\2\2\2\u009b\u009c\5*\26\2\u009c"+
-		"\u009d\5H%\2\u009d\u009e\5.\30\2\u009e\u009f\7\6\2\2\u009f\33\3\2\2\2"+
-		"\u00a0\u00a2\t\2\2\2\u00a1\u00a0\3\2\2\2\u00a1\u00a2\3\2\2\2\u00a2\u00a3"+
-		"\3\2\2\2\u00a3\u00a4\5*\26\2\u00a4\u00a5\5H%\2\u00a5\u00a6\5.\30\2\u00a6"+
-		"\u00a7\7\6\2\2\u00a7\35\3\2\2\2\u00a8\u00aa\t\2\2\2\u00a9\u00a8\3\2\2"+
-		"\2\u00a9\u00aa\3\2\2\2\u00aa\u00ab\3\2\2\2\u00ab\u00ac\7\f\2\2\u00ac\u00ad"+
-		"\5F$\2\u00ad\u00ae\7\r\2\2\u00ae\u00af\7&\2\2\u00af\u00b0\5*\26\2\u00b0"+
-		"\u00b1\5.\30\2\u00b1\u00b2\7\6\2\2\u00b2\37\3\2\2\2\u00b3\u00b4\7\16\2"+
-		"\2\u00b4\u00b5\5F$\2\u00b5\u00b6\7\r\2\2\u00b6\u00b7\7&\2\2\u00b7\u00b8"+
-		"\7\17\2\2\u00b8\u00b9\7&\2\2\u00b9\u00ba\5*\26\2\u00ba\u00bb\5.\30\2\u00bb"+
-		"\u00bc\7\6\2\2\u00bc!\3\2\2\2\u00bd\u00bf\t\2\2\2\u00be\u00bd\3\2\2\2"+
-		"\u00be\u00bf\3\2\2\2\u00bf\u00c0\3\2\2\2\u00c0\u00c1\5*\26\2\u00c1\u00c2"+
-		"\5F$\2\u00c2\u00c3\7&\2\2\u00c3\u00c4\7\20\2\2\u00c4\u00c5\7&\2\2\u00c5"+
-		"\u00c6\5.\30\2\u00c6\u00c7\7\6\2\2\u00c7#\3\2\2\2\u00c8\u00c9\t\3\2\2"+
-		"\u00c9\u00ca\5F$\2\u00ca\u00cb\7\23\2\2\u00cb\u00cc\5F$\2\u00cc\u00cd"+
-		"\5.\30\2\u00cd\u00ce\7\6\2\2\u00ce%\3\2\2\2\u00cf\u00d0\7\24\2\2\u00d0"+
-		"\u00d1\5F$\2\u00d1\u00d2\7\25\2\2\u00d2\u00d3\5D#\2\u00d3\u00d4\7\20\2"+
-		"\2\u00d4\u00d5\5D#\2\u00d5\u00d6\5\64\33\2\u00d6\u00d7\7\6\2\2\u00d7\'"+
-		"\3\2\2\2\u00d8\u00d9\7\26\2\2\u00d9\u00da\5F$\2\u00da\u00db\7\25\2\2\u00db"+
-		"\u00dc\7%\2\2\u00dc\u00dd\7&\2\2\u00dd\u00de\7\20\2\2\u00de\u00df\5B\""+
-		"\2\u00df\u00e0\5\64\33\2\u00e0\u00e1\7\6\2\2\u00e1)\3\2\2\2\u00e2\u00e4"+
-		"\5,\27\2\u00e3\u00e2\3\2\2\2\u00e4\u00e5\3\2\2\2\u00e5\u00e3\3\2\2\2\u00e5"+
-		"\u00e6\3\2\2\2\u00e6+\3\2\2\2\u00e7\u00e8\7$\2\2\u00e8-\3\2\2\2\u00e9"+
-		"\u00eb\5\60\31\2\u00ea\u00e9\3\2\2\2\u00eb\u00ee\3\2\2\2\u00ec\u00ea\3"+
-		"\2\2\2\u00ec\u00ed\3\2\2\2\u00ed/\3\2\2\2\u00ee\u00ec\3\2\2\2\u00ef\u00f0"+
-		"\5\62\32\2\u00f0\u00f1\7\27\2\2\u00f1\u00f2\5J&\2\u00f2\u00f9\3\2\2\2"+
-		"\u00f3\u00f9\5\66\34\2\u00f4\u00f9\58\35\2\u00f5\u00f9\5<\37\2\u00f6\u00f9"+
-		"\5:\36\2\u00f7\u00f9\5\64\33\2\u00f8\u00ef\3\2\2\2\u00f8\u00f3\3\2\2\2"+
-		"\u00f8\u00f4\3\2\2\2\u00f8\u00f5\3\2\2\2\u00f8\u00f6\3\2\2\2\u00f8\u00f7"+
-		"\3\2\2\2\u00f9\61\3\2\2\2\u00fa\u00fb\7%\2\2\u00fb\63\3\2\2\2\u00fc\u00fd"+
-		"\7\30\2\2\u00fd\u00fe\7\27\2\2\u00fe\u0106\5J&\2\u00ff\u0100\7\31\2\2"+
-		"\u0100\u0101\7\27\2\2\u0101\u0106\5J&\2\u0102\u0103\7\32\2\2\u0103\u0104"+
-		"\7\27\2\2\u0104\u0106\5J&\2\u0105\u00fc\3\2\2\2\u0105\u00ff\3\2\2\2\u0105"+
-		"\u0102\3\2\2\2\u0106\65\3\2\2\2\u0107\u0108\7\33\2\2\u0108\u0109\7\27"+
-		"\2\2\u0109\u010a\t\4\2\2\u010a\67\3\2\2\2\u010b\u010c\7\33\2\2\u010c\u010d"+
-		"\7\27\2\2\u010d\u010e\t\5\2\2\u010e9\3\2\2\2\u010f\u0110\7 \2\2\u0110"+
-		"\u0111\7\27\2\2\u0111\u0112\5L\'\2\u0112;\3\2\2\2\u0113\u0114\7!\2\2\u0114"+
-		"\u0115\7\27\2\2\u0115\u0116\5L\'\2\u0116=\3\2\2\2\u0117\u0118\7$\2\2\u0118"+
-		"?\3\2\2\2\u0119\u011a\7&\2\2\u011aA\3\2\2\2\u011b\u011e\5D#\2\u011c\u011d"+
-		"\7\17\2\2\u011d\u011f\5D#\2\u011e\u011c\3\2\2\2\u011f\u0120\3\2\2\2\u0120"+
-		"\u011e\3\2\2\2\u0120\u0121\3\2\2\2\u0121C\3\2\2\2\u0122\u0123\7%\2\2\u0123"+
-		"\u0124\7&\2\2\u0124E\3\2\2\2\u0125\u0126\7%\2\2\u0126G\3\2\2\2\u0127\u012c"+
-		"\5F$\2\u0128\u0129\7\17\2\2\u0129\u012b\5F$\2\u012a\u0128\3\2\2\2\u012b"+
-		"\u012e\3\2\2\2\u012c\u012a\3\2\2\2\u012c\u012d\3\2\2\2\u012dI\3\2\2\2"+
-		"\u012e\u012c\3\2\2\2\u012f\u0130\7&\2\2\u0130K\3\2\2\2\u0131\u0132\t\6"+
-		"\2\2\u0132M\3\2\2\2\26OS[airv|\u0085\u0092\u0099\u00a1\u00a9\u00be\u00e5"+
-		"\u00ec\u00f8\u0105\u0120\u012c";
+		"\t!\4\"\t\"\4#\t#\4$\t$\4%\t%\4&\t&\4\'\t\'\4(\t(\4)\t)\4*\t*\3\2\5\2"+
+		"V\n\2\3\2\3\2\5\2Z\n\2\3\2\3\2\3\2\3\3\6\3`\n\3\r\3\16\3a\3\4\3\4\3\4"+
+		"\3\5\5\5h\n\5\3\5\3\5\3\5\3\6\6\6n\n\6\r\6\16\6o\3\7\3\7\3\7\3\7\3\b\6"+
+		"\bw\n\b\r\b\16\bx\3\t\3\t\5\t}\n\t\3\n\3\n\7\n\u0081\n\n\f\n\16\n\u0084"+
+		"\13\n\3\n\3\n\3\13\3\13\7\13\u008a\n\13\f\13\16\13\u008d\13\13\3\13\3"+
+		"\13\3\f\3\f\3\f\3\f\3\f\3\f\3\f\3\f\5\f\u0099\n\f\3\r\3\r\3\r\3\r\3\r"+
+		"\5\r\u00a0\n\r\3\16\3\16\3\16\3\16\3\16\3\17\3\17\3\17\3\17\3\17\3\17"+
+		"\3\20\5\20\u00ae\n\20\3\20\3\20\3\20\3\20\3\20\3\20\3\20\3\20\3\21\3\21"+
+		"\3\21\3\21\3\21\3\21\3\21\3\21\3\21\3\21\3\22\5\22\u00c3\n\22\3\22\3\22"+
+		"\3\22\3\22\3\22\3\22\3\22\3\22\3\23\3\23\3\23\3\23\3\23\3\23\3\23\3\24"+
+		"\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\24\3\25\3\25\3\25\3\25\3\25\3\25"+
+		"\3\25\3\25\3\25\3\26\6\26\u00e7\n\26\r\26\16\26\u00e8\3\27\3\27\3\30\7"+
+		"\30\u00ee\n\30\f\30\16\30\u00f1\13\30\3\31\3\31\3\31\3\31\3\31\3\31\3"+
+		"\31\5\31\u00fa\n\31\3\32\3\32\3\33\3\33\3\33\3\33\3\34\3\34\3\34\3\34"+
+		"\3\35\3\35\3\35\3\35\3\35\3\35\3\35\3\35\3\35\5\35\u010f\n\35\3\36\3\36"+
+		"\3\36\3\36\3\37\3\37\3\37\3\37\3 \3 \3 \3 \3!\3!\3!\3!\3\"\3\"\3#\3#\3"+
+		"$\3$\3$\6$\u0128\n$\r$\16$\u0129\3%\3%\5%\u012e\n%\3&\3&\3\'\3\'\3\'\7"+
+		"\'\u0135\n\'\f\'\16\'\u0138\13\'\3(\3(\3)\3)\3*\3*\3*\2\2+\2\4\6\b\n\f"+
+		"\16\20\22\24\26\30\32\34\36 \"$&(*,.\60\62\64\668:<>@BDFHJLNPR\2\7\3\2"+
+		"\17\20\3\2\32\33\3\2\34\35\3\2 !\3\2\"#\2\u0139\2U\3\2\2\2\4_\3\2\2\2"+
+		"\6c\3\2\2\2\bg\3\2\2\2\nm\3\2\2\2\fq\3\2\2\2\16v\3\2\2\2\20z\3\2\2\2\22"+
+		"~\3\2\2\2\24\u0087\3\2\2\2\26\u0098\3\2\2\2\30\u009f\3\2\2\2\32\u00a1"+
+		"\3\2\2\2\34\u00a6\3\2\2\2\36\u00ad\3\2\2\2 \u00b7\3\2\2\2\"\u00c2\3\2"+
+		"\2\2$\u00cc\3\2\2\2&\u00d3\3\2\2\2(\u00dc\3\2\2\2*\u00e6\3\2\2\2,\u00ea"+
+		"\3\2\2\2.\u00ef\3\2\2\2\60\u00f9\3\2\2\2\62\u00fb\3\2\2\2\64\u00fd\3\2"+
+		"\2\2\66\u0101\3\2\2\28\u010e\3\2\2\2:\u0110\3\2\2\2<\u0114\3\2\2\2>\u0118"+
+		"\3\2\2\2@\u011c\3\2\2\2B\u0120\3\2\2\2D\u0122\3\2\2\2F\u0124\3\2\2\2H"+
+		"\u012b\3\2\2\2J\u012f\3\2\2\2L\u0131\3\2\2\2N\u0139\3\2\2\2P\u013b\3\2"+
+		"\2\2R\u013d\3\2\2\2TV\5\4\3\2UT\3\2\2\2UV\3\2\2\2VW\3\2\2\2WY\5\b\5\2"+
+		"XZ\5\n\6\2YX\3\2\2\2YZ\3\2\2\2Z[\3\2\2\2[\\\5\16\b\2\\]\7\2\2\3]\3\3\2"+
+		"\2\2^`\5\6\4\2_^\3\2\2\2`a\3\2\2\2a_\3\2\2\2ab\3\2\2\2b\5\3\2\2\2cd\7"+
+		"\3\2\2de\5B\"\2e\7\3\2\2\2fh\7\4\2\2gf\3\2\2\2gh\3\2\2\2hi\3\2\2\2ij\7"+
+		"\5\2\2jk\7$\2\2k\t\3\2\2\2ln\5\f\7\2ml\3\2\2\2no\3\2\2\2om\3\2\2\2op\3"+
+		"\2\2\2p\13\3\2\2\2qr\5B\"\2rs\5L\'\2st\7\6\2\2t\r\3\2\2\2uw\5\20\t\2v"+
+		"u\3\2\2\2wx\3\2\2\2xv\3\2\2\2xy\3\2\2\2y\17\3\2\2\2z|\5\22\n\2{}\5\24"+
+		"\13\2|{\3\2\2\2|}\3\2\2\2}\21\3\2\2\2~\u0082\7\7\2\2\177\u0081\5\26\f"+
+		"\2\u0080\177\3\2\2\2\u0081\u0084\3\2\2\2\u0082\u0080\3\2\2\2\u0082\u0083"+
+		"\3\2\2\2\u0083\u0085\3\2\2\2\u0084\u0082\3\2\2\2\u0085\u0086\7\b\2\2\u0086"+
+		"\23\3\2\2\2\u0087\u008b\7\t\2\2\u0088\u008a\5\30\r\2\u0089\u0088\3\2\2"+
+		"\2\u008a\u008d\3\2\2\2\u008b\u0089\3\2\2\2\u008b\u008c\3\2\2\2\u008c\u008e"+
+		"\3\2\2\2\u008d\u008b\3\2\2\2\u008e\u008f\7\b\2\2\u008f\25\3\2\2\2\u0090"+
+		"\u0099\5\32\16\2\u0091\u0099\5\34\17\2\u0092\u0099\5&\24\2\u0093\u0099"+
+		"\5(\25\2\u0094\u0099\5$\23\2\u0095\u0099\5\36\20\2\u0096\u0099\5 \21\2"+
+		"\u0097\u0099\5\"\22\2\u0098\u0090\3\2\2\2\u0098\u0091\3\2\2\2\u0098\u0092"+
+		"\3\2\2\2\u0098\u0093\3\2\2\2\u0098\u0094\3\2\2\2\u0098\u0095\3\2\2\2\u0098"+
+		"\u0096\3\2\2\2\u0098\u0097\3\2\2\2\u0099\27\3\2\2\2\u009a\u00a0\5$\23"+
+		"\2\u009b\u00a0\5&\24\2\u009c\u00a0\5(\25\2\u009d\u00a0\5\36\20\2\u009e"+
+		"\u00a0\5\32\16\2\u009f\u009a\3\2\2\2\u009f\u009b\3\2\2\2\u009f\u009c\3"+
+		"\2\2\2\u009f\u009d\3\2\2\2\u009f\u009e\3\2\2\2\u00a0\31\3\2\2\2\u00a1"+
+		"\u00a2\5*\26\2\u00a2\u00a3\5L\'\2\u00a3\u00a4\5.\30\2\u00a4\u00a5\7\6"+
+		"\2\2\u00a5\33\3\2\2\2\u00a6\u00a7\5R*\2\u00a7\u00a8\5*\26\2\u00a8\u00a9"+
+		"\5L\'\2\u00a9\u00aa\5.\30\2\u00aa\u00ab\7\6\2\2\u00ab\35\3\2\2\2\u00ac"+
+		"\u00ae\5R*\2\u00ad\u00ac\3\2\2\2\u00ad\u00ae\3\2\2\2\u00ae\u00af\3\2\2"+
+		"\2\u00af\u00b0\7\n\2\2\u00b0\u00b1\5J&\2\u00b1\u00b2\7\13\2\2\u00b2\u00b3"+
+		"\7&\2\2\u00b3\u00b4\5*\26\2\u00b4\u00b5\5.\30\2\u00b5\u00b6\7\6\2\2\u00b6"+
+		"\37\3\2\2\2\u00b7\u00b8\7\f\2\2\u00b8\u00b9\5J&\2\u00b9\u00ba\7\13\2\2"+
+		"\u00ba\u00bb\7&\2\2\u00bb\u00bc\7\r\2\2\u00bc\u00bd\7&\2\2\u00bd\u00be"+
+		"\5*\26\2\u00be\u00bf\5.\30\2\u00bf\u00c0\7\6\2\2\u00c0!\3\2\2\2\u00c1"+
+		"\u00c3\5R*\2\u00c2\u00c1\3\2\2\2\u00c2\u00c3\3\2\2\2\u00c3\u00c4\3\2\2"+
+		"\2\u00c4\u00c5\5*\26\2\u00c5\u00c6\5J&\2\u00c6\u00c7\7&\2\2\u00c7\u00c8"+
+		"\7\16\2\2\u00c8\u00c9\7&\2\2\u00c9\u00ca\5.\30\2\u00ca\u00cb\7\6\2\2\u00cb"+
+		"#\3\2\2\2\u00cc\u00cd\t\2\2\2\u00cd\u00ce\5J&\2\u00ce\u00cf\7\21\2\2\u00cf"+
+		"\u00d0\5J&\2\u00d0\u00d1\5.\30\2\u00d1\u00d2\7\6\2\2\u00d2%\3\2\2\2\u00d3"+
+		"\u00d4\7\22\2\2\u00d4\u00d5\5J&\2\u00d5\u00d6\7\23\2\2\u00d6\u00d7\5H"+
+		"%\2\u00d7\u00d8\7\16\2\2\u00d8\u00d9\5H%\2\u00d9\u00da\58\35\2\u00da\u00db"+
+		"\7\6\2\2\u00db\'\3\2\2\2\u00dc\u00dd\7\24\2\2\u00dd\u00de\5J&\2\u00de"+
+		"\u00df\7\23\2\2\u00df\u00e0\5H%\2\u00e0\u00e1\7\16\2\2\u00e1\u00e2\5F"+
+		"$\2\u00e2\u00e3\58\35\2\u00e3\u00e4\7\6\2\2\u00e4)\3\2\2\2\u00e5\u00e7"+
+		"\5,\27\2\u00e6\u00e5\3\2\2\2\u00e7\u00e8\3\2\2\2\u00e8\u00e6\3\2\2\2\u00e8"+
+		"\u00e9\3\2\2\2\u00e9+\3\2\2\2\u00ea\u00eb\7%\2\2\u00eb-\3\2\2\2\u00ec"+
+		"\u00ee\5\60\31\2\u00ed\u00ec\3\2\2\2\u00ee\u00f1\3\2\2\2\u00ef\u00ed\3"+
+		"\2\2\2\u00ef\u00f0\3\2\2\2\u00f0/\3\2\2\2\u00f1\u00ef\3\2\2\2\u00f2\u00fa"+
+		"\5\64\33\2\u00f3\u00fa\5\66\34\2\u00f4\u00fa\5:\36\2\u00f5\u00fa\5<\37"+
+		"\2\u00f6\u00fa\5@!\2\u00f7\u00fa\5> \2\u00f8\u00fa\58\35\2\u00f9\u00f2"+
+		"\3\2\2\2\u00f9\u00f3\3\2\2\2\u00f9\u00f4\3\2\2\2\u00f9\u00f5\3\2\2\2\u00f9"+
+		"\u00f6\3\2\2\2\u00f9\u00f7\3\2\2\2\u00f9\u00f8\3\2\2\2\u00fa\61\3\2\2"+
+		"\2\u00fb\u00fc\7$\2\2\u00fc\63\3\2\2\2\u00fd\u00fe\5\62\32\2\u00fe\u00ff"+
+		"\7\25\2\2\u00ff\u0100\5N(\2\u0100\65\3\2\2\2\u0101\u0102\5\62\32\2\u0102"+
+		"\u0103\7\25\2\2\u0103\u0104\5P)\2\u0104\67\3\2\2\2\u0105\u0106\7\26\2"+
+		"\2\u0106\u0107\7\25\2\2\u0107\u010f\5N(\2\u0108\u0109\7\27\2\2\u0109\u010a"+
+		"\7\25\2\2\u010a\u010f\5N(\2\u010b\u010c\7\30\2\2\u010c\u010d\7\25\2\2"+
+		"\u010d\u010f\5N(\2\u010e\u0105\3\2\2\2\u010e\u0108\3\2\2\2\u010e\u010b"+
+		"\3\2\2\2\u010f9\3\2\2\2\u0110\u0111\7\31\2\2\u0111\u0112\7\25\2\2\u0112"+
+		"\u0113\t\3\2\2\u0113;\3\2\2\2\u0114\u0115\7\31\2\2\u0115\u0116\7\25\2"+
+		"\2\u0116\u0117\t\4\2\2\u0117=\3\2\2\2\u0118\u0119\7\36\2\2\u0119\u011a"+
+		"\7\25\2\2\u011a\u011b\5P)\2\u011b?\3\2\2\2\u011c\u011d\7\37\2\2\u011d"+
+		"\u011e\7\25\2\2\u011e\u011f\5P)\2\u011fA\3\2\2\2\u0120\u0121\7%\2\2\u0121"+
+		"C\3\2\2\2\u0122\u0123\7&\2\2\u0123E\3\2\2\2\u0124\u0127\5H%\2\u0125\u0126"+
+		"\7\r\2\2\u0126\u0128\5H%\2\u0127\u0125\3\2\2\2\u0128\u0129\3\2\2\2\u0129"+
+		"\u0127\3\2\2\2\u0129\u012a\3\2\2\2\u012aG\3\2\2\2\u012b\u012d\7$\2\2\u012c"+
+		"\u012e\7&\2\2\u012d\u012c\3\2\2\2\u012d\u012e\3\2\2\2\u012eI\3\2\2\2\u012f"+
+		"\u0130\7$\2\2\u0130K\3\2\2\2\u0131\u0136\5J&\2\u0132\u0133\7\r\2\2\u0133"+
+		"\u0135\5J&\2\u0134\u0132\3\2\2\2\u0135\u0138\3\2\2\2\u0136\u0134\3\2\2"+
+		"\2\u0136\u0137\3\2\2\2\u0137M\3\2\2\2\u0138\u0136\3\2\2\2\u0139\u013a"+
+		"\7&\2\2\u013aO\3\2\2\2\u013b\u013c\t\5\2\2\u013cQ\3\2\2\2\u013d\u013e"+
+		"\t\6\2\2\u013eS\3\2\2\2\26UYagox|\u0082\u008b\u0098\u009f\u00ad\u00c2"+
+		"\u00e8\u00ef\u00f9\u010e\u0129\u012d\u0136";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

@@ -11,25 +11,32 @@ import org.cidarlab.minifluigi.layout.Placement;
 import org.jgrapht.alg.ConnectivityInspector;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleDirectedGraph;
-import org.jgrapht.traverse.BreadthFirstIterator;
 
 /**
  *
  * @author krishna
  */
 public class Device {
-     
-    private final String name;
+
+    private List<String> dependencies;
+    private String name;
     private String comments;
     private HashMap<String,LogicalLayer> layersHashMap;
     private ArrayList<Component> components;
     private ArrayList<Connection> connections;
-    
-    public Device(String string) {
-        this.name = string;
+    private HashMap<Component, Connection> valvemap;
+
+    public Device(){
         layersHashMap = new HashMap<>();
         connections = new ArrayList<>();
         components = new ArrayList<>();
+        dependencies = new ArrayList<>();
+        valvemap = new HashMap<>();
+    }
+
+    public Device(String string) {
+        this();
+        this.name = string;
     }
 
     public void setComments(String string) {
@@ -72,7 +79,7 @@ public class Device {
         for(Connection c : connections){
             placement.addConnections(
                     c.getSourceID(),
-                    c.getTargets()
+                    c.getSinks()
             );
         }
 
@@ -81,7 +88,7 @@ public class Device {
 
     public List<Placement> getPlacementProblems(){
         /*
-        TODO: Do the floodfill algorithm and figure out all the unconnected graphs in the device.
+        Do the floodfill algorithm and figure out all the unconnected graphs in the device.
          */
         ArrayList<Placement> placementProlems = new ArrayList<>();
         SimpleDirectedGraph<Component, DefaultEdge> devicegraph = new SimpleDirectedGraph(DefaultEdge.class);
@@ -99,7 +106,7 @@ public class Device {
 
         for(Connection c: connections){
             String source = c.getSourceID();
-            for(String target : c.getTargets()){
+            for(String target : c.getSinks()){
                 //Create connection between each of the targets
                 devicegraph.addEdge(getComponent(source),getComponent(target));
             }
@@ -148,5 +155,18 @@ public class Device {
 
         return null;
     }
-    
+
+    public Connection getConnection(String id) {
+        for(Connection c : connections){
+            if(c.getId().equals(id)){
+                return c;
+            }
+        }
+
+        return null;
+    }
+
+    public void addValve(Component component, Connection connection) {
+        this.valvemap.put(component, connection);
+    }
 }

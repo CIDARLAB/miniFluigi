@@ -21,7 +21,7 @@ importStat
     ;
 
 header
-    :   (tag='3D')? 'DEVICE' ID_SMALL
+    :   (tag='3D')? 'DEVICE' device_name=ID
     ;
 
 ufmoduleBlock
@@ -56,7 +56,7 @@ controlBlock
 
 flowStat
     :   primitiveStat
-    |   compositeStat
+    |   primitiveWithOrientationStat
     |   channelStat
     |   netStat
     |   valveStat
@@ -79,33 +79,34 @@ primitiveStat
     :   entity ufnames paramsStat ';'
     ;
 
-compositeStat
-    :   ('V'|'H')? entity ufnames paramsStat ';'
+primitiveWithOrientationStat
+    :   orientation entity ufnames paramsStat ';'
     ;
 
+
 bankStat
-    :   ('V'|'H')? 'BANK' ufname 'of' INT entity paramsStat ';'
+    :   orientation? 'BANK' ufname 'of' dim=INT entity paramsStat ';'
     ;
 
 gridStat
-    :   'GRID' ufname 'of' INT ',' INT entity paramsStat ';'
+    :   'GRID' ufname 'of' xdim=INT ',' ydim=INT entity paramsStat ';'
     ;
 
 spanStat
-    :   ('V'|'H')? entity ufname  INT 'to' INT paramsStat ';'
+    :   orientation? entity ufname  INT 'to' INT paramsStat ';'
     ;
 
 valveStat
-    :   ('VALVE'|'3DVALVE') ufname 'on' ufname paramsStat ';'
+    :   valve_entity=('VALVE'|'3DVALVE') ufname 'on' ufname paramsStat ';'
     ;
 
 
 channelStat
-    :   'CHANNEL' ufname 'from' uftarget 'to' uftarget widthParam ';'
+    :   'CHANNEL' ufname 'from' source=uftarget 'to' sink=uftarget widthParam ';'
     ;
 
 netStat
-    :   'NET' ufname 'from' source_name=ID_SMALL source_terminal=INT 'to' uftargets widthParam ';'
+    :   'NET' ufname 'from' source=uftarget 'to' sinks=uftargets widthParam ';'
     ;
 
 //Common Parser Rules
@@ -123,7 +124,8 @@ paramsStat
     ;
 
 paramStat
-    :   param_element '=' value
+    :   intParam
+    |   boolParam
     |   verticalDirectionParam
     |   horizontalDirectionParam
     |   verticalConnectionParam
@@ -132,7 +134,15 @@ paramStat
     ;
 
 param_element
-    :   ID_SMALL
+    :   ID
+    ;
+
+intParam
+    :   param_element '=' value
+    ;
+
+boolParam
+    :   param_element '=' boolvalue
     ;
 
 widthParam
@@ -170,11 +180,11 @@ uftargets
     ;
 
 uftarget
-    :   target_name=ID_SMALL (target_terminal=INT)?
+    :   target_name=ID (target_terminal=INT)?
     ;
 
 ufname
-    :   ID_SMALL
+    :   ID
     ;
 
 ufnames
@@ -190,13 +200,16 @@ boolvalue
     |   'NO'
     ;
 
+orientation : ('V'|'H') ;
+
 //Common Lexical Rules
+
+ID : ('a'..'z'|'_')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 
 ID_BIG  :  ('A'..'Z'|'_') ('A'..'Z'|'_'|'0'..'9')*  ;
 
-ID_SMALL    :  ('a'..'z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_')* ;
-
 INT :   [0-9]+ ; // Define token INT as one or more digits
+
 WS  :   [ \t\r\n]+ -> skip ; // Define whitespace rule, toss it out
 
 COMMENT :    '#' ~[\r\n]* -> skip ;

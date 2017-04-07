@@ -1,4 +1,4 @@
-// Generated from /Users/krishna/CIDAR/MiniFluigi/src/main/ANTLR/mintgrammar.g4 by ANTLR 4.6
+// Generated from /Users/krishna/CIDAR/MiniFluigi/src/main/ANTLR/mintgrammar.g4 by ANTLR 4.7
 package org.cidarlab.minifluigi.mintgrammar;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -138,15 +138,15 @@ public interface mintgrammarListener extends ParseTreeListener {
 	 */
 	void exitPrimitiveStat(mintgrammarParser.PrimitiveStatContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link mintgrammarParser#compositeStat}.
+	 * Enter a parse tree produced by {@link mintgrammarParser#primitiveWithOrientationStat}.
 	 * @param ctx the parse tree
 	 */
-	void enterCompositeStat(mintgrammarParser.CompositeStatContext ctx);
+	void enterPrimitiveWithOrientationStat(mintgrammarParser.PrimitiveWithOrientationStatContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link mintgrammarParser#compositeStat}.
+	 * Exit a parse tree produced by {@link mintgrammarParser#primitiveWithOrientationStat}.
 	 * @param ctx the parse tree
 	 */
-	void exitCompositeStat(mintgrammarParser.CompositeStatContext ctx);
+	void exitPrimitiveWithOrientationStat(mintgrammarParser.PrimitiveWithOrientationStatContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link mintgrammarParser#bankStat}.
 	 * @param ctx the parse tree
@@ -257,6 +257,26 @@ public interface mintgrammarListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitParam_element(mintgrammarParser.Param_elementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link mintgrammarParser#intParam}.
+	 * @param ctx the parse tree
+	 */
+	void enterIntParam(mintgrammarParser.IntParamContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link mintgrammarParser#intParam}.
+	 * @param ctx the parse tree
+	 */
+	void exitIntParam(mintgrammarParser.IntParamContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link mintgrammarParser#boolParam}.
+	 * @param ctx the parse tree
+	 */
+	void enterBoolParam(mintgrammarParser.BoolParamContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link mintgrammarParser#boolParam}.
+	 * @param ctx the parse tree
+	 */
+	void exitBoolParam(mintgrammarParser.BoolParamContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link mintgrammarParser#widthParam}.
 	 * @param ctx the parse tree
@@ -387,4 +407,14 @@ public interface mintgrammarListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitBoolvalue(mintgrammarParser.BoolvalueContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link mintgrammarParser#orientation}.
+	 * @param ctx the parse tree
+	 */
+	void enterOrientation(mintgrammarParser.OrientationContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link mintgrammarParser#orientation}.
+	 * @param ctx the parse tree
+	 */
+	void exitOrientation(mintgrammarParser.OrientationContext ctx);
 }
