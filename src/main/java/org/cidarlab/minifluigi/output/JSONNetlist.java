@@ -5,6 +5,7 @@
  */
 package org.cidarlab.minifluigi.output;
 
+import org.cidarlab.minifluigi.netlist.DesignTree;
 import org.cidarlab.minifluigi.netlist.Device;
 
 /**
@@ -13,7 +14,7 @@ import org.cidarlab.minifluigi.netlist.Device;
  */
 public class JSONNetlist {
 
-    public void generateOutput(Device device) {
+    public void generateOutput(DesignTree designTree) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

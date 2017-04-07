@@ -25,6 +25,7 @@ public class Device {
     private ArrayList<Component> components;
     private ArrayList<Connection> connections;
     private HashMap<Component, Connection> valvemap;
+    private List<Component> imports;
 
     public Device(){
         layersHashMap = new HashMap<>();
@@ -32,6 +33,7 @@ public class Device {
         components = new ArrayList<>();
         dependencies = new ArrayList<>();
         valvemap = new HashMap<>();
+        imports = new ArrayList<>();
     }
 
     public Device(String string) {
@@ -48,6 +50,9 @@ public class Device {
     }
 
     public void addComponent(Component component) {
+        if(dependencies.contains(component.getTechnology())){
+            imports.add(component);
+        }
         components.add(component);
     }
 
@@ -55,97 +60,11 @@ public class Device {
         connections.add(connection);
     }
 
-    public Placement getPlacementProblem() {
-        /**
-         * Loop through all the components in the device and generate rectangles
-         * each of the rectangles have a position (x,y) and dimensions (w,h). 
-         * Maybe thats all there is to this.
-         * 
-         * Also make abstract connections for each of the rectangles.
-         */
-        return getPlacement(components, connections);
-    }
-
-    private static Placement getPlacement(ArrayList<Component> components, ArrayList<Connection> connections) {
-        Placement placement = new Placement();
-        for(Component c : components){
-            placement.addCell(
-                    c.getId(),
-                    c.getX(), c.getY(),
-                    c.getW(), c.getH()
-            );
-        }
-
-        for(Connection c : connections){
-            placement.addConnections(
-                    c.getSourceID(),
-                    c.getSinks()
-            );
-        }
-
-        return placement;
-    }
-
-    public List<Placement> getPlacementProblems(){
-        /*
-        Do the floodfill algorithm and figure out all the unconnected graphs in the device.
-         */
-        ArrayList<Placement> placementProlems = new ArrayList<>();
-        SimpleDirectedGraph<Component, DefaultEdge> devicegraph = new SimpleDirectedGraph(DefaultEdge.class);
-        ArrayList<Component> unvisitednodes = new ArrayList<>();
-        ArrayList<Component> newgraphnodes = new ArrayList<>();
-        Placement placementprolem;
-
-        //Generate Graph from connections and components
-        //Keep a list of visited vertices
-
-        for(Component c : components){
-            devicegraph.addVertex(c);
-            unvisitednodes.add(c);
-        }
-
-        for(Connection c: connections){
-            String source = c.getSourceID();
-            for(String target : c.getSinks()){
-                //Create connection between each of the targets
-                devicegraph.addEdge(getComponent(source),getComponent(target));
-            }
-        }
-
-        //Run the connectivity inspector and get all the sets of connected components
-        ConnectivityInspector<Component, DefaultEdge> connectivityInspector = new ConnectivityInspector<Component, DefaultEdge>(devicegraph);
-        List<Set<Component>> connectedsets = connectivityInspector.connectedSets();
-
-        //Loop through the sets
-        for(Set<Component> connectedset : connectedsets){
-            //Create new placement problem
-            placementprolem = new Placement();
-
-            //Add all the components into the placement problem
-            for(Component c : connectedset){
-                placementprolem.addCell(c.getId(), c.getX(), c.getY(), c.getW(),
-                        c.getH());
-            }
-
-            //Add all the corresponding connections into the placement problem
-            for(Component c: connectedset){
-                //Loop through all the nodes in this new graph
-                for(DefaultEdge edge : devicegraph.edgesOf(c)){
-                    placementprolem.addConnection(devicegraph.getEdgeSource(edge).getId(),
-                            devicegraph.getEdgeTarget(edge).getId());
-                }
-            }
-
-            placementProlems.add(placementprolem);
-        }
-
-        return placementProlems;
-    }
-
-    public void loadPlacement(Placement placementproblem) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
+    /**
+     * Gets component with the given ID
+     * @param id
+     * @return
+     */
     public Component getComponent(String id){
         for(Component c : components){
             if(c.getId().equals(id)){
@@ -156,6 +75,11 @@ public class Device {
         return null;
     }
 
+    /**
+     * Gets the connection with the given ID
+     * @param id
+     * @return
+     */
     public Connection getConnection(String id) {
         for(Connection c : connections){
             if(c.getId().equals(id)){
@@ -166,7 +90,44 @@ public class Device {
         return null;
     }
 
+    /**
+     * Adds a Valve Component onto a connection
+     * @param component
+     * @param connection
+     */
     public void addValve(Component component, Connection connection) {
         this.valvemap.put(component, connection);
+    }
+
+    /**
+     * Returns the name of the device
+     * @return
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Returns the list of all the components in the device
+     * @return
+     */
+    public List<Component> getComponents() {
+        return components;
+    }
+
+    /**
+     * Returns a list of all the imports used in the device
+     * @return
+     */
+    public List<Component> getImports() {
+        return imports;
+    }
+
+    /**
+     * Returns a list of all the connections in the device
+     * @return
+     */
+    public List<Connection> getConnections() {
+        return connections;
     }
 }

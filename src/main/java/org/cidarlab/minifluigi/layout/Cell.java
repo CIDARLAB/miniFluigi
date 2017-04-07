@@ -20,10 +20,6 @@ public class Cell {
     }
 
     public String getID() {
-        return getId();
-    }
-
-    public String getId() {
         return id;
     }
 
@@ -57,5 +53,14 @@ public class Cell {
 
     public void setH(int h) {
         this.h = h;
+    }
+
+    public double getCenterX(){ return (x+w)/2; }
+
+    public double getCenterY(){ return (y+h)/2; }
+
+    @Override
+    public boolean equals(Object obj) {
+        return (obj instanceof Cell) && ((Cell) obj).getID().equals(this.getID());
     }
 }

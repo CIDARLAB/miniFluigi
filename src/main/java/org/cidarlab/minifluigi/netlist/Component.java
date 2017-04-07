@@ -31,7 +31,7 @@ public class Component {
         this.setTechnology((String) jsoncomponent.get(JSONKeyWords.TECHNOLOGY));
         JSONObject paramsoObject = (JSONObject) jsoncomponent.get(JSONKeyWords.PARAMETERS);
         for(Object key : paramsoObject.keySet()){
-            Object value  = jsoncomponent.get((String)key);
+            Object value  = jsoncomponent.get(key);
             getParams().put((String)key, value);
         }
     }

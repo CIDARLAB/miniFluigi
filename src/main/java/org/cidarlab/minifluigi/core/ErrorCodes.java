@@ -18,5 +18,5 @@ public class ErrorCodes {
     public static final int INPUT_FILE_NOT_FOUND = 500;
     public static final int TECH_LIBRARY_NOT_FOUND = 600;
     public static final int ENTITY_NOT_EXIST = 700;
-    public static int COMPONENT_NOT_FOUND = 800;
+    public static final int COMPONENT_NOT_FOUND = 800;
 }

@@ -8,30 +8,31 @@ package org.cidarlab.minifluigi.core;
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.DefaultParser;
-import org.apache.commons.cli.HelpFormatter;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
+import org.apache.commons.cli.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.cidarlab.minifluigi.layout.Placement;
+import org.cidarlab.minifluigi.layout.PlacementCellMapper.CellMapper;
+import org.cidarlab.minifluigi.layout.PlacementCellMapper.NaiveCellMapper;
 import org.cidarlab.minifluigi.mintgrammar.mintgrammarLexer;
 import org.cidarlab.minifluigi.mintgrammar.mintgrammarParser;
+import org.cidarlab.minifluigi.netlist.DesignTree;
 import org.cidarlab.minifluigi.netlist.Device;
 import org.cidarlab.minifluigi.netlist.JSONNetlistParser;
 import org.cidarlab.minifluigi.netlist.MINTNetlistParser;
 import org.cidarlab.minifluigi.output.JSONNetlist;
-import org.cidarlab.minifluigi.place.UCRPlacer;
+import org.cidarlab.minifluigi.place.NaivePlacer;
+import org.cidarlab.minifluigi.place.simulatedannealing.SAPlacer;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
- *
  * @author krishna
  */
 public class Main {
@@ -39,10 +40,12 @@ public class Main {
     private static String paramPathName;
     private static String outputDirectory;
     private static boolean isDebugPrintEnabled;
-    private static String inputPathName;
+
+    private static List<String> inputPaths = new ArrayList<>();
+
+    private static Logger logger = LogManager.getRootLogger();
 
     /**
-     *
      * @return
      */
     private static Options createCommandLineOptions() {
@@ -59,15 +62,13 @@ public class Main {
     }
 
     /**
-     *
-     * @param options
-     * <p>
-     * <p>
-     * <p>
+     * @param options <p>
+     *                <p>
+     *                <p>
      */
     private static void outputCommandLineHelp(final Options options) {
         final HelpFormatter formatter = new HelpFormatter();
-        formatter.printHelp("fluigi <filename> [-i <initialization_file>] [-o output directory] [-f output format]", options);
+        formatter.printHelp("fluigi <filenames> [-i <initialization_file>] [-o output directory] [-f output format]", options);
         System.exit(0);
     }
 
@@ -86,6 +87,9 @@ public class Main {
             if (null == outputDirectory) {
                 System.exit(ErrorCodes.MISSING_ARG_VALUES);
             }
+
+            //Set the output directory parameter
+            Parameters.OUTPUT_DIRECTORY_PATH = outputDirectory;
         }
 
 
@@ -95,9 +99,12 @@ public class Main {
             outputCommandLineHelp(options);
         }
 
-        inputPathName = cl.getArgs()[0];
+        inputPaths.addAll(cl.getArgList());
 
-        System.out.println(inputPathName);
+        System.out.println("InputFiles to be processed");
+        for (String inpuname : inputPaths) {
+            System.out.println(inpuname);
+        }
 
     }
 
@@ -121,67 +128,87 @@ public class Main {
             }
         }
 
-        File inputfile = new File(inputPathName);
-        if(!inputfile.exists()){
-            System.err.println("Input file does not exist");
-            System.exit(ErrorCodes.INPUT_FILE_NOT_FOUND);
-        }
+        DesignTree designTree = new DesignTree();
 
         //Loading the Libraries for MiniFluigeeeeee
+        logger.info("Initializing Library Manager");
         LibraryManager.initLibrary();
         Device device;
 
-        if (inputfile.getName().endsWith("json")){
-            JSONNetlistParser jsonparser = new JSONNetlistParser(inputPathName);
-            device = jsonparser.generateDevice();
-        } else {
-            ANTLRInputStream input = null;
-            try {
-                input = new ANTLRFileStream(inputPathName);
-            } catch (IOException ex) {
+
+        for (String inputpathname : inputPaths) {
+            File inputfile = new File(inputpathname);
+            if (!inputfile.exists()) {
+                System.err.println("Input file does not exist");
                 System.exit(ErrorCodes.INPUT_FILE_NOT_FOUND);
             }
-            mintgrammarLexer lexer = new mintgrammarLexer(input);
-            CommonTokenStream tokens = new CommonTokenStream(lexer);
-            mintgrammarParser mintparser = new mintgrammarParser((TokenStream) tokens);
-            ParseTree tree = mintparser.netlist(); // parse
-            ParseTreeWalker walker = new ParseTreeWalker(); // create standard walker
 
-            // Pass the delgate instance of the designtree so that it can access the device list
-            MINTNetlistParser fluigiNetlistParser = new MINTNetlistParser();
-            walker.walk(fluigiNetlistParser, tree);
-            device = fluigiNetlistParser.getDevice();
+            if (inputfile.getName().endsWith("json")) {
+                JSONNetlistParser jsonparser = new JSONNetlistParser(inputpathname);
+                device = jsonparser.generateDevice();
+            } else {
+                ANTLRInputStream input = null;
+                try {
+                    input = new ANTLRFileStream(inputpathname);
+                } catch (IOException ex) {
+                    System.exit(ErrorCodes.INPUT_FILE_NOT_FOUND);
+                }
+                mintgrammarLexer lexer = new mintgrammarLexer(input);
+                CommonTokenStream tokens = new CommonTokenStream(lexer);
+                mintgrammarParser mintparser = new mintgrammarParser(tokens);
+                ParseTree tree = mintparser.netlist(); // parse
+                ParseTreeWalker walker = new ParseTreeWalker(); // create standard walker
+
+                // Pass the delgate instance of the designtree so that it can access the device list
+                MINTNetlistParser fluigiNetlistParser = new MINTNetlistParser();
+                walker.walk(fluigiNetlistParser, tree);
+                device = fluigiNetlistParser.getDevice();
+                designTree.addDevice(device);
+            }
+
         }
 
 
-        
        /*
-        TODO: Integrate Design tree, iterate through the designs and then 
+        TODO: Integrate Design tree, iterate through the designs and then
         recursively do the place and route.
         */
 
-        List<Placement> placementproblems = device.getPlacementProblems();
+        //This will generate the design tree
+        designTree.generateDesignTree();
 
-        for(Placement placementproblem : placementproblems){
-            UCRPlacer placer = new UCRPlacer();
+        //Now we will have an iterator that will give us each of the devices
+        Iterator<Device> iterator = designTree.iterator();
+        List<Placement> placementproblems;
+        CellMapper cellMapper;
+        while (iterator.hasNext()) {
+            device = iterator.next();
+            cellMapper = new NaiveCellMapper(device);
+            placementproblems = cellMapper.generateLayouts();
 
-            placer.loadProblem(placementproblem);
+            for (Placement placementproblem : placementproblems) {
+                SAPlacer placer = new SAPlacer();
 
-            placer.place();
+                placer.loadProblem(placementproblem);
 
-            /*
-            Create a verification system to ensure that the placement is working correctly.
-            */
+                placer.place();
 
-            device.loadPlacement(placementproblem);
+                /*
+                TODO: Create a verification system to ensure that the placement is working correctly.
+                */
+
+                cellMapper.importLayout(placementproblem);
+            }
+
         }
+
 
         /*
         TODO: Do routing for each of the routes. Call and implement the flowrouter.
         */
-        
+
         JSONNetlist output = new JSONNetlist();
-        output.setOutputDirectory(outputDirectory);
-        output.generateOutput(device);
+        output.setOutputDirectory(Parameters.OUTPUT_DIRECTORY_PATH);
+        output.generateOutput(designTree);
     }
 }

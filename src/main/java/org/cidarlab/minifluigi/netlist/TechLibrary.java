@@ -33,6 +33,7 @@ public class TechLibrary {
 
         //This is because of antlr's thing and because I cant figure out how to make a good grammar
         for(String key: mintlibrary.keySet()){
+            //TODO: Figure out how to avoid the regex replace
             String keywithoutspaces = key.replaceAll("\\s+","");
             if(keywithoutspaces.equals(entityname)) {
                 return mintlibrary.get(key);

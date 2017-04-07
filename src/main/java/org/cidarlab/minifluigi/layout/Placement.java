@@ -20,14 +20,14 @@ import java.util.Set;
  */
 public class Placement {
 
-    SimpleDirectedGraph<Cell, DefaultEdge> placementGraph;
+    SimpleDirectedGraph<Cell, Net> placementGraph;
 
     //These are the global offsets for the positions for this entire placement
     private int xoffset = 0;
     private int yoffset = 0;
 
     public Placement(){
-        placementGraph = new SimpleDirectedGraph<>(DefaultEdge.class);
+        placementGraph = new SimpleDirectedGraph<>(Net.class);
     }
 
     public void addCell(String id, int x, int y, int w, int h) {
@@ -35,7 +35,7 @@ public class Placement {
         placementGraph.addVertex(cell);
     }
 
-    public void addConnection(String sourceID, String targetID){
+    public void addNet(String sourceID, String targetID){
 
         Cell sourceCell = null;
         Cell targetCell = null;
@@ -61,7 +61,7 @@ public class Placement {
         placementGraph.addEdge(sourceCell,targetCell);
     }
 
-    public void addConnections(String sourceID, List<String> targets) {
+    public void addNets(String sourceID, List<String> targets) {
         Cell sourceCell = null;
         ArrayList<Cell> targetCells = new ArrayList<>();
         //Find the source and targets ID
@@ -91,21 +91,81 @@ public class Placement {
 
     }
 
-    public ArrayList<Cell> getComponents(){
+    public ArrayList<Cell> getCells(){
         return new ArrayList<>(this.placementGraph.vertexSet());
     }
 
     public void updateCellCoordinates(String id, int x, int y){
         for(Cell cell : placementGraph.vertexSet()){
-            if(cell.getId().equals(id)){
+            if(cell.getID().equals(id)){
                 cell.setX(x);
                 cell.setY(y);
             }
         }
     }
 
+    /**
+     * Get all the nets in the current placement
+     * @return
+     */
+    public Set<Net> getNets(){
+        return placementGraph.edgeSet();
+    }
+
+    /**
+     * Returns the source Cell of the Net
+     * @param net
+     * @return
+     */
+    public Cell getNetSource(Net net){
+        return placementGraph.getEdgeSource(net);
+    }
+
+    /**
+     * Returns the target Cell of the Net
+     * @param net
+     * @return
+     */
+    public Cell getNetTarget(Net net){
+        return placementGraph.getEdgeTarget(net);
+    }
+
+    /**
+     * Translates the positions of each of the cells in the device by the deltax and deltay values
+     * @param deltax
+     * @param deltay
+     */
+    public void translateCells(int deltax, int deltay) {
+        for(Cell c : this.getCells()){
+            c.setX(c.getX() + deltax);
+            c.setY(c.getY() + deltay);
+        }
+    }
+
+    public int getWidth() {
+        int maxX = 0;
+        for(Cell c  : getCells()){
+            if(c.getX() > maxX){
+                maxX = c.getX();
+            }
+        }
+
+        return maxX;
+    }
+
+    public int getHeight() {
+        int maxY = 0;
+        for(Cell c  : getCells()){
+            if(c.getY() > maxY){
+                maxY = c.getX();
+            }
+        }
+
+        return maxY;
+    }
+
+
     /*
     TODO: Need to figure out a way to retrieve the connection offset for the pins
      */
-
 }
