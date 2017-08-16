@@ -18,7 +18,7 @@ public class MINTNetlistParser extends mintgrammarBaseListener {
     LogicalLayer currentlayer;
     TechLibrary techLibrary = LibraryManager.techLibrary;
     int layercount = 0;
-    HashMap<String, Object> paramsHashmap;
+    HashMap<String, String> paramsHashmap;
     TechEntity currententity;
     HashMap<String, Object> gridparamsHashmap;
     HashMap<String, Object> bankparamsHashmap;
@@ -363,10 +363,12 @@ public class MINTNetlistParser extends mintgrammarBaseListener {
                     break;
                 case INVALID_NAME:
                     //TODO: Add the error thing
-                    break;
+                    throw new UnsupportedOperationException("Create error mechanism for invalid names");
                 case INVALID_TYPE:
                     //TODO: Add the error thing
-                    break;
+                    throw new UnsupportedOperationException("Create error mechanism for invalid type");
+                case INVALID_VALUE:
+                    throw new UnsupportedOperationException("Create error mechanism for invalid value");
             }
         }
     }

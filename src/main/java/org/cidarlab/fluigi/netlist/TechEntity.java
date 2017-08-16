@@ -1,5 +1,6 @@
 package org.cidarlab.fluigi.netlist;
 
+import org.apache.commons.lang3.StringUtils;
 import org.json.simple.JSONObject;
 
 import java.util.HashMap;
@@ -71,13 +72,46 @@ public class TechEntity {
         //TODO: It should go through all the default values for the parameters
     }
 
-    public ParamVerification verifyParam(String parameter, Object value){
-        if(paramsTypes.containsKey(parameter)){
-            //Valid parameter name
-            //Now check for correct type
+    public ParamVerification verifyParam(String parameter, String valuestring){
 
+        //Checking if the parameter is defined in the techfile
+        if(paramsTypes.containsKey(parameter)){
+            //Parameter is defined in the techfile description
+            //Now check for correct type
+            ParameterType parameterType = paramsTypes.get(parameter);
+            switch (parameterType){
+                case INT:
+                    if(StringUtils.isNumeric(valuestring)){
+                        return ParamVerification.VALID;
+                    } else {
+                        return ParamVerification.INVALID_VALUE;
+                    }
+                case BOOL:
+                    if("YES" == valuestring || "NO" == valuestring){
+                        return ParamVerification.VALID;
+                    } else {
+                        return ParamVerification.INVALID_VALUE;
+                    }
+                case DIRECTION:
+                    if("LEFT" == valuestring || "RIGHT" == valuestring || "UP" == valuestring || "DOWN" == valuestring){
+                        return ParamVerification.VALID;
+                    } else {
+                        return ParamVerification.INVALID_VALUE;
+                    }
+                case ORIENTATION:
+                    if("V" == valuestring || "H" == valuestring){
+                        return ParamVerification.VALID;
+                    } else {
+                        return ParamVerification.INVALID_VALUE;
+                    }
+                default:
+                    //If the type is wrong
+                    return ParamVerification.INVALID_TYPE;
+            }
+        } else {
+            //Parameter is not defined in the techfile description
+            return ParamVerification.INVALID_NAME;
         }
-        return ParamVerification.VALID;
     }
 
     public Object getDefaultParamValue(String paramkey){
@@ -94,7 +128,8 @@ public class TechEntity {
     public enum ParamVerification {
         VALID,
         INVALID_NAME,
-        INVALID_TYPE
+        INVALID_TYPE,
+        INVALID_VALUE
     }
 
     public enum ParameterType{
