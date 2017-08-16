@@ -2,10 +2,9 @@ package org.cidarlab.fluigi.netlist;
 
 import org.cidarlab.fluigi.core.ErrorCodes;
 import org.cidarlab.fluigi.core.LibraryManager;
-import org.cidarlab.fluigi.mintgrammar.mintgrammarBaseListener;
-import org.cidarlab.fluigi.mintgrammar.mintgrammarParser;
-import org.cidarlab.fluigi.mintgrammar.mintgrammarParser.*;
-import org.cidarlab.fluigi.netlist.expressiongrammar.TechLibrary;
+import org.cidarlab.fluigi.netlist.mintgrammar.mintgrammarBaseListener;
+import org.cidarlab.fluigi.netlist.mintgrammar.mintgrammarParser;
+import org.cidarlab.fluigi.netlist.mintgrammar.mintgrammarParser.*;
 
 import java.util.HashMap;
 import java.util.List;

@@ -1,5 +1,5 @@
 // Generated from /Users/krishna/CIDAR/MiniFluigi/src/main/ANTLR/mintgrammar.g4 by ANTLR 4.7
-package org.cidarlab.fluigi.mintgrammar;
+package org.cidarlab.fluigi.netlist.mintgrammar;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
