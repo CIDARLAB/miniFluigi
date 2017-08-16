@@ -1,8 +1,7 @@
 package org.cidarlab.minifluigi.core;
 
-import org.cidarlab.minifluigi.netlist.Device;
 import org.cidarlab.minifluigi.netlist.TechEntity;
-import org.cidarlab.minifluigi.netlist.TechLibrary;
+import org.cidarlab.minifluigi.netlist.expressiongrammar.TechLibrary;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;

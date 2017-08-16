@@ -1,11 +1,11 @@
 package org.cidarlab.minifluigi.netlist;
 
-import com.sun.beans.editors.IntegerEditor;
 import org.cidarlab.minifluigi.core.ErrorCodes;
 import org.cidarlab.minifluigi.core.LibraryManager;
 import org.cidarlab.minifluigi.mintgrammar.mintgrammarBaseListener;
 import org.cidarlab.minifluigi.mintgrammar.mintgrammarParser;
 import org.cidarlab.minifluigi.mintgrammar.mintgrammarParser.*;
+import org.cidarlab.minifluigi.netlist.expressiongrammar.TechLibrary;
 
 import java.util.HashMap;
 import java.util.List;
