@@ -1,13 +1,19 @@
 grammar expressiongrammar;
 
 atom
-    :   INT
-    |   FLOAT
-    |   ID
+    :   number_atom
+    |   parameter_atom
+    ;
+
+parameter_atom : ID ;
+
+number_atom
+    :   FLOAT
+    |   INT
     ;
 
 signed_atom
-    :   isnegative='-'? atom
+    :   '-' atom
     ;
 
 primary_expression

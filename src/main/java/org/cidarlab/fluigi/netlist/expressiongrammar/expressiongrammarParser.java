@@ -3,7 +3,11 @@ package org.cidarlab.fluigi.netlist.expressiongrammar;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
+import org.antlr.v4.runtime.misc.*;
 import org.antlr.v4.runtime.tree.*;
+import java.util.List;
+import java.util.Iterator;
+import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class expressiongrammarParser extends Parser {
@@ -16,11 +20,12 @@ public class expressiongrammarParser extends Parser {
 		LPAREN=1, RPAREN=2, ADD=3, SUB=4, MUL=5, DIV=6, ID=7, FLOAT=8, INT=9, 
 		WS=10, COMMENT=11;
 	public static final int
-		RULE_atom = 0, RULE_signed_atom = 1, RULE_primary_expression = 2, RULE_bracket_expression = 3, 
-		RULE_multiplicative_expression = 4, RULE_additive_expression = 5;
+		RULE_atom = 0, RULE_parameter_atom = 1, RULE_number_atom = 2, RULE_signed_atom = 3, 
+		RULE_primary_expression = 4, RULE_bracket_expression = 5, RULE_multiplicative_expression = 6, 
+		RULE_additive_expression = 7;
 	public static final String[] ruleNames = {
-		"atom", "signed_atom", "primary_expression", "bracket_expression", "multiplicative_expression", 
-		"additive_expression"
+		"atom", "parameter_atom", "number_atom", "signed_atom", "primary_expression", 
+		"bracket_expression", "multiplicative_expression", "additive_expression"
 	};
 
 	private static final String[] _LITERAL_NAMES = {
@@ -80,9 +85,12 @@ public class expressiongrammarParser extends Parser {
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
 	public static class AtomContext extends ParserRuleContext {
-		public TerminalNode INT() { return getToken(expressiongrammarParser.INT, 0); }
-		public TerminalNode FLOAT() { return getToken(expressiongrammarParser.FLOAT, 0); }
-		public TerminalNode ID() { return getToken(expressiongrammarParser.ID, 0); }
+		public Number_atomContext number_atom() {
+			return getRuleContext(Number_atomContext.class,0);
+		}
+		public Parameter_atomContext parameter_atom() {
+			return getRuleContext(Parameter_atomContext.class,0);
+		}
 		public AtomContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -100,13 +108,104 @@ public class expressiongrammarParser extends Parser {
 	public final AtomContext atom() throws RecognitionException {
 		AtomContext _localctx = new AtomContext(_ctx, getState());
 		enterRule(_localctx, 0, RULE_atom);
+		try {
+			setState(18);
+			_errHandler.sync(this);
+			switch (_input.LA(1)) {
+			case FLOAT:
+			case INT:
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(16);
+				number_atom();
+				}
+				break;
+			case ID:
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(17);
+				parameter_atom();
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class Parameter_atomContext extends ParserRuleContext {
+		public TerminalNode ID() { return getToken(expressiongrammarParser.ID, 0); }
+		public Parameter_atomContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_parameter_atom; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof expressiongrammarListener ) ((expressiongrammarListener)listener).enterParameter_atom(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof expressiongrammarListener ) ((expressiongrammarListener)listener).exitParameter_atom(this);
+		}
+	}
+
+	public final Parameter_atomContext parameter_atom() throws RecognitionException {
+		Parameter_atomContext _localctx = new Parameter_atomContext(_ctx, getState());
+		enterRule(_localctx, 2, RULE_parameter_atom);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(20);
+			match(ID);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class Number_atomContext extends ParserRuleContext {
+		public TerminalNode FLOAT() { return getToken(expressiongrammarParser.FLOAT, 0); }
+		public TerminalNode INT() { return getToken(expressiongrammarParser.INT, 0); }
+		public Number_atomContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_number_atom; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof expressiongrammarListener ) ((expressiongrammarListener)listener).enterNumber_atom(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof expressiongrammarListener ) ((expressiongrammarListener)listener).exitNumber_atom(this);
+		}
+	}
+
+	public final Number_atomContext number_atom() throws RecognitionException {
+		Number_atomContext _localctx = new Number_atomContext(_ctx, getState());
+		enterRule(_localctx, 4, RULE_number_atom);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(12);
+			setState(22);
 			_la = _input.LA(1);
-			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << ID) | (1L << FLOAT) | (1L << INT))) != 0)) ) {
+			if ( !(_la==FLOAT || _la==INT) ) {
 			_errHandler.recoverInline(this);
 			}
 			else {
@@ -148,22 +247,22 @@ public class expressiongrammarParser extends Parser {
 
 	public final Signed_atomContext signed_atom() throws RecognitionException {
 		Signed_atomContext _localctx = new Signed_atomContext(_ctx, getState());
-		enterRule(_localctx, 2, RULE_signed_atom);
+		enterRule(_localctx, 6, RULE_signed_atom);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(15);
+			setState(25);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==SUB) {
 				{
-				setState(14);
+				setState(24);
 				((Signed_atomContext)_localctx).isnegative = match(SUB);
 				}
 			}
 
-			setState(17);
+			setState(27);
 			atom();
 			}
 		}
@@ -204,29 +303,29 @@ public class expressiongrammarParser extends Parser {
 
 	public final Primary_expressionContext primary_expression() throws RecognitionException {
 		Primary_expressionContext _localctx = new Primary_expressionContext(_ctx, getState());
-		enterRule(_localctx, 4, RULE_primary_expression);
+		enterRule(_localctx, 8, RULE_primary_expression);
 		try {
-			setState(22);
+			setState(32);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,1,_ctx) ) {
+			switch ( getInterpreter().adaptivePredict(_input,2,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(19);
+				setState(29);
 				bracket_expression();
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(20);
+				setState(30);
 				additive_expression(0);
 				}
 				break;
 			case 3:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(21);
+				setState(31);
 				signed_atom();
 				}
 				break;
@@ -268,19 +367,19 @@ public class expressiongrammarParser extends Parser {
 
 	public final Bracket_expressionContext bracket_expression() throws RecognitionException {
 		Bracket_expressionContext _localctx = new Bracket_expressionContext(_ctx, getState());
-		enterRule(_localctx, 6, RULE_bracket_expression);
+		enterRule(_localctx, 10, RULE_bracket_expression);
 		try {
-			setState(29);
+			setState(39);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case LPAREN:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(24);
+				setState(34);
 				match(LPAREN);
-				setState(25);
+				setState(35);
 				additive_expression(0);
-				setState(26);
+				setState(36);
 				match(RPAREN);
 				}
 				break;
@@ -290,7 +389,7 @@ public class expressiongrammarParser extends Parser {
 			case INT:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(28);
+				setState(38);
 				signed_atom();
 				}
 				break;
@@ -342,37 +441,37 @@ public class expressiongrammarParser extends Parser {
 		int _parentState = getState();
 		Multiplicative_expressionContext _localctx = new Multiplicative_expressionContext(_ctx, _parentState);
 		Multiplicative_expressionContext _prevctx = _localctx;
-		int _startState = 8;
-		enterRecursionRule(_localctx, 8, RULE_multiplicative_expression, _p);
+		int _startState = 12;
+		enterRecursionRule(_localctx, 12, RULE_multiplicative_expression, _p);
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
 			{
-			setState(32);
+			setState(42);
 			bracket_expression();
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(42);
+			setState(52);
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,4,_ctx);
+			_alt = getInterpreter().adaptivePredict(_input,5,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;
 					{
-					setState(40);
+					setState(50);
 					_errHandler.sync(this);
-					switch ( getInterpreter().adaptivePredict(_input,3,_ctx) ) {
+					switch ( getInterpreter().adaptivePredict(_input,4,_ctx) ) {
 					case 1:
 						{
 						_localctx = new Multiplicative_expressionContext(_parentctx, _parentState);
 						pushNewRecursionContext(_localctx, _startState, RULE_multiplicative_expression);
-						setState(34);
+						setState(44);
 						if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
-						setState(35);
+						setState(45);
 						((Multiplicative_expressionContext)_localctx).operator = match(MUL);
-						setState(36);
+						setState(46);
 						bracket_expression();
 						}
 						break;
@@ -380,20 +479,20 @@ public class expressiongrammarParser extends Parser {
 						{
 						_localctx = new Multiplicative_expressionContext(_parentctx, _parentState);
 						pushNewRecursionContext(_localctx, _startState, RULE_multiplicative_expression);
-						setState(37);
+						setState(47);
 						if (!(precpred(_ctx, 1))) throw new FailedPredicateException(this, "precpred(_ctx, 1)");
-						setState(38);
+						setState(48);
 						((Multiplicative_expressionContext)_localctx).operator = match(DIV);
-						setState(39);
+						setState(49);
 						bracket_expression();
 						}
 						break;
 					}
 					} 
 				}
-				setState(44);
+				setState(54);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,4,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,5,_ctx);
 			}
 			}
 		}
@@ -441,37 +540,37 @@ public class expressiongrammarParser extends Parser {
 		int _parentState = getState();
 		Additive_expressionContext _localctx = new Additive_expressionContext(_ctx, _parentState);
 		Additive_expressionContext _prevctx = _localctx;
-		int _startState = 10;
-		enterRecursionRule(_localctx, 10, RULE_additive_expression, _p);
+		int _startState = 14;
+		enterRecursionRule(_localctx, 14, RULE_additive_expression, _p);
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
 			{
-			setState(46);
+			setState(56);
 			multiplicative_expression(0);
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(56);
+			setState(66);
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,6,_ctx);
+			_alt = getInterpreter().adaptivePredict(_input,7,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;
 					{
-					setState(54);
+					setState(64);
 					_errHandler.sync(this);
-					switch ( getInterpreter().adaptivePredict(_input,5,_ctx) ) {
+					switch ( getInterpreter().adaptivePredict(_input,6,_ctx) ) {
 					case 1:
 						{
 						_localctx = new Additive_expressionContext(_parentctx, _parentState);
 						pushNewRecursionContext(_localctx, _startState, RULE_additive_expression);
-						setState(48);
+						setState(58);
 						if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
-						setState(49);
+						setState(59);
 						((Additive_expressionContext)_localctx).operator = match(ADD);
-						setState(50);
+						setState(60);
 						multiplicative_expression(0);
 						}
 						break;
@@ -479,20 +578,20 @@ public class expressiongrammarParser extends Parser {
 						{
 						_localctx = new Additive_expressionContext(_parentctx, _parentState);
 						pushNewRecursionContext(_localctx, _startState, RULE_additive_expression);
-						setState(51);
+						setState(61);
 						if (!(precpred(_ctx, 1))) throw new FailedPredicateException(this, "precpred(_ctx, 1)");
-						setState(52);
+						setState(62);
 						((Additive_expressionContext)_localctx).operator = match(SUB);
-						setState(53);
+						setState(63);
 						multiplicative_expression(0);
 						}
 						break;
 					}
 					} 
 				}
-				setState(58);
+				setState(68);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,6,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,7,_ctx);
 			}
 			}
 		}
@@ -509,9 +608,9 @@ public class expressiongrammarParser extends Parser {
 
 	public boolean sempred(RuleContext _localctx, int ruleIndex, int predIndex) {
 		switch (ruleIndex) {
-		case 4:
+		case 6:
 			return multiplicative_expression_sempred((Multiplicative_expressionContext)_localctx, predIndex);
-		case 5:
+		case 7:
 			return additive_expression_sempred((Additive_expressionContext)_localctx, predIndex);
 		}
 		return true;
@@ -536,23 +635,25 @@ public class expressiongrammarParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\r>\4\2\t\2\4\3\t"+
-		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\3\2\3\2\3\3\5\3\22\n\3\3\3\3\3\3\4"+
-		"\3\4\3\4\5\4\31\n\4\3\5\3\5\3\5\3\5\3\5\5\5 \n\5\3\6\3\6\3\6\3\6\3\6\3"+
-		"\6\3\6\3\6\3\6\7\6+\n\6\f\6\16\6.\13\6\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7"+
-		"\3\7\7\79\n\7\f\7\16\7<\13\7\3\7\2\4\n\f\b\2\4\6\b\n\f\2\3\3\2\t\13\2"+
-		"?\2\16\3\2\2\2\4\21\3\2\2\2\6\30\3\2\2\2\b\37\3\2\2\2\n!\3\2\2\2\f/\3"+
-		"\2\2\2\16\17\t\2\2\2\17\3\3\2\2\2\20\22\7\6\2\2\21\20\3\2\2\2\21\22\3"+
-		"\2\2\2\22\23\3\2\2\2\23\24\5\2\2\2\24\5\3\2\2\2\25\31\5\b\5\2\26\31\5"+
-		"\f\7\2\27\31\5\4\3\2\30\25\3\2\2\2\30\26\3\2\2\2\30\27\3\2\2\2\31\7\3"+
-		"\2\2\2\32\33\7\3\2\2\33\34\5\f\7\2\34\35\7\4\2\2\35 \3\2\2\2\36 \5\4\3"+
-		"\2\37\32\3\2\2\2\37\36\3\2\2\2 \t\3\2\2\2!\"\b\6\1\2\"#\5\b\5\2#,\3\2"+
-		"\2\2$%\f\4\2\2%&\7\7\2\2&+\5\b\5\2\'(\f\3\2\2()\7\b\2\2)+\5\b\5\2*$\3"+
-		"\2\2\2*\'\3\2\2\2+.\3\2\2\2,*\3\2\2\2,-\3\2\2\2-\13\3\2\2\2.,\3\2\2\2"+
-		"/\60\b\7\1\2\60\61\5\n\6\2\61:\3\2\2\2\62\63\f\4\2\2\63\64\7\5\2\2\64"+
-		"9\5\n\6\2\65\66\f\3\2\2\66\67\7\6\2\2\679\5\n\6\28\62\3\2\2\28\65\3\2"+
-		"\2\29<\3\2\2\2:8\3\2\2\2:;\3\2\2\2;\r\3\2\2\2<:\3\2\2\2\t\21\30\37*,8"+
-		":";
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\rH\4\2\t\2\4\3\t"+
+		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\3\2\3\2\5\2\25\n\2"+
+		"\3\3\3\3\3\4\3\4\3\5\5\5\34\n\5\3\5\3\5\3\6\3\6\3\6\5\6#\n\6\3\7\3\7\3"+
+		"\7\3\7\3\7\5\7*\n\7\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\7\b\65\n\b\f\b"+
+		"\16\b8\13\b\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\7\tC\n\t\f\t\16\tF\13"+
+		"\t\3\t\2\4\16\20\n\2\4\6\b\n\f\16\20\2\3\3\2\n\13\2H\2\24\3\2\2\2\4\26"+
+		"\3\2\2\2\6\30\3\2\2\2\b\33\3\2\2\2\n\"\3\2\2\2\f)\3\2\2\2\16+\3\2\2\2"+
+		"\209\3\2\2\2\22\25\5\6\4\2\23\25\5\4\3\2\24\22\3\2\2\2\24\23\3\2\2\2\25"+
+		"\3\3\2\2\2\26\27\7\t\2\2\27\5\3\2\2\2\30\31\t\2\2\2\31\7\3\2\2\2\32\34"+
+		"\7\6\2\2\33\32\3\2\2\2\33\34\3\2\2\2\34\35\3\2\2\2\35\36\5\2\2\2\36\t"+
+		"\3\2\2\2\37#\5\f\7\2 #\5\20\t\2!#\5\b\5\2\"\37\3\2\2\2\" \3\2\2\2\"!\3"+
+		"\2\2\2#\13\3\2\2\2$%\7\3\2\2%&\5\20\t\2&\'\7\4\2\2\'*\3\2\2\2(*\5\b\5"+
+		"\2)$\3\2\2\2)(\3\2\2\2*\r\3\2\2\2+,\b\b\1\2,-\5\f\7\2-\66\3\2\2\2./\f"+
+		"\4\2\2/\60\7\7\2\2\60\65\5\f\7\2\61\62\f\3\2\2\62\63\7\b\2\2\63\65\5\f"+
+		"\7\2\64.\3\2\2\2\64\61\3\2\2\2\658\3\2\2\2\66\64\3\2\2\2\66\67\3\2\2\2"+
+		"\67\17\3\2\2\28\66\3\2\2\29:\b\t\1\2:;\5\16\b\2;D\3\2\2\2<=\f\4\2\2=>"+
+		"\7\5\2\2>C\5\16\b\2?@\f\3\2\2@A\7\6\2\2AC\5\16\b\2B<\3\2\2\2B?\3\2\2\2"+
+		"CF\3\2\2\2DB\3\2\2\2DE\3\2\2\2E\21\3\2\2\2FD\3\2\2\2\n\24\33\")\64\66"+
+		"BD";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

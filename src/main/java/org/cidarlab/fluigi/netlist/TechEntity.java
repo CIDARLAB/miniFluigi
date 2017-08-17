@@ -150,13 +150,13 @@ public class TechEntity {
         ExpressionParser expressionParser;
         expressiongrammarLexer lexer;
         CommonTokenStream tokens;
-        expressiongrammarParser expressionparser;
+        expressiongrammarParser expressiongrammarParser;
 
         expressionParserInput = new ANTLRInputStream(stringtoparse);
         lexer = new expressiongrammarLexer(expressionParserInput);
         tokens = new CommonTokenStream(lexer);
-        expressionparser = new expressiongrammarParser(tokens);
-        tree = expressionparser.primary_expression();
+        expressiongrammarParser = new expressiongrammarParser(tokens);
+        tree = expressiongrammarParser.primary_expression();
         walker = new ParseTreeWalker();
         expressionParser = new ExpressionParser();
         expressionParser.setExpressionPrams(params);

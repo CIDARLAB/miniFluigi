@@ -28,6 +28,30 @@ public class expressiongrammarBaseListener implements expressiongrammarListener 
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterParameter_atom(expressiongrammarParser.Parameter_atomContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitParameter_atom(expressiongrammarParser.Parameter_atomContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterNumber_atom(expressiongrammarParser.Number_atomContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitNumber_atom(expressiongrammarParser.Number_atomContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterSigned_atom(expressiongrammarParser.Signed_atomContext ctx) { }
 	/**
 	 * {@inheritDoc}
