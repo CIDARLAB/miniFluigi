@@ -56,8 +56,6 @@ public class MINTNetlistParser extends mintgrammarBaseListener {
         device = new Device(name);
     }
 
-
-
     /**
      * {@inheritDoc}
      * <p>
@@ -121,6 +119,7 @@ public class MINTNetlistParser extends mintgrammarBaseListener {
     public void exitPrimitiveStat(mintgrammarParser.PrimitiveStatContext ctx) {
         List<UfnameContext> componentnames = ctx.ufnames().ufname();
         for(UfnameContext componentname : componentnames){
+
             Component component = new Component(componentname.getText());
 
             //set the correct technology
@@ -130,6 +129,9 @@ public class MINTNetlistParser extends mintgrammarBaseListener {
             component.setTechnology(currententity.getName());
 
             verifyParams(component);
+
+            component.setW(currententity.getXSpan(paramsHashmap));
+            component.setH(currententity.getYSpan(paramsHashmap));
 
             //Adding the component to the device
             device.addComponent(component);
@@ -150,6 +152,10 @@ public class MINTNetlistParser extends mintgrammarBaseListener {
 
             verifyParams(component);
             component.addParam("orientation", currentOrientation);
+
+            component.setW(currententity.getXSpan(paramsHashmap));
+            component.setH(currententity.getYSpan(paramsHashmap));
+
             //Adding the component to the device
             device.addComponent(component);
         }
@@ -292,6 +298,7 @@ public class MINTNetlistParser extends mintgrammarBaseListener {
         int xdim = Integer.parseInt(ctx.xdim.getText());
         int ydim = Integer.parseInt(ctx.ydim.getText());
 
+        throw new UnsupportedOperationException("Implement the grid statement");
 
     }
 
@@ -305,6 +312,7 @@ public class MINTNetlistParser extends mintgrammarBaseListener {
     @Override
     public void enterBankStat(BankStatContext ctx) {
         //TODO: Do the whole bank spiel
+        throw new UnsupportedOperationException("Implement the bank statement");
     }
 
     /**

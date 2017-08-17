@@ -1,9 +1,16 @@
 package org.cidarlab.fluigi.netlist;
 
+import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.apache.commons.lang3.StringUtils;
+import org.cidarlab.fluigi.netlist.expressiongrammar.expressiongrammarLexer;
+import org.cidarlab.fluigi.netlist.expressiongrammar.expressiongrammarParser;
 import org.json.simple.JSONObject;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by krishna on 3/7/17.
@@ -14,12 +21,15 @@ public class TechEntity {
 
     private String mintname;
 
+    private String xspanexpression;
+
+    private String yspanexpression;
+
     private ComponentType type;
 
     private HashMap<String, ParameterType> paramsTypes;
 
     private HashMap<String, Object>  paramDefaults;
-
 
     public TechEntity(){
         paramsTypes = new HashMap<>();
@@ -33,6 +43,8 @@ public class TechEntity {
     public void importFromJSON(JSONObject entityjson){
         this.name = (String) entityjson.get("name");
         this.mintname = (String) entityjson.get("mint");
+        this.xspanexpression = (String) entityjson.get("xspan");
+        this.yspanexpression = (String) entityjson.get("yspan");
         String typestring = (String) entityjson.get("type");
         switch (typestring){
             case "PRIMITIVE":
@@ -123,6 +135,51 @@ public class TechEntity {
 
     public String getMINTName() {
         return mintname;
+    }
+
+    /**
+     * Parses the given expression
+     * @param stringtoparse
+     * @param params
+     * @return
+     */
+    private int parseExpression(String stringtoparse, Map<String, String> params) {
+        ANTLRInputStream expressionParserInput;
+        ParseTree tree; // parse
+        ParseTreeWalker walker; // create standard walker
+        ExpressionParser expressionParser;
+        expressiongrammarLexer lexer;
+        CommonTokenStream tokens;
+        expressiongrammarParser expressionparser;
+
+        expressionParserInput = new ANTLRInputStream(stringtoparse);
+        lexer = new expressiongrammarLexer(expressionParserInput);
+        tokens = new CommonTokenStream(lexer);
+        expressionparser = new expressiongrammarParser(tokens);
+        tree = expressionparser.primary_expression();
+        walker = new ParseTreeWalker();
+        expressionParser = new ExpressionParser();
+        expressionParser.setExpressionPrams(params);
+        walker.walk(expressionParser, tree);
+        return (int) expressionParser.computeExpression();
+    }
+
+    /**
+     * Returns the XSpan (Width) of the device
+     * @param params
+     * @return
+     */
+    public int getXSpan(Map<String, String> params) {
+        return parseExpression(xspanexpression, params);
+    }
+
+    /**
+     * Returns the Y Span (Length) of the device
+     * @param params
+     * @return
+     */
+    public int getYSpan(Map<String, String> params){
+        return parseExpression(yspanexpression, params);
     }
 
     public enum ParamVerification {
