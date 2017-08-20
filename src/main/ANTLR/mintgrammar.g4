@@ -57,6 +57,7 @@ controlBlock
 flowStat
     :   primitiveStat
     |   primitiveWithOrientationStat
+    |   nodeStat
     |   channelStat
     |   netStat
     |   valveStat
@@ -100,6 +101,9 @@ valveStat
     :   valve_entity=('VALVE'|'3DVALVE') ufname 'on' ufname paramsStat ';'
     ;
 
+nodeStat
+    :   'NODE' ufnames ';'
+    ;
 
 channelStat
     :   'CHANNEL' ufname 'from' source=uftarget 'to' sink=uftarget widthParam ';'

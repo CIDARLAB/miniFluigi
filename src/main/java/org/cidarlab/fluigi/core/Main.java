@@ -148,6 +148,7 @@ public class Main {
             } else {
                 ANTLRInputStream input = null;
                 try {
+                    System.out.println("Parsing File: " + inputpathname);
                     input = new ANTLRFileStream(inputpathname);
                 } catch (IOException ex) {
                     System.exit(ErrorCodes.INPUT_FILE_NOT_FOUND);

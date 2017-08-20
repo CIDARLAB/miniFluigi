@@ -83,6 +83,9 @@ public class SAPlacer extends Placer {
 
             for(int i=0; i<totalmoves; i++){
 
+                //Calculate the current cost
+                cost = calcCurrentCost();
+
                 //Generate the new move
 
                 //Randomly select new component to place
@@ -145,6 +148,7 @@ public class SAPlacer extends Placer {
             }
 
             double acceptrate = acceptedmoves/totalmoves;
+            System.out.println("Accepted Rate: " + acceptrate);
 
             //Decrease temperature based on the acceptrate
 

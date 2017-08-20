@@ -161,6 +161,15 @@ public class MINTNetlistParser extends mintgrammarBaseListener {
         }
     }
 
+    @Override
+    public void exitNodeStat(NodeStatContext ctx) {
+        List<UfnameContext> componentnames = ctx.ufnames().ufname();
+        for(UfnameContext componentname : componentnames){
+            Component component = new Component(componentname.getText());
+            component.setTechnology("NODE");
+            device.addComponent(component);
+        }
+    }
 
     @Override
     public void exitValveStat(ValveStatContext ctx) {
@@ -172,6 +181,11 @@ public class MINTNetlistParser extends mintgrammarBaseListener {
 
         device.addComponent(component);
         device.addValve(component, connection);
+    }
+
+    @Override
+    public void enterChannelStat(ChannelStatContext ctx) {
+        super.enterChannelStat(ctx);
     }
 
     /**
