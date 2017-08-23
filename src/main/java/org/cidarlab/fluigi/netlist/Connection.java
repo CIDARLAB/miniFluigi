@@ -26,6 +26,8 @@ public class Connection {
     private ArrayList<String> sinks;
     private String layerID;
 
+
+
     public Connection(String id) {
         params = new HashMap<>();
         sinks = new ArrayList<>();
@@ -105,5 +107,13 @@ public class Connection {
 
     public String getTerminalLabel(String sourceID) {
         throw new UnsupportedOperationException();
+    }
+
+    public HashMap<String, Object> getParams() {
+        return params;
+    }
+
+    public void addParam(String key, Object value) {
+        params.put(key, value);
     }
 }

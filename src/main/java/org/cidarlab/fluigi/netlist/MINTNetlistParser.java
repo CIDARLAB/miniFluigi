@@ -128,10 +128,10 @@ public class MINTNetlistParser extends mintgrammarBaseListener {
             // modules.
             component.setTechnology(currententity.getName());
 
-            verifyParams(component);
+            verifyAndAddParams(component);
 
-            component.setW(currententity.getXSpan(paramsHashmap));
-            component.setH(currententity.getYSpan(paramsHashmap));
+            component.setXSpan(currententity.getXSpan(paramsHashmap));
+            component.setYSpan(currententity.getYSpan(paramsHashmap));
 
             //Adding the component to the device
             device.addComponent(component);
@@ -150,11 +150,11 @@ public class MINTNetlistParser extends mintgrammarBaseListener {
             // modules.
             component.setTechnology(currententity.getName());
 
-            verifyParams(component);
+            verifyAndAddParams(component);
             component.addParam("orientation", currentOrientation);
 
-            component.setW(currententity.getXSpan(paramsHashmap));
-            component.setH(currententity.getYSpan(paramsHashmap));
+            component.setXSpan(currententity.getXSpan(paramsHashmap));
+            component.setYSpan(currententity.getYSpan(paramsHashmap));
 
             //Adding the component to the device
             device.addComponent(component);
@@ -177,7 +177,7 @@ public class MINTNetlistParser extends mintgrammarBaseListener {
         Connection connection = device.getConnection(ctx.ufname().get(1).getText());
         String entitytext = ctx.valve_entity.getText();
         component.setTechnology(entitytext);
-        verifyParams(component);
+        verifyAndAddParams(component);
 
         device.addComponent(component);
         device.addValve(component, connection);
@@ -256,7 +256,7 @@ public class MINTNetlistParser extends mintgrammarBaseListener {
         //Update the terminalmap for the connection
         connection.updateTerminalMap(source.getId(),sourceterminal);
         connection.updateTerminalMap(sink.getId(),sinkterminal);
-
+        verifyAndAddConnectionParams(connection);
         device.addConnection(connection);
 
     }
@@ -376,7 +376,7 @@ public class MINTNetlistParser extends mintgrammarBaseListener {
         return ret;
     }
 
-    private void verifyParams(Component component) {
+    private void verifyAndAddParams(Component component) {
         for(String key: paramsHashmap.keySet()){
             TechEntity.ParamVerification verification = currententity.verifyParam(key, paramsHashmap.get(key));
             switch (verification){
@@ -385,13 +385,36 @@ public class MINTNetlistParser extends mintgrammarBaseListener {
                     break;
                 case INVALID_NAME:
                     //TODO: Add the error thing
-                    throw new UnsupportedOperationException("Create error mechanism for invalid names");
+                    throw new UnsupportedOperationException("Component: Create error mechanism for invalid names");
                 case INVALID_TYPE:
                     //TODO: Add the error thing
-                    throw new UnsupportedOperationException("Create error mechanism for invalid type");
+                    throw new UnsupportedOperationException("Component: Create error mechanism for invalid type");
                 case INVALID_VALUE:
-                    throw new UnsupportedOperationException("Create error mechanism for invalid value");
+                    throw new UnsupportedOperationException("Component: Create error mechanism for invalid value");
             }
+        }
+    }
+
+
+    private void verifyAndAddConnectionParams(Connection connection) {
+        for(String key : paramsHashmap.keySet()){
+            TechEntity entity = techLibrary.getMINTEntity("CHANNEL");
+            TechEntity.ParamVerification verification = entity.verifyParam(key, paramsHashmap.get(key));
+            switch (verification){
+                case VALID:
+                    connection.addParam(key, paramsHashmap.get(key));
+                    break;
+                case INVALID_NAME:
+                    //TODO: Add the error thing
+                    throw new UnsupportedOperationException("Connection: Create error mechanism for invalid names");
+                case INVALID_TYPE:
+                    //TODO: Add the error thing
+                    throw new UnsupportedOperationException("Connection: Create error mechanism for invalid type");
+                case INVALID_VALUE:
+                    throw new UnsupportedOperationException("Connection: Create error mechanism for invalid value");
+            }
+
+
         }
     }
 

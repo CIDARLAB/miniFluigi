@@ -118,7 +118,7 @@ public class Component {
     /**
      * @param w the w to set
      */
-    public void setW(int w) {
+    public void setXSpan(int w) {
         this.w = w;
     }
 
@@ -132,7 +132,7 @@ public class Component {
     /**
      * @param h the h to set
      */
-    public void setH(int h) {
+    public void setYSpan(int h) {
         this.h = h;
     }
 
