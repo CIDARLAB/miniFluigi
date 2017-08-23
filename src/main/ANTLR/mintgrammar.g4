@@ -106,11 +106,11 @@ nodeStat
     ;
 
 channelStat
-    :   'CHANNEL' ufname 'from' source=uftarget 'to' sink=uftarget widthParam ';'
+    :   'CHANNEL' ufname 'from' source=uftarget 'to' sink=uftarget paramsStat ';'
     ;
 
 netStat
-    :   'NET' ufname 'from' source=uftarget 'to' sinks=uftargets widthParam ';'
+    :   'NET' ufname 'from' source=uftarget 'to' sinks=uftargets paramsStat ';'
     ;
 
 //Common Parser Rules

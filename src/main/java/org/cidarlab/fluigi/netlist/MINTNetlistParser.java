@@ -399,6 +399,9 @@ public class MINTNetlistParser extends mintgrammarBaseListener {
     private void verifyAndAddConnectionParams(Connection connection) {
         for(String key : paramsHashmap.keySet()){
             TechEntity entity = techLibrary.getMINTEntity("CHANNEL");
+            if(null == entity){
+                throw new UnsupportedOperationException("Connection: Could not find the channel entity file");
+            }
             TechEntity.ParamVerification verification = entity.verifyParam(key, paramsHashmap.get(key));
             switch (verification){
                 case VALID:

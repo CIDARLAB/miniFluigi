@@ -1310,8 +1310,8 @@ public class mintgrammarParser extends Parser {
 		public UfnameContext ufname() {
 			return getRuleContext(UfnameContext.class,0);
 		}
-		public WidthParamContext widthParam() {
-			return getRuleContext(WidthParamContext.class,0);
+		public ParamsStatContext paramsStat() {
+			return getRuleContext(ParamsStatContext.class,0);
 		}
 		public List<UftargetContext> uftarget() {
 			return getRuleContexts(UftargetContext.class);
@@ -1352,7 +1352,7 @@ public class mintgrammarParser extends Parser {
 			setState(221);
 			((ChannelStatContext)_localctx).sink = uftarget();
 			setState(222);
-			widthParam();
+			paramsStat();
 			setState(223);
 			match(T__3);
 			}
@@ -1374,8 +1374,8 @@ public class mintgrammarParser extends Parser {
 		public UfnameContext ufname() {
 			return getRuleContext(UfnameContext.class,0);
 		}
-		public WidthParamContext widthParam() {
-			return getRuleContext(WidthParamContext.class,0);
+		public ParamsStatContext paramsStat() {
+			return getRuleContext(ParamsStatContext.class,0);
 		}
 		public UftargetContext uftarget() {
 			return getRuleContext(UftargetContext.class,0);
@@ -1416,7 +1416,7 @@ public class mintgrammarParser extends Parser {
 			setState(230);
 			((NetStatContext)_localctx).sinks = uftargets();
 			setState(231);
-			widthParam();
+			paramsStat();
 			setState(232);
 			match(T__3);
 			}
@@ -2554,11 +2554,11 @@ public class mintgrammarParser extends Parser {
 		"\u00d4\5\60\31\2\u00d4\u00d5\7\6\2\2\u00d5%\3\2\2\2\u00d6\u00d7\7\22\2"+
 		"\2\u00d7\u00d8\5N(\2\u00d8\u00d9\7\6\2\2\u00d9\'\3\2\2\2\u00da\u00db\7"+
 		"\23\2\2\u00db\u00dc\5L\'\2\u00dc\u00dd\7\24\2\2\u00dd\u00de\5J&\2\u00de"+
-		"\u00df\7\16\2\2\u00df\u00e0\5J&\2\u00e0\u00e1\5:\36\2\u00e1\u00e2\7\6"+
-		"\2\2\u00e2)\3\2\2\2\u00e3\u00e4\7\25\2\2\u00e4\u00e5\5L\'\2\u00e5\u00e6"+
+		"\u00df\7\16\2\2\u00df\u00e0\5J&\2\u00e0\u00e1\5\60\31\2\u00e1\u00e2\7"+
+		"\6\2\2\u00e2)\3\2\2\2\u00e3\u00e4\7\25\2\2\u00e4\u00e5\5L\'\2\u00e5\u00e6"+
 		"\7\24\2\2\u00e6\u00e7\5J&\2\u00e7\u00e8\7\16\2\2\u00e8\u00e9\5H%\2\u00e9"+
-		"\u00ea\5:\36\2\u00ea\u00eb\7\6\2\2\u00eb+\3\2\2\2\u00ec\u00ee\5.\30\2"+
-		"\u00ed\u00ec\3\2\2\2\u00ee\u00ef\3\2\2\2\u00ef\u00ed\3\2\2\2\u00ef\u00f0"+
+		"\u00ea\5\60\31\2\u00ea\u00eb\7\6\2\2\u00eb+\3\2\2\2\u00ec\u00ee\5.\30"+
+		"\2\u00ed\u00ec\3\2\2\2\u00ee\u00ef\3\2\2\2\u00ef\u00ed\3\2\2\2\u00ef\u00f0"+
 		"\3\2\2\2\u00f0-\3\2\2\2\u00f1\u00f2\7&\2\2\u00f2/\3\2\2\2\u00f3\u00f5"+
 		"\5\62\32\2\u00f4\u00f3\3\2\2\2\u00f5\u00f8\3\2\2\2\u00f6\u00f4\3\2\2\2"+
 		"\u00f6\u00f7\3\2\2\2\u00f7\61\3\2\2\2\u00f8\u00f6\3\2\2\2\u00f9\u0101"+
