@@ -142,7 +142,7 @@ public class Placement {
     public int getWidth() {
         int maxX = 0;
         for(Cell c  : getCells()){
-            if(c.getX() > maxX){
+            if(c.getMaxX() > maxX){
                 maxX = c.getX();
             }
         }
@@ -153,7 +153,7 @@ public class Placement {
     public int getHeight() {
         int maxY = 0;
         for(Cell c  : getCells()){
-            if(c.getY() > maxY){
+            if(c.getMaxY() > maxY){
                 maxY = c.getX();
             }
         }

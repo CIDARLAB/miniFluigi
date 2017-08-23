@@ -63,4 +63,12 @@ public class Cell {
     public boolean equals(Object obj) {
         return (obj instanceof Cell) && ((Cell) obj).getID().equals(this.getID());
     }
+
+    public int getMaxX() {
+        return x + w;
+    }
+
+    public int getMaxY() {
+        return y + h;
+    }
 }

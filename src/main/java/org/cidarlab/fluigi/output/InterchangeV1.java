@@ -129,6 +129,7 @@ public class InterchangeV1 {
             layers.add(layerid);
             tempJSONObject.put("layers",layers);
             tempJSONObject.put("params", new AbstractJSONMap(component.getParams()).getJSONObject());
+            componentsMap.put(component.getId(), tempJSONObject);
         }
     }
 
@@ -143,6 +144,10 @@ public class InterchangeV1 {
         tempJSONObject.put("id", layer.getId());
         tempJSONObject.put("type", layer.getLayerType());
         layersArray.add(tempJSONObject);
+    }
+
+    public String getJSONString() {
+        return rootJSONObject.toJSONString();
     }
 
     /**

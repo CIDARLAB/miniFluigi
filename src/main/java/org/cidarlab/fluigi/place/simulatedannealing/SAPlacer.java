@@ -5,6 +5,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.cidarlab.fluigi.layout.Cell;
 import org.cidarlab.fluigi.layout.Net;
+import org.cidarlab.fluigi.output.LayoutSnapshot;
 import org.cidarlab.fluigi.place.Placer;
 import org.cidarlab.fluigi.place.XorShift64;
 
@@ -21,6 +22,8 @@ public class SAPlacer extends Placer {
     XorShift64 randomgenerator = new XorShift64(System.nanoTime());
     List<Cell> cells;
     Logger logger = LogManager.getRootLogger();
+    int snapshotindex = 0;
+    LayoutSnapshot snapshot;
 
     /*
     NOTE- I am limiting the entire canvas to be positive integers and it will not include any negative coordinates
@@ -170,6 +173,7 @@ public class SAPlacer extends Placer {
 
             //Print the temperature
             System.out.println("-> Temp = " + temp);
+            snapshot = new LayoutSnapshot(Integer.toString(snapshotindex++),problem);
 
         }
 
@@ -179,7 +183,7 @@ public class SAPlacer extends Placer {
         finishSA();
 
         //Print out a snapshot of the placements
-        //PlacementSnapshot snapshot = new PlacementSnapshot("placmentsnapshot", problem);
+        //LayoutSnapshot snapshot = new LayoutSnapshot("placmentsnapshot", problem);
     }
 
     private void finishSA() {

@@ -127,6 +127,10 @@ public class Device {
     }
 
     public List<LogicalLayer> getLogicalLayers() {
-        throw new UnsupportedOperationException();
+        List<LogicalLayer> ret = new ArrayList<>();
+        for(String key : layersHashMap.keySet()){
+            ret.add(layersHashMap.get(key));
+        }
+        return ret;
     }
 }
