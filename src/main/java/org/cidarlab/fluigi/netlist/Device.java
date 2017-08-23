@@ -125,4 +125,8 @@ public class Device {
     public List<Connection> getConnections() {
         return connections;
     }
+
+    public List<LogicalLayer> getLogicalLayers() {
+        throw new UnsupportedOperationException();
+    }
 }

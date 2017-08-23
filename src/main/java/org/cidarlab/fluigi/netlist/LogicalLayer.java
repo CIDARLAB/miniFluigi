@@ -7,6 +7,9 @@ package org.cidarlab.fluigi.netlist;
 
 import org.json.simple.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author krishna
@@ -14,6 +17,10 @@ import org.json.simple.JSONObject;
 public class LogicalLayer {
 
     private LogicalLayerType layerType;
+
+    private List<Component> components;
+
+    private List<Connection> connections;
 
     public LogicalLayerType getLayerType() {
         return layerType;
@@ -30,6 +37,14 @@ public class LogicalLayer {
         return id;
     }
 
+    public List<Component> getComponents() {
+        return components;
+    }
+
+    public List<Connection> getConnections() {
+        return connections;
+    }
+
     public enum LogicalLayerType {
         FLOW,
         CONTROL,
@@ -40,6 +55,8 @@ public class LogicalLayer {
 
     public LogicalLayer(String id) {
         this.id = id;
+        components = new ArrayList<>();
+        connections = new ArrayList<>();
     }
 
     public void importFromJSON(JSONObject jsonlayer) {

@@ -102,4 +102,8 @@ public class Connection {
     public String getId() {
         return id;
     }
+
+    public String getTerminalLabel(String sourceID) {
+        throw new UnsupportedOperationException();
+    }
 }
