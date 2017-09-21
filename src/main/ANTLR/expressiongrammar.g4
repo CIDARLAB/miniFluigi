@@ -20,11 +20,13 @@ primary_expression
     :   bracket_expression
     |   additive_expression
     |   signed_atom
+    |   atom
     ;
 
 bracket_expression
     :   LPAREN additive_expression RPAREN
     |   signed_atom
+    |   atom
     ;
 
 multiplicative_expression
