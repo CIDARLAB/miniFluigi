@@ -29,11 +29,14 @@ public class TechEntity {
 
     private HashMap<String, ParameterType> paramsTypes;
 
-    private HashMap<String, Object>  paramDefaults;
+    private HashMap<String, String>  paramDefaults;
+
+    private HashMap<String, TechTerminal> terminalHashMap;
 
     public TechEntity(){
         paramsTypes = new HashMap<>();
         paramDefaults = new HashMap<>();
+        terminalHashMap = new HashMap<>();
     }
 
     public String getName() {
@@ -52,6 +55,9 @@ public class TechEntity {
                 break;
             case "COMPOSITE":
                 this.type = ComponentType.COMPOSITE;
+                break;
+            case "SCALING":
+                this.type = ComponentType.SCALING;
                 break;
         }
         JSONObject paramtypeshmobject = (JSONObject) entityjson.get("params");
@@ -81,7 +87,16 @@ public class TechEntity {
 
         }
 
-        //TODO: It should go through all the default values for the parameters
+        //Go through all the default values for the parameters
+        if(entityjson.containsKey("defaults")) {
+            JSONObject tempdefaulvalues = (JSONObject) entityjson.get("defaults");
+            for (Object key : tempdefaulvalues.keySet()) {
+                String keystring = (String) key;
+                paramDefaults.put(keystring, tempdefaulvalues.get(key).toString());
+            }
+        } else {
+            throw new UnsupportedOperationException("Implement warning if there are no default param values");
+        }
     }
 
     public ParamVerification verifyParam(String parameter, String valuestring){
@@ -137,6 +152,8 @@ public class TechEntity {
         return mintname;
     }
 
+    HashMap<String, String> expressionParams;
+
     /**
      * Parses the given expression
      * @param stringtoparse
@@ -144,6 +161,10 @@ public class TechEntity {
      * @return
      */
     private int parseExpression(String stringtoparse, Map<String, String> params) {
+        expressionParams = new HashMap<>();
+        expressionParams.putAll(paramDefaults);
+        expressionParams.putAll(params);
+
         ANTLRInputStream expressionParserInput;
         ParseTree tree; // parse
         ParseTreeWalker walker; // create standard walker
@@ -159,7 +180,7 @@ public class TechEntity {
         tree = expressiongrammarParser.primary_expression();
         walker = new ParseTreeWalker();
         expressionParser = new ExpressionParser();
-        expressionParser.setExpressionPrams(params);
+        expressionParser.setExpressionPrams(expressionParams);
         walker.walk(expressionParser, tree);
         return (int) expressionParser.computeExpression();
     }
@@ -198,7 +219,8 @@ public class TechEntity {
 
     public enum ComponentType{
         PRIMITIVE,
-        COMPOSITE
+        COMPOSITE,
+        SCALING
     }
 
 

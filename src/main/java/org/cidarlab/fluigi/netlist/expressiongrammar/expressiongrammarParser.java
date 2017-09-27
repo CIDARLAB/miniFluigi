@@ -227,7 +227,6 @@ public class expressiongrammarParser extends Parser {
 	}
 
 	public static class Signed_atomContext extends ParserRuleContext {
-		public Token isnegative;
 		public AtomContext atom() {
 			return getRuleContext(AtomContext.class,0);
 		}
@@ -248,21 +247,12 @@ public class expressiongrammarParser extends Parser {
 	public final Signed_atomContext signed_atom() throws RecognitionException {
 		Signed_atomContext _localctx = new Signed_atomContext(_ctx, getState());
 		enterRule(_localctx, 6, RULE_signed_atom);
-		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
+			setState(24);
+			match(SUB);
 			setState(25);
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			if (_la==SUB) {
-				{
-				setState(24);
-				((Signed_atomContext)_localctx).isnegative = match(SUB);
-				}
-			}
-
-			setState(27);
 			atom();
 			}
 		}
@@ -287,6 +277,9 @@ public class expressiongrammarParser extends Parser {
 		public Signed_atomContext signed_atom() {
 			return getRuleContext(Signed_atomContext.class,0);
 		}
+		public AtomContext atom() {
+			return getRuleContext(AtomContext.class,0);
+		}
 		public Primary_expressionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -305,28 +298,35 @@ public class expressiongrammarParser extends Parser {
 		Primary_expressionContext _localctx = new Primary_expressionContext(_ctx, getState());
 		enterRule(_localctx, 8, RULE_primary_expression);
 		try {
-			setState(32);
+			setState(31);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,2,_ctx) ) {
+			switch ( getInterpreter().adaptivePredict(_input,1,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(29);
+				setState(27);
 				bracket_expression();
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(30);
+				setState(28);
 				additive_expression(0);
 				}
 				break;
 			case 3:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(31);
+				setState(29);
 				signed_atom();
+				}
+				break;
+			case 4:
+				enterOuterAlt(_localctx, 4);
+				{
+				setState(30);
+				atom();
 				}
 				break;
 			}
@@ -350,6 +350,9 @@ public class expressiongrammarParser extends Parser {
 		public TerminalNode RPAREN() { return getToken(expressiongrammarParser.RPAREN, 0); }
 		public Signed_atomContext signed_atom() {
 			return getRuleContext(Signed_atomContext.class,0);
+		}
+		public AtomContext atom() {
+			return getRuleContext(AtomContext.class,0);
 		}
 		public Bracket_expressionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -375,22 +378,28 @@ public class expressiongrammarParser extends Parser {
 			case LPAREN:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(34);
+				setState(33);
 				match(LPAREN);
-				setState(35);
+				setState(34);
 				additive_expression(0);
-				setState(36);
+				setState(35);
 				match(RPAREN);
 				}
 				break;
 			case SUB:
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(37);
+				signed_atom();
+				}
+				break;
 			case ID:
 			case FLOAT:
 			case INT:
-				enterOuterAlt(_localctx, 2);
+				enterOuterAlt(_localctx, 3);
 				{
 				setState(38);
-				signed_atom();
+				atom();
 				}
 				break;
 			default:
@@ -454,7 +463,7 @@ public class expressiongrammarParser extends Parser {
 			_ctx.stop = _input.LT(-1);
 			setState(52);
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,5,_ctx);
+			_alt = getInterpreter().adaptivePredict(_input,4,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
@@ -462,7 +471,7 @@ public class expressiongrammarParser extends Parser {
 					{
 					setState(50);
 					_errHandler.sync(this);
-					switch ( getInterpreter().adaptivePredict(_input,4,_ctx) ) {
+					switch ( getInterpreter().adaptivePredict(_input,3,_ctx) ) {
 					case 1:
 						{
 						_localctx = new Multiplicative_expressionContext(_parentctx, _parentState);
@@ -492,7 +501,7 @@ public class expressiongrammarParser extends Parser {
 				}
 				setState(54);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,5,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,4,_ctx);
 			}
 			}
 		}
@@ -553,7 +562,7 @@ public class expressiongrammarParser extends Parser {
 			_ctx.stop = _input.LT(-1);
 			setState(66);
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,7,_ctx);
+			_alt = getInterpreter().adaptivePredict(_input,6,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
@@ -561,7 +570,7 @@ public class expressiongrammarParser extends Parser {
 					{
 					setState(64);
 					_errHandler.sync(this);
-					switch ( getInterpreter().adaptivePredict(_input,6,_ctx) ) {
+					switch ( getInterpreter().adaptivePredict(_input,5,_ctx) ) {
 					case 1:
 						{
 						_localctx = new Additive_expressionContext(_parentctx, _parentState);
@@ -591,7 +600,7 @@ public class expressiongrammarParser extends Parser {
 				}
 				setState(68);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,7,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,6,_ctx);
 			}
 			}
 		}
@@ -637,22 +646,22 @@ public class expressiongrammarParser extends Parser {
 	public static final String _serializedATN =
 		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\rH\4\2\t\2\4\3\t"+
 		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\3\2\3\2\5\2\25\n\2"+
-		"\3\3\3\3\3\4\3\4\3\5\5\5\34\n\5\3\5\3\5\3\6\3\6\3\6\5\6#\n\6\3\7\3\7\3"+
-		"\7\3\7\3\7\5\7*\n\7\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\7\b\65\n\b\f\b"+
-		"\16\b8\13\b\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\7\tC\n\t\f\t\16\tF\13"+
-		"\t\3\t\2\4\16\20\n\2\4\6\b\n\f\16\20\2\3\3\2\n\13\2H\2\24\3\2\2\2\4\26"+
-		"\3\2\2\2\6\30\3\2\2\2\b\33\3\2\2\2\n\"\3\2\2\2\f)\3\2\2\2\16+\3\2\2\2"+
-		"\209\3\2\2\2\22\25\5\6\4\2\23\25\5\4\3\2\24\22\3\2\2\2\24\23\3\2\2\2\25"+
-		"\3\3\2\2\2\26\27\7\t\2\2\27\5\3\2\2\2\30\31\t\2\2\2\31\7\3\2\2\2\32\34"+
-		"\7\6\2\2\33\32\3\2\2\2\33\34\3\2\2\2\34\35\3\2\2\2\35\36\5\2\2\2\36\t"+
-		"\3\2\2\2\37#\5\f\7\2 #\5\20\t\2!#\5\b\5\2\"\37\3\2\2\2\" \3\2\2\2\"!\3"+
-		"\2\2\2#\13\3\2\2\2$%\7\3\2\2%&\5\20\t\2&\'\7\4\2\2\'*\3\2\2\2(*\5\b\5"+
-		"\2)$\3\2\2\2)(\3\2\2\2*\r\3\2\2\2+,\b\b\1\2,-\5\f\7\2-\66\3\2\2\2./\f"+
-		"\4\2\2/\60\7\7\2\2\60\65\5\f\7\2\61\62\f\3\2\2\62\63\7\b\2\2\63\65\5\f"+
-		"\7\2\64.\3\2\2\2\64\61\3\2\2\2\658\3\2\2\2\66\64\3\2\2\2\66\67\3\2\2\2"+
-		"\67\17\3\2\2\28\66\3\2\2\29:\b\t\1\2:;\5\16\b\2;D\3\2\2\2<=\f\4\2\2=>"+
-		"\7\5\2\2>C\5\16\b\2?@\f\3\2\2@A\7\6\2\2AC\5\16\b\2B<\3\2\2\2B?\3\2\2\2"+
-		"CF\3\2\2\2DB\3\2\2\2DE\3\2\2\2E\21\3\2\2\2FD\3\2\2\2\n\24\33\")\64\66"+
+		"\3\3\3\3\3\4\3\4\3\5\3\5\3\5\3\6\3\6\3\6\3\6\5\6\"\n\6\3\7\3\7\3\7\3\7"+
+		"\3\7\3\7\5\7*\n\7\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\7\b\65\n\b\f\b\16"+
+		"\b8\13\b\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\7\tC\n\t\f\t\16\tF\13\t\3"+
+		"\t\2\4\16\20\n\2\4\6\b\n\f\16\20\2\3\3\2\n\13\2I\2\24\3\2\2\2\4\26\3\2"+
+		"\2\2\6\30\3\2\2\2\b\32\3\2\2\2\n!\3\2\2\2\f)\3\2\2\2\16+\3\2\2\2\209\3"+
+		"\2\2\2\22\25\5\6\4\2\23\25\5\4\3\2\24\22\3\2\2\2\24\23\3\2\2\2\25\3\3"+
+		"\2\2\2\26\27\7\t\2\2\27\5\3\2\2\2\30\31\t\2\2\2\31\7\3\2\2\2\32\33\7\6"+
+		"\2\2\33\34\5\2\2\2\34\t\3\2\2\2\35\"\5\f\7\2\36\"\5\20\t\2\37\"\5\b\5"+
+		"\2 \"\5\2\2\2!\35\3\2\2\2!\36\3\2\2\2!\37\3\2\2\2! \3\2\2\2\"\13\3\2\2"+
+		"\2#$\7\3\2\2$%\5\20\t\2%&\7\4\2\2&*\3\2\2\2\'*\5\b\5\2(*\5\2\2\2)#\3\2"+
+		"\2\2)\'\3\2\2\2)(\3\2\2\2*\r\3\2\2\2+,\b\b\1\2,-\5\f\7\2-\66\3\2\2\2."+
+		"/\f\4\2\2/\60\7\7\2\2\60\65\5\f\7\2\61\62\f\3\2\2\62\63\7\b\2\2\63\65"+
+		"\5\f\7\2\64.\3\2\2\2\64\61\3\2\2\2\658\3\2\2\2\66\64\3\2\2\2\66\67\3\2"+
+		"\2\2\67\17\3\2\2\28\66\3\2\2\29:\b\t\1\2:;\5\16\b\2;D\3\2\2\2<=\f\4\2"+
+		"\2=>\7\5\2\2>C\5\16\b\2?@\f\3\2\2@A\7\6\2\2AC\5\16\b\2B<\3\2\2\2B?\3\2"+
+		"\2\2CF\3\2\2\2DB\3\2\2\2DE\3\2\2\2E\21\3\2\2\2FD\3\2\2\2\t\24!)\64\66"+
 		"BD";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());

@@ -22,8 +22,11 @@ public class Component {
     private TechEntity.ComponentType type;
     private Orientation orientation;
 
+    private HashMap<String, Terminal> terminalsHashMap;
+
     public Component(String id) {
         params = new HashMap<>();
+        terminalsHashMap = new HashMap<>();
         this.id = id;
     }
 

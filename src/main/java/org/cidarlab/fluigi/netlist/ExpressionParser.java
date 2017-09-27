@@ -57,15 +57,13 @@ public class ExpressionParser extends expressiongrammarBaseListener {
 
     @Override
     public void enterSigned_atom(expressiongrammarParser.Signed_atomContext ctx) {
-        if(ctx.isnegative != null){ //This might have to change
             double stackvalue = -1 * atomstack.pop();
             atomstack.push(stackvalue);
-        }
     }
 
     @Override
-    public void exitMultiplicative_expression(expressiongrammarParser.Multiplicative_expressionContext ctx) {
-        if(null!=ctx.operator.getText()) {
+    public void exitAdditive_expression(expressiongrammarParser.Additive_expressionContext ctx) {
+        if(null!=ctx.operator) {
             double value2 = atomstack.pop();
             double value1 = atomstack.pop();
             switch (ctx.operator.getText()) {
@@ -80,8 +78,8 @@ public class ExpressionParser extends expressiongrammarBaseListener {
     }
 
     @Override
-    public void exitAdditive_expression(expressiongrammarParser.Additive_expressionContext ctx) {
-        if(null!=ctx.operator.getText()) {
+    public void exitMultiplicative_expression(expressiongrammarParser.Multiplicative_expressionContext ctx) {
+        if(null!=ctx.operator) {
             double value2 = atomstack.pop();
             double value1 = atomstack.pop();
             switch (ctx.operator.getText()) {
