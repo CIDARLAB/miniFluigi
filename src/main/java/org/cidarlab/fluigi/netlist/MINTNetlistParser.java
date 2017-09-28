@@ -23,6 +23,8 @@ public class MINTNetlistParser extends mintgrammarBaseListener {
     HashMap<String, Object> gridparamsHashmap;
     HashMap<String, Object> bankparamsHashmap;
     Component.Orientation currentOrientation;
+    int layerblockcount = 0;
+    LayerBlock currentLayerBlock;
 
     public MINTNetlistParser(){
         device = new Device();
@@ -65,7 +67,20 @@ public class MINTNetlistParser extends mintgrammarBaseListener {
      */
     @Override
     public void enterLayerBlock(LayerBlockContext ctx) {
-        //TODO: Figure out how having multiple sections of logical layers can affect the PAR
+        currentLayerBlock = new LayerBlock(Integer.toString(layerblockcount++));
+    }
+
+    /**
+     * {@inheritDoc}
+     * <p>
+     * <p>The default implementation does nothing.</p>
+     *
+     * @param ctx
+     */
+    @Override
+    public void exitLayerBlock(LayerBlockContext ctx) {
+        device.addLayerBlock(currentLayerBlock);
+        currentLayerBlock = null;
     }
 
     /**
@@ -80,6 +95,7 @@ public class MINTNetlistParser extends mintgrammarBaseListener {
         currentlayer = new LogicalLayer(Integer.toString(layercount++));
         device.addLayer(currentlayer);
         currentlayer.setLayerType(LogicalLayer.LogicalLayerType.FLOW);
+        currentLayerBlock.setFlowLayer(currentlayer);
     }
 
     /**
@@ -94,18 +110,19 @@ public class MINTNetlistParser extends mintgrammarBaseListener {
         currentlayer = new LogicalLayer(Integer.toString(layercount++));
         device.addLayer(currentlayer);
         currentlayer.setLayerType(LogicalLayer.LogicalLayerType.CONTROL);
+        currentLayerBlock.setControlLayer(currentlayer);
     }
 
     /**
-     * {@inheritDoc}
-     * <p>
-     * <p>The default implementation does nothing.</p>
      *
      * @param ctx
      */
     @Override
-    public void exitLayerBlock(LayerBlockContext ctx) {
-        currentlayer = null;
+    public void enterIntegrationBlock(IntegrationBlockContext ctx) {
+        currentlayer = new LogicalLayer(Integer.toString(layercount++));
+        device.addLayer(currentlayer);
+        currentlayer.setLayerType(LogicalLayer.LogicalLayerType.EXT_INTEGRATION);
+        currentLayerBlock.setIntegrationLayer(currentlayer);
     }
 
     /**
