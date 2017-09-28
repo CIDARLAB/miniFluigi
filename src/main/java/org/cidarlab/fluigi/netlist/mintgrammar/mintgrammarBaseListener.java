@@ -136,6 +136,18 @@ public class mintgrammarBaseListener implements mintgrammarListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterIntegrationBlock(mintgrammarParser.IntegrationBlockContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitIntegrationBlock(mintgrammarParser.IntegrationBlockContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterFlowStat(mintgrammarParser.FlowStatContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -155,6 +167,18 @@ public class mintgrammarBaseListener implements mintgrammarListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitControlStat(mintgrammarParser.ControlStatContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterIntegrationStat(mintgrammarParser.IntegrationStatContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitIntegrationStat(mintgrammarParser.IntegrationStatContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

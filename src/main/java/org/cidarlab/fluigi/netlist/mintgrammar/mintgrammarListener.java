@@ -108,6 +108,16 @@ public interface mintgrammarListener extends ParseTreeListener {
 	 */
 	void exitControlBlock(mintgrammarParser.ControlBlockContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link mintgrammarParser#integrationBlock}.
+	 * @param ctx the parse tree
+	 */
+	void enterIntegrationBlock(mintgrammarParser.IntegrationBlockContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link mintgrammarParser#integrationBlock}.
+	 * @param ctx the parse tree
+	 */
+	void exitIntegrationBlock(mintgrammarParser.IntegrationBlockContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link mintgrammarParser#flowStat}.
 	 * @param ctx the parse tree
 	 */
@@ -127,6 +137,16 @@ public interface mintgrammarListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitControlStat(mintgrammarParser.ControlStatContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link mintgrammarParser#integrationStat}.
+	 * @param ctx the parse tree
+	 */
+	void enterIntegrationStat(mintgrammarParser.IntegrationStatContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link mintgrammarParser#integrationStat}.
+	 * @param ctx the parse tree
+	 */
+	void exitIntegrationStat(mintgrammarParser.IntegrationStatContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link mintgrammarParser#primitiveStat}.
 	 * @param ctx the parse tree

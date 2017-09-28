@@ -39,6 +39,7 @@ layerBlocks
 layerBlock
     :   flowBlock
         controlBlock?
+        integrationBlock?
     ;
 
 
@@ -51,6 +52,12 @@ flowBlock
 controlBlock
     :   'LAYER CONTROL'
         (controlStat)*
+        'END LAYER'
+    ;
+
+integrationBlock
+    :   'LAYER INTEGRATION'
+        (integrationStat)*
         'END LAYER'
     ;
 
@@ -72,6 +79,10 @@ controlStat
     |   netStat
     |   bankStat
     |   primitiveStat
+    ;
+
+integrationStat
+    :   primitiveStat
     ;
 
 //Flow and Control Statements

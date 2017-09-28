@@ -21,8 +21,10 @@ public class Device {
     private ArrayList<Connection> connections;
     private HashMap<Component, Connection> valvemap;
     private List<Component> imports;
+    private List<LayerBlock> layerBlocks;
 
     public Device(){
+        layerBlocks = new ArrayList<>();
         layersHashMap = new HashMap<>();
         connections = new ArrayList<>();
         components = new ArrayList<>();
@@ -132,5 +134,9 @@ public class Device {
             ret.add(layersHashMap.get(key));
         }
         return ret;
+    }
+
+    public void addLayerBlock(LayerBlock layerblock) {
+        layerBlocks.add(layerblock);
     }
 }
