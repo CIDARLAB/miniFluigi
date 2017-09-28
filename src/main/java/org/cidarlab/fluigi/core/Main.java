@@ -21,7 +21,7 @@ import org.cidarlab.fluigi.netlist.mintgrammar.mintgrammarParser;
 import org.cidarlab.fluigi.netlist.DesignTree;
 import org.cidarlab.fluigi.netlist.Device;
 import org.cidarlab.fluigi.netlist.JSONNetlistParser;
-import org.cidarlab.fluigi.netlist.MINTNetlistParser;
+import org.cidarlab.fluigi.netlist.mintnetlistparser.MINTNetlistParser;
 import org.cidarlab.fluigi.output.JSONNetlist;
 import org.cidarlab.fluigi.place.simulatedannealing.SAPlacer;
 

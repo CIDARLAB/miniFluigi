@@ -1,7 +1,8 @@
-package org.cidarlab.fluigi.netlist;
+package org.cidarlab.fluigi.netlist.mintnetlistparser;
 
 import org.cidarlab.fluigi.core.ErrorCodes;
 import org.cidarlab.fluigi.core.LibraryManager;
+import org.cidarlab.fluigi.netlist.*;
 import org.cidarlab.fluigi.netlist.mintgrammar.mintgrammarBaseListener;
 import org.cidarlab.fluigi.netlist.mintgrammar.mintgrammarParser;
 import org.cidarlab.fluigi.netlist.mintgrammar.mintgrammarParser.*;
@@ -12,117 +13,16 @@ import java.util.List;
 /**
  * Created by krishna on 3/7/17.
  */
-public class MINTNetlistParser extends mintgrammarBaseListener {
+public class MINTNetlistParser extends PartialMINTParamsParser {
 
-    Device device;
-    LogicalLayer currentlayer;
-    TechLibrary techLibrary = LibraryManager.techLibrary;
-    int layercount = 0;
-    HashMap<String, String> paramsHashmap;
-    TechEntity currententity;
     HashMap<String, Object> gridparamsHashmap;
     HashMap<String, Object> bankparamsHashmap;
     Component.Orientation currentOrientation;
-    int layerblockcount = 0;
-    LayerBlock currentLayerBlock;
 
     public MINTNetlistParser(){
-        device = new Device();
-        paramsHashmap = new HashMap<>();
+        super();
         gridparamsHashmap = new HashMap<>();
         bankparamsHashmap = new HashMap<>();
-    }
-
-    /**
-     * {@inheritDoc}
-     * <p>
-     * <p>The default implementation does nothing.</p>
-     *
-     * @param ctx
-     */
-    @Override
-    public void enterNetlist(NetlistContext ctx) {
-        super.enterNetlist(ctx);
-    }
-
-    /**
-     * {@inheritDoc}
-     * <p>
-     * <p>The default implementation does nothing.</p>
-     *
-     * @param ctx
-     */
-    @Override
-    public void enterHeader(HeaderContext ctx) {
-        String name = ctx.device_name.getText();
-        device = new Device(name);
-    }
-
-    /**
-     * {@inheritDoc}
-     * <p>
-     * <p>The default implementation does nothing.</p>
-     *
-     * @param ctx
-     */
-    @Override
-    public void enterLayerBlock(LayerBlockContext ctx) {
-        currentLayerBlock = new LayerBlock(Integer.toString(layerblockcount++));
-    }
-
-    /**
-     * {@inheritDoc}
-     * <p>
-     * <p>The default implementation does nothing.</p>
-     *
-     * @param ctx
-     */
-    @Override
-    public void exitLayerBlock(LayerBlockContext ctx) {
-        device.addLayerBlock(currentLayerBlock);
-        currentLayerBlock = null;
-    }
-
-    /**
-     * {@inheritDoc}
-     * <p>
-     * <p>The default implementation does nothing.</p>
-     *
-     * @param ctx
-     */
-    @Override
-    public void enterFlowBlock(FlowBlockContext ctx) {
-        currentlayer = new LogicalLayer(Integer.toString(layercount++));
-        device.addLayer(currentlayer);
-        currentlayer.setLayerType(LogicalLayer.LogicalLayerType.FLOW);
-        currentLayerBlock.setFlowLayer(currentlayer);
-    }
-
-    /**
-     * {@inheritDoc}
-     * <p>
-     * <p>The default implementation does nothing.</p>
-     *
-     * @param ctx
-     */
-    @Override
-    public void enterControlBlock(ControlBlockContext ctx) {
-        currentlayer = new LogicalLayer(Integer.toString(layercount++));
-        device.addLayer(currentlayer);
-        currentlayer.setLayerType(LogicalLayer.LogicalLayerType.CONTROL);
-        currentLayerBlock.setControlLayer(currentlayer);
-    }
-
-    /**
-     *
-     * @param ctx
-     */
-    @Override
-    public void enterIntegrationBlock(IntegrationBlockContext ctx) {
-        currentlayer = new LogicalLayer(Integer.toString(layercount++));
-        device.addLayer(currentlayer);
-        currentlayer.setLayerType(LogicalLayer.LogicalLayerType.EXT_INTEGRATION);
-        currentLayerBlock.setIntegrationLayer(currentlayer);
     }
 
     /**
@@ -174,7 +74,7 @@ public class MINTNetlistParser extends mintgrammarBaseListener {
             component.setYSpan(currententity.getYSpan(paramsHashmap));
 
             //Adding the component to the device
-            device.addComponent(component);
+           device.addComponent(component);
         }
     }
 
@@ -203,46 +103,6 @@ public class MINTNetlistParser extends mintgrammarBaseListener {
     @Override
     public void enterChannelStat(ChannelStatContext ctx) {
         super.enterChannelStat(ctx);
-    }
-
-    /**
-     * {@inheritDoc}
-     * <p>
-     * <p>The default implementation does nothing.</p>
-     *
-     * @param ctx
-     */
-    @Override
-    public void enterParamsStat(ParamsStatContext ctx) {
-        paramsHashmap.clear();
-    }
-
-    /**
-     * {@inheritDoc}
-     * <p>
-     * <p>The default implementation does nothing.</p>
-     *
-     * @param ctx
-     */
-    @Override
-    public void enterIntParam(IntParamContext ctx) {
-        String paramkey = ctx.param_element().getText();
-        String value = ctx.value().getText();
-        paramsHashmap.put(paramkey,value);
-    }
-
-    /**
-     * {@inheritDoc}
-     * <p>
-     * <p>The default implementation does nothing.</p>
-     *
-     * @param ctx
-     */
-    @Override
-    public void enterBoolParam(BoolParamContext ctx) {
-        String paramkey = ctx.param_element().getText();
-        String value = ctx.boolvalue().getText();
-        paramsHashmap.put(paramkey,value);
     }
 
     /**
@@ -374,10 +234,6 @@ public class MINTNetlistParser extends mintgrammarBaseListener {
         }
     }
 
-    public Device getDevice() {
-        return device;
-    }
-
 
     /*
     Private Helper Methods
@@ -392,52 +248,6 @@ public class MINTNetlistParser extends mintgrammarBaseListener {
 
         return ret;
     }
-
-    private void verifyAndAddParams(Component component) {
-        for(String key: paramsHashmap.keySet()){
-            TechEntity.ParamVerification verification = currententity.verifyParam(key, paramsHashmap.get(key));
-            switch (verification){
-                case VALID:
-                    component.addParam(key, paramsHashmap.get(key));
-                    break;
-                case INVALID_NAME:
-                    //TODO: Add the error thing
-                    throw new UnsupportedOperationException("Component: Create error mechanism for invalid names");
-                case INVALID_TYPE:
-                    //TODO: Add the error thing
-                    throw new UnsupportedOperationException("Component: Create error mechanism for invalid type");
-                case INVALID_VALUE:
-                    throw new UnsupportedOperationException("Component: Create error mechanism for invalid value");
-            }
-        }
-    }
-
-
-    private void verifyAndAddConnectionParams(Connection connection) {
-        for(String key : paramsHashmap.keySet()){
-            TechEntity entity = techLibrary.getMINTEntity("CHANNEL");
-            if(null == entity){
-                throw new UnsupportedOperationException("Connection: Could not find the channel entity file");
-            }
-            TechEntity.ParamVerification verification = entity.verifyParam(key, paramsHashmap.get(key));
-            switch (verification){
-                case VALID:
-                    connection.addParam(key, paramsHashmap.get(key));
-                    break;
-                case INVALID_NAME:
-                    //TODO: Add the error thing
-                    throw new UnsupportedOperationException("Connection: Create error mechanism for invalid names");
-                case INVALID_TYPE:
-                    //TODO: Add the error thing
-                    throw new UnsupportedOperationException("Connection: Create error mechanism for invalid type");
-                case INVALID_VALUE:
-                    throw new UnsupportedOperationException("Connection: Create error mechanism for invalid value");
-            }
-
-
-        }
-    }
-
 
 
 }
