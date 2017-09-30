@@ -7,22 +7,24 @@ import org.cidarlab.fluigi.netlist.mintgrammar.mintgrammarBaseListener;
 import org.cidarlab.fluigi.netlist.mintgrammar.mintgrammarParser;
 import org.cidarlab.fluigi.netlist.mintgrammar.mintgrammarParser.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 /**
  * Created by krishna on 3/7/17.
  */
-public class MINTNetlistParser extends PartialMINTParamsParser {
+public class   PartialMINTNetlistParser extends PartialMINTParamsParser {
 
+    protected List<Component> constraintContextComponents = null;
     HashMap<String, Object> gridparamsHashmap;
     HashMap<String, Object> bankparamsHashmap;
-    Component.Orientation currentOrientation;
 
-    public MINTNetlistParser(){
+    public PartialMINTNetlistParser(){
         super();
         gridparamsHashmap = new HashMap<>();
         bankparamsHashmap = new HashMap<>();
+        constraintContextComponents = new ArrayList<>();
     }
 
     /**
@@ -40,42 +42,85 @@ public class MINTNetlistParser extends PartialMINTParamsParser {
             Component component = new Component(componentname.getText());
 
             //set the correct technology
-            //TODO: Q. Figure out if this should be the key or the reference to the actual tech entity object.
+            //Q. Figure out if this should be the key or the reference to the actual tech entity object.
             //A. We use the string key here instead of the entity object because we might want to include subdevices as
             // modules.
             component.setTechnology(currententity.getName());
 
             verifyAndAddParams(component);
 
+            //TODO : Move the computing X,Y spans only during the cell generation stage
             component.setXSpan(currententity.getXSpan(paramsHashmap));
             component.setYSpan(currententity.getYSpan(paramsHashmap));
 
+            //Add the component to constraint context for applying constraints
+            constraintContextComponents.add(component);
             //Adding the component to the device
             device.addComponent(component);
         }
     }
 
+    /**
+     * {@inheritDoc}
+     * <p>
+     * <p>The default implementation does nothing.</p>
+     *
+     * @param ctx
+     */
     @Override
-    public void exitPrimitiveWithOrientationStat(PrimitiveWithOrientationStatContext ctx) {
-        List<UfnameContext> componentnames = ctx.ufnames().ufname();
-        for(UfnameContext componentname : componentnames){
-            Component component = new Component(componentname.getText());
+    public void exitGridStat(GridStatContext ctx) {
 
-            //set the correct technology
-            //TODO: Q. Figure out if this should be the key or the reference to the actual tech entity object.
-            //A. We use the string key here instead of the entity object because we might want to include subdevices as
-            // modules.
-            component.setTechnology(currententity.getName());
+        super.exitGridStat(ctx);
+        int xdim = Integer.parseInt(ctx.xdim.getText());
+        int ydim = Integer.parseInt(ctx.ydim.getText());
 
-            verifyAndAddParams(component);
-            component.addParam("orientation", currentOrientation);
+        String componentname = ctx.ufname().getText();
 
-            component.setXSpan(currententity.getXSpan(paramsHashmap));
-            component.setYSpan(currententity.getYSpan(paramsHashmap));
+        Component component;
 
-            //Adding the component to the device
-           device.addComponent(component);
+        for (int i = 0; i < xdim; i++) {
+            for (int j = 0; j < ydim; j++) {
+                component = new Component(componentname + "_" + i + "_" + j);
+                component.setTechnology(currententity.getMINTName());
+                verifyAndAddParams(component);
+
+                //Add the component to constraint context for applying constraints
+                constraintContextComponents.add(component);
+                //Adding the component to the device
+                device.addComponent(component);
+            }
+
         }
+
+    }
+
+    /**
+     * {@inheritDoc}
+     * <p>
+     * <p>The default implementation does nothing.</p>
+     *
+     * @param ctx
+     */
+    @Override
+    public void exitBankStat(BankStatContext ctx) {
+        //TODO: Do the whole bank spiel
+        super.exitBankStat(ctx);
+        int dim = Integer.parseInt(ctx.dim.getText());
+        String componentname = ctx.ufname().getText();
+
+        Component component;
+
+        for (int i = 0; i < dim; i++) {
+            component = new Component(componentname + "_" + i);
+            component.setTechnology(currententity.getMINTName());
+            verifyAndAddParams(component);
+
+            //Add the component to constraint context for applying constraints
+            constraintContextComponents.add(component);
+            //Adding the component to the device
+            device.addComponent(component);
+        }
+
     }
 
     @Override
@@ -167,44 +212,12 @@ public class MINTNetlistParser extends PartialMINTParamsParser {
             connection.addSinkID(sink.getId());
             connection.updateTerminalMap(sink.getId(),sinkterminal);
         }
-
-
         device.addConnection(connection);
 
     }
 
 
 
-    /**
-     * {@inheritDoc}
-     * <p>
-     * <p>The default implementation does nothing.</p>
-     *
-     * @param ctx
-     */
-    @Override
-    public void exitGridStat(GridStatContext ctx) {
-        //TODO: Do the whole spiel
-
-        int xdim = Integer.parseInt(ctx.xdim.getText());
-        int ydim = Integer.parseInt(ctx.ydim.getText());
-
-        throw new UnsupportedOperationException("Implement the grid statement");
-
-    }
-
-    /**
-     * {@inheritDoc}
-     * <p>
-     * <p>The default implementation does nothing.</p>
-     *
-     * @param ctx
-     */
-    @Override
-    public void enterBankStat(BankStatContext ctx) {
-        //TODO: Do the whole bank spiel
-        throw new UnsupportedOperationException("Implement the bank statement");
-    }
 
     /**
      * {@inheritDoc}
@@ -218,22 +231,9 @@ public class MINTNetlistParser extends PartialMINTParamsParser {
         currententity = techLibrary.getMINTEntity(ctx.getText());
         if (null == currententity) {
             System.out.println("Entity does not exist");
-            System.exit(ErrorCodes.ENTITY_NOT_EXIST);
+            throw new UnsupportedOperationException("Need to implement system to throw error when entity does not exist");
         }
     }
-
-    @Override
-    public void enterOrientation(OrientationContext ctx) {
-        switch (ctx.getText()){
-            case "V":
-                currentOrientation = Component.Orientation.VERTICAL;
-                break;
-            case "H":
-                currentOrientation = Component.Orientation.HORIZONTAL;
-                break;
-        }
-    }
-
 
     /*
     Private Helper Methods
@@ -243,7 +243,7 @@ public class MINTNetlistParser extends PartialMINTParamsParser {
         //TODO: Convert this into a pretty parsing error
         Component ret = device.getComponent(id);
         if(null==ret){
-            System.exit(ErrorCodes.COMPONENT_NOT_FOUND);
+            throw new UnsupportedOperationException("Need to implement the error when entity is not found");
         }
 
         return ret;

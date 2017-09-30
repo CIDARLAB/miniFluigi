@@ -63,7 +63,7 @@ integrationBlock
 
 flowStat
     :   primitiveStat
-    |   primitiveWithOrientationStat
+    |   primitiveWithOrientationConstraintStat
     |   nodeStat
     |   channelStat
     |   netStat
@@ -91,13 +91,8 @@ primitiveStat
     :   entity ufnames paramsStat ';'
     ;
 
-primitiveWithOrientationStat
-    :   orientation entity ufnames paramsStat ';'
-    ;
-
-
 bankStat
-    :   orientation? 'BANK' ufname 'of' dim=INT entity paramsStat ';'
+    :    'BANK' ufname 'of' dim=INT entity paramsStat ';'
     ;
 
 gridStat
@@ -105,7 +100,11 @@ gridStat
     ;
 
 spanStat
-    :   orientation? entity ufname  INT 'to' INT paramsStat ';'
+    :   entity ufname  INT 'to' INT paramsStat ';'
+    ;
+
+primitiveWithOrientationConstraintStat
+    :   orientation ( bankStat | spanStat | primitiveStat )
     ;
 
 valveStat

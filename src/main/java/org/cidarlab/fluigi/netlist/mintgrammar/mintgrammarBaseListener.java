@@ -196,18 +196,6 @@ public class mintgrammarBaseListener implements mintgrammarListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPrimitiveWithOrientationStat(mintgrammarParser.PrimitiveWithOrientationStatContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitPrimitiveWithOrientationStat(mintgrammarParser.PrimitiveWithOrientationStatContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterBankStat(mintgrammarParser.BankStatContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -239,6 +227,18 @@ public class mintgrammarBaseListener implements mintgrammarListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitSpanStat(mintgrammarParser.SpanStatContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterPrimitiveWithOrientationConstraintStat(mintgrammarParser.PrimitiveWithOrientationConstraintStatContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitPrimitiveWithOrientationConstraintStat(mintgrammarParser.PrimitiveWithOrientationConstraintStatContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

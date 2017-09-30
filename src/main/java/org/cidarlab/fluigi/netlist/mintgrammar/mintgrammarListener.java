@@ -158,16 +158,6 @@ public interface mintgrammarListener extends ParseTreeListener {
 	 */
 	void exitPrimitiveStat(mintgrammarParser.PrimitiveStatContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link mintgrammarParser#primitiveWithOrientationStat}.
-	 * @param ctx the parse tree
-	 */
-	void enterPrimitiveWithOrientationStat(mintgrammarParser.PrimitiveWithOrientationStatContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link mintgrammarParser#primitiveWithOrientationStat}.
-	 * @param ctx the parse tree
-	 */
-	void exitPrimitiveWithOrientationStat(mintgrammarParser.PrimitiveWithOrientationStatContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link mintgrammarParser#bankStat}.
 	 * @param ctx the parse tree
 	 */
@@ -197,6 +187,16 @@ public interface mintgrammarListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitSpanStat(mintgrammarParser.SpanStatContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link mintgrammarParser#primitiveWithOrientationConstraintStat}.
+	 * @param ctx the parse tree
+	 */
+	void enterPrimitiveWithOrientationConstraintStat(mintgrammarParser.PrimitiveWithOrientationConstraintStatContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link mintgrammarParser#primitiveWithOrientationConstraintStat}.
+	 * @param ctx the parse tree
+	 */
+	void exitPrimitiveWithOrientationConstraintStat(mintgrammarParser.PrimitiveWithOrientationConstraintStatContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link mintgrammarParser#valveStat}.
 	 * @param ctx the parse tree
