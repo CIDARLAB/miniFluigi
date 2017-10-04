@@ -65,7 +65,29 @@ public class MINTArbitraryTerminalMap {
     }
 
     public TargetRecord queryRecord(String componentreference, String terminallabel){
-        throw new UnsupportedOperationException("Need to implement mechanism to get get component for alias and terminal label");
+        TargetRecord ret = null;
+        if(null == componentreference){
+            throw new UnsupportedOperationException("This should not be null create error for this scenario");
+        }else if(!targetNodes.containsKey(componentreference)){
+            throw new UnsupportedOperationException("Could not find any reference to the given component reference");
+        }else if(null == terminallabel){
+            //Return the record where just the query would work
+            //Return the record
+            ret = targetNodes.get(componentreference).getRecord();
+            if(null == ret){
+                throw new UnsupportedOperationException("Could not find record for the given component reference, " +
+                        "this particular connection expects the user to include a terminal reference for a legal " +
+                        "connection");
+            }
+        }else{
+            //Seriously traverse the nodes and return the final record
+            //First find the node with the component reference ...
+            TargetNode node = targetNodes.get(componentreference);
+            //then find the child node based on the terminal reference
+            TargetNode childnode = node.getChild(terminallabel);
+            ret = childnode.getRecord();
+        }
+        return ret;
     }
 
 
@@ -89,6 +111,20 @@ public class MINTArbitraryTerminalMap {
 
         public String getId() {
             return id;
+        }
+
+        public TargetRecord getRecord() {
+            return record;
+        }
+
+        public TargetNode getChild(String childreference) {
+            if(null == childreference){
+                throw new UnsupportedOperationException("need to implement null handling");
+            }else if (!this.children.containsKey(childreference)){
+                throw new UnsupportedOperationException("Need to implement error when child reference is not found");
+            }else{
+                return this.children.get(childreference);
+            }
         }
     }
 
