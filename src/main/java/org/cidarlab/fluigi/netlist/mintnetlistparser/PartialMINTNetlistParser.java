@@ -49,10 +49,6 @@ public class   PartialMINTNetlistParser extends PartialMINTParamsParser {
 
             verifyAndAddParams(component);
 
-            //TODO : Move the computing X,Y spans only during the cell generation stage
-            component.setXSpan(currententity.getXSpan(paramsHashmap));
-            component.setYSpan(currententity.getYSpan(paramsHashmap));
-
             //Add the terminal map
             addAllTerminalsToTerminalMap(component);
 
