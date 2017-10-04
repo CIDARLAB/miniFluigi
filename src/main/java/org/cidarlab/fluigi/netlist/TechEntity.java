@@ -7,9 +7,12 @@ import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.apache.commons.lang3.StringUtils;
 import org.cidarlab.fluigi.netlist.expressiongrammar.expressiongrammarLexer;
 import org.cidarlab.fluigi.netlist.expressiongrammar.expressiongrammarParser;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -97,6 +100,22 @@ public class TechEntity {
         } else {
             throw new UnsupportedOperationException("Implement warning if there are no default param values");
         }
+
+        //Import all the terminal information
+        if(entityjson.containsKey("terminals")){
+            JSONArray terminalarray = (JSONArray) entityjson.get("terminals");
+            Iterator it  = terminalarray.listIterator();
+            while(it.hasNext()){
+                JSONObject terminalobject = (JSONObject) it.next();
+                TechTerminal techTerminal = new TechTerminal((String)terminalobject.get("label")); //Sets the label
+                techTerminal.setXposexpression((String)terminalobject.get("x"));
+                techTerminal.setYposexpression((String)terminalobject.get("y"));
+                techTerminal.setLayer((String)terminalobject.get("layer"));
+
+                this.terminalHashMap.put(techTerminal.getLabel(), techTerminal);
+            }
+        }
+
     }
 
     public ParamVerification verifyParam(String parameter, String valuestring){
@@ -126,7 +145,7 @@ public class TechEntity {
                         return ParamVerification.INVALID_VALUE;
                     }
                 case ORIENTATION:
-                    if("V" == valuestring || "H" == valuestring){
+                    if("VERTICAL" == valuestring || "HORIZONTAL" == valuestring){
                         return ParamVerification.VALID;
                     } else {
                         return ParamVerification.INVALID_VALUE;
@@ -141,7 +160,7 @@ public class TechEntity {
         }
     }
 
-    public Object getDefaultParamValue(String paramkey){
+    public String getDefaultParamValue(String paramkey){
         if(!paramDefaults.containsKey(paramkey)){
             return null;
         }
@@ -150,6 +169,10 @@ public class TechEntity {
 
     public String getMINTName() {
         return mintname;
+    }
+
+    public List<Terminal> getTerminals(){
+        throw new UnsupportedOperationException("Need to implement method that calculates the locations of the components");
     }
 
     HashMap<String, String> expressionParams;
