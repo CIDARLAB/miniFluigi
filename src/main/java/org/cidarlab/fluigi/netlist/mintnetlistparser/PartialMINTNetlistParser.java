@@ -17,6 +17,7 @@ import java.util.List;
 public class   PartialMINTNetlistParser extends PartialMINTParamsParser {
 
     protected List<Component> constraintContextComponents = null;
+    protected MINTArbitraryTerminalMap terminalMap = null;
     HashMap<String, Object> gridparamsHashmap;
     HashMap<String, Object> bankparamsHashmap;
 
@@ -25,6 +26,7 @@ public class   PartialMINTNetlistParser extends PartialMINTParamsParser {
         gridparamsHashmap = new HashMap<>();
         bankparamsHashmap = new HashMap<>();
         constraintContextComponents = new ArrayList<>();
+        terminalMap = new MINTArbitraryTerminalMap();
     }
 
     /**
@@ -53,6 +55,11 @@ public class   PartialMINTNetlistParser extends PartialMINTParamsParser {
             component.setXSpan(currententity.getXSpan(paramsHashmap));
             component.setYSpan(currententity.getYSpan(paramsHashmap));
 
+            //Add the terminal map
+            List<Terminal> terminalList = component.getTerminals();
+            for (Terminal terminal: terminalList) {
+                terminalMap.addRecord(component.getId(), component, terminal.getLabel());
+            }
             //Add the component to constraint context for applying constraints
             constraintContextComponents.add(component);
             //Adding the component to the device
@@ -77,12 +84,97 @@ public class   PartialMINTNetlistParser extends PartialMINTParamsParser {
         String componentname = ctx.ufname().getText();
 
         Component component;
+        int finalterminalnumberiterator = 0;
+        int terminalnumberiterator = 0;
+        List<Terminal> componentTopEdgeTerminalList;
+        List<Terminal> componentRightEdgeTerminalList;
+        List<Terminal> componentLeftEdgeTerminalList;
+        List<Terminal> componentBottomEdgeTerminalList;
 
         for (int i = 0; i < xdim; i++) {
             for (int j = 0; j < ydim; j++) {
-                component = new Component(componentname + "_" + i + "_" + j);
+                component = new Component(componentname + "_" + i+1 + "_" + j+1);
                 component.setTechnology(currententity.getMINTName());
                 verifyAndAddParams(component);
+
+                //Add the terminal map records for the edge components
+                if(0 == i){//Top row
+                    componentTopEdgeTerminalList = component.getTopEdgeTerminals();
+                    terminalnumberiterator = 1;
+                    for (Terminal terminal : componentTopEdgeTerminalList) {
+                        finalterminalnumberiterator =
+                                componentTopEdgeTerminalList.size() * i + terminalnumberiterator++;
+                        terminalMap.addRecord(
+                                componentname,
+                                component,
+                                Integer.toString(finalterminalnumberiterator),
+                                terminal.getLabel()
+                                );
+                    }
+                    
+                }else if (xdim-1 == i){ // Right column
+                    componentTopEdgeTerminalList = component.getTopEdgeTerminals();
+                    componentRightEdgeTerminalList = component.getRightEdgeTerminals();
+                    terminalnumberiterator = 1;
+                    for (Terminal terminal : componentRightEdgeTerminalList) {
+                        finalterminalnumberiterator =
+                                componentTopEdgeTerminalList.size() * xdim
+                                        + componentRightEdgeTerminalList.size() * j
+                                        + terminalnumberiterator++;
+                        terminalMap.addRecord(
+                                componentname,
+                                component,
+                                Integer.toString(finalterminalnumberiterator),
+                                terminal.getLabel()
+                        );
+                    }
+
+                }else if (ydim - 1 == j){ //Bottom row
+                    componentTopEdgeTerminalList = component.getTopEdgeTerminals();
+                    componentRightEdgeTerminalList = component.getRightEdgeTerminals();
+                    componentBottomEdgeTerminalList = component.getBottomEdgeTerminals();
+                    terminalnumberiterator = componentBottomEdgeTerminalList.size()-1;
+
+                    for(Terminal terminal : componentBottomEdgeTerminalList){
+                        finalterminalnumberiterator =
+                                componentTopEdgeTerminalList.size() * xdim
+                                        + componentRightEdgeTerminalList.size() * ydim
+                                        + componentBottomEdgeTerminalList.size() * (xdim - i)
+                                        + (componentBottomEdgeTerminalList.size() - (terminalnumberiterator--));
+                        terminalMap.addRecord(
+                                componentname,
+                                component,
+                                Integer.toString(finalterminalnumberiterator),
+                                terminal.getLabel()
+                        );
+
+                    }
+
+                }else if (0 == j){ //Left row
+                    componentTopEdgeTerminalList = component.getTopEdgeTerminals();
+                    componentRightEdgeTerminalList = component.getRightEdgeTerminals();
+                    componentBottomEdgeTerminalList = component.getBottomEdgeTerminals();
+                    componentLeftEdgeTerminalList = component.getLeftEdgeTerminals();
+
+                    terminalnumberiterator = componentLeftEdgeTerminalList.size()-1;
+
+                    for(Terminal terminal : componentBottomEdgeTerminalList){
+                        finalterminalnumberiterator =
+                                componentTopEdgeTerminalList.size() * xdim
+                                        + componentRightEdgeTerminalList.size() * ydim
+                                        + componentBottomEdgeTerminalList.size() * xdim
+                                        + (componentLeftEdgeTerminalList.size() - (terminalnumberiterator--));
+                        terminalMap.addRecord(
+                                componentname,
+                                component,
+                                Integer.toString(finalterminalnumberiterator),
+                                terminal.getLabel()
+                        );
+
+                    }
+
+
+                }
 
                 //Add the component to constraint context for applying constraints
                 constraintContextComponents.add(component);

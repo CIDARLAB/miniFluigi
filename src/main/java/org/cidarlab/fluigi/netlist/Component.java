@@ -6,6 +6,7 @@
 package org.cidarlab.fluigi.netlist;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.json.simple.JSONObject;
 
@@ -20,7 +21,7 @@ public class Component {
     private HashMap<String, Object> params;
     private int x,y,w,h;
     private TechEntity.ComponentType type;
-    private Orientation orientation;
+    private float rotation;
 
     private HashMap<String, Terminal> terminalsHashMap;
 
@@ -152,16 +153,27 @@ public class Component {
         params.put(key, o);
     }
 
-    public Orientation getOrientation() {
-        return orientation;
+
+    //TODO: WARNING ! All these methods should return the terminals ordered clockwise
+    public List<Terminal> getTerminals() {
+        throw new UnsupportedOperationException("Implement the method to return terminals");
     }
 
-    public void setOrientation(Orientation orientation) {
-        this.orientation = orientation;
+    public List<Terminal> getTopEdgeTerminals() {
+        throw new UnsupportedOperationException("Implement the method to return terminals top edge");
     }
 
-    public enum Orientation{
-        HORIZONTAL,
-        VERTICAL
+    public List<Terminal> getRightEdgeTerminals() {
+        throw new UnsupportedOperationException("Implement the method to return terminals right edge");
+
+    }
+
+    public List<Terminal> getLeftEdgeTerminals() {
+        throw new UnsupportedOperationException("Implement the method to return terminals left edge");
+
+    }
+
+    public List<Terminal> getBottomEdgeTerminals() {
+        throw new UnsupportedOperationException("Implement the method to return terminals bottom edge");
     }
 }
