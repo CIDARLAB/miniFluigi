@@ -2,9 +2,7 @@ package org.cidarlab.fluigi.netlist.mintnetlistparser;
 
 import org.cidarlab.fluigi.netlist.Component;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class MINTArbitraryTerminalMap {
 
@@ -140,6 +138,14 @@ public class MINTArbitraryTerminalMap {
         public TargetRecord(Component component){
             this.componentID = component.getId();
             this.terminalLabel = null;
+        }
+
+        public String getComponentID() {
+            return componentID;
+        }
+
+        public String getTerminalLabel() {
+            return terminalLabel;
         }
     }
 }

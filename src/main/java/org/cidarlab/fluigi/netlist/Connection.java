@@ -22,7 +22,7 @@ public class Connection {
     private final String id;
     private String sourceID;
     // Component ID , Pin Number
-    private HashMap<String, Integer> terminalMap;
+    private HashMap<String, String> terminalMap;
     private ArrayList<String> sinks;
     private String layerID;
 
@@ -49,7 +49,7 @@ public class Connection {
             JSONObject mapObject = (JSONObject) paramsObject.get(JSONKeyWords.PINMAP);
             if (null != mapObject) {
                 for (Object key : mapObject.keySet()) {
-                    terminalMap.put((String) key, (int) mapObject.get(key));
+                    terminalMap.put((String) key, (String) mapObject.get(key));
                 }
             }
         }
@@ -97,7 +97,7 @@ public class Connection {
         sinks.add(id);
     }
 
-    public void updateTerminalMap(String id, int sourceterminal) {
+    public void updateTerminalMap(String id, String sourceterminal) {
         terminalMap.put(id, sourceterminal);
     }
 

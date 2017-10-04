@@ -1,11 +1,9 @@
 package org.cidarlab.fluigi.netlist.mintnetlistparser;
 
-import org.cidarlab.fluigi.core.ErrorCodes;
-import org.cidarlab.fluigi.core.LibraryManager;
 import org.cidarlab.fluigi.netlist.*;
-import org.cidarlab.fluigi.netlist.mintgrammar.mintgrammarBaseListener;
 import org.cidarlab.fluigi.netlist.mintgrammar.mintgrammarParser;
 import org.cidarlab.fluigi.netlist.mintgrammar.mintgrammarParser.*;
+import org.cidarlab.fluigi.netlist.mintnetlistparser.MINTArbitraryTerminalMap.TargetRecord;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -56,10 +54,8 @@ public class   PartialMINTNetlistParser extends PartialMINTParamsParser {
             component.setYSpan(currententity.getYSpan(paramsHashmap));
 
             //Add the terminal map
-            List<Terminal> terminalList = component.getTerminals();
-            for (Terminal terminal: terminalList) {
-                terminalMap.addRecord(component.getId(), component, terminal.getLabel() ,terminal.getLabel());
-            }
+            addAllTerminalsToTerminalMap(component);
+
             //Add the component to constraint context for applying constraints
             constraintContextComponents.add(component);
             //Adding the component to the device
@@ -251,6 +247,9 @@ public class   PartialMINTNetlistParser extends PartialMINTParamsParser {
         for(UfnameContext componentname : componentnames){
             Component component = new Component(componentname.getText());
             component.setTechnology("NODE");
+
+            addAllTerminalsToTerminalMap(component);
+
             device.addComponent(component);
         }
     }
@@ -258,18 +257,15 @@ public class   PartialMINTNetlistParser extends PartialMINTParamsParser {
     @Override
     public void exitValveStat(ValveStatContext ctx) {
         Component component = new Component(ctx.ufname().get(0).getText());
-        Connection connection = device.getConnection(ctx.ufname().get(1).getText());
+        Connection flowconnection = device.getConnection(ctx.ufname().get(1).getText());
         String entitytext = ctx.valve_entity.getText();
         component.setTechnology(entitytext);
         verifyAndAddParams(component);
 
-        device.addComponent(component);
-        device.addValve(component, connection);
-    }
+        addAllTerminalsToTerminalMap(component);
 
-    @Override
-    public void enterChannelStat(ChannelStatContext ctx) {
-        super.enterChannelStat(ctx);
+        device.addComponent(component);
+        device.addValve(component, flowconnection);
     }
 
     /**
@@ -283,23 +279,27 @@ public class   PartialMINTNetlistParser extends PartialMINTParamsParser {
     public void exitChannelStat(ChannelStatContext ctx) {
         String connection_name = ctx.ufname().getText();
         //Get the source uftarget
-        Component source = getComponent(ctx.source.target_name.getText()); //device.getComponent(ctx.source.target_name.getText());
-        int sourceterminal = Integer.parseInt(ctx.source.target_terminal.getText());
+        TargetRecord sourcerecord = getArbitraryUFTargetRecord(ctx.source);
+        String sourceID = sourcerecord.getComponentID();
+        String sourceTerminal = sourcerecord.getTerminalLabel();
+
         //Get the sink uftarget
-        Component sink = getComponent(ctx.sink.target_name.getText());
-        int sinkterminal = Integer.parseInt(ctx.sink.target_terminal.getText());
+        TargetRecord sinkrecord = getArbitraryUFTargetRecord(ctx.sink);
+        String sinkID = sinkrecord.getComponentID();
+        String sinkTeriminal = sinkrecord.getTerminalLabel();
+
 
         //Create the connection (for the channel)
         Connection connection = new Connection(connection_name);
         //Set the layer
         connection.setLayerID(currentlayer.getId());
         //Set the source and sink
-        connection.setSourceID(source.getId());
-        connection.addSinkID(sink.getId());
+        connection.setSourceID(sourceID);
+        connection.addSinkID(sinkID);
 
         //Update the terminalmap for the connection
-        connection.updateTerminalMap(source.getId(),sourceterminal);
-        connection.updateTerminalMap(sink.getId(),sinkterminal);
+        connection.updateTerminalMap(sourceID, sourceTerminal);
+        connection.updateTerminalMap(sinkID, sinkTeriminal);
         verifyAndAddConnectionParams(connection);
         device.addConnection(connection);
 
@@ -320,25 +320,26 @@ public class   PartialMINTNetlistParser extends PartialMINTParamsParser {
         //Set the layer
         connection.setLayerID(currentlayer.getId());
 
-        Component source = getComponent(ctx.source.target_name.getText());
-        int sourceterminal = Integer.parseInt(ctx.source.target_terminal.getText());
-        connection.setSourceID(source.getId());
-        connection.updateTerminalMap(source.getId(),sourceterminal);
+        TargetRecord sourcerecord = getArbitraryUFTargetRecord(ctx.source);
+        String sourceid = sourcerecord.getComponentID();
+        String sourceterminal = sourcerecord.getTerminalLabel();
+        connection.setSourceID(sourceid);
+        connection.updateTerminalMap(sourceid,sourceterminal);
 
-        Component sink;
-        int sinkterminal;
+        TargetRecord sinkrecord;
+        String sinkid;
+        String sinkterminal;
         for(UftargetContext uftargetContext : ctx.sinks.uftarget()){
             //Loop through each of the targets and then add and update the sinks
-            sink = getComponent(uftargetContext.target_name.getText());
-            sinkterminal = Integer.parseInt(uftargetContext.target_terminal.getText());
-            connection.addSinkID(sink.getId());
-            connection.updateTerminalMap(sink.getId(),sinkterminal);
+            sinkrecord = getArbitraryUFTargetRecord(uftargetContext);
+            sinkid = sinkrecord.getComponentID();
+            sinkterminal = sinkrecord.getTerminalLabel();
+            connection.addSinkID(sinkid);
+            connection.updateTerminalMap(sinkid,sinkterminal);
         }
         device.addConnection(connection);
 
     }
-
-
 
 
     /**
@@ -361,15 +362,25 @@ public class   PartialMINTNetlistParser extends PartialMINTParamsParser {
     Private Helper Methods
      */
 
-    private Component getComponent(String id) {
-        //TODO: Convert this into a pretty parsing error
-        Component ret = device.getComponent(id);
-        if(null==ret){
-            throw new UnsupportedOperationException("Need to implement the error when entity is not found");
+    private TargetRecord getArbitraryUFTargetRecord(UftargetContext uftargetContext) {
+        //Query things from the new arbitrary terminalmap
+        //Note: I'm hoping all the errors get thrown internally
+        String componentref = uftargetContext.target_name.getText();
+        String terminalref = null;
+
+        if(null != uftargetContext.target_terminal){
+            terminalref = uftargetContext.target_terminal.getText();
         }
 
+        TargetRecord ret = terminalMap.queryRecord(componentref, terminalref);
         return ret;
     }
 
+    private void addAllTerminalsToTerminalMap(Component component) {
+        //Add records to terminal map
+        for(Terminal terminal : component.getTerminals()){
+            terminalMap.addRecord(component.getId(), component, terminal.getLabel(), terminal.getLabel());
+        }
+    }
 
 }
