@@ -58,7 +58,7 @@ public class   PartialMINTNetlistParser extends PartialMINTParamsParser {
             //Add the terminal map
             List<Terminal> terminalList = component.getTerminals();
             for (Terminal terminal: terminalList) {
-                terminalMap.addRecord(component.getId(), component, terminal.getLabel());
+                terminalMap.addRecord(component.getId(), component, terminal.getLabel() ,terminal.getLabel());
             }
             //Add the component to constraint context for applying constraints
             constraintContextComponents.add(component);
@@ -203,9 +203,39 @@ public class   PartialMINTNetlistParser extends PartialMINTParamsParser {
         Component component;
 
         for (int i = 0; i < dim; i++) {
-            component = new Component(componentname + "_" + i);
+            component = new Component(componentname + "_" + i+1);
             component.setTechnology(currententity.getMINTName());
             verifyAndAddParams(component);
+
+
+            //Create terminals that need to be connected with the required alias
+            List<Terminal> componenttopedgeterminals = component.getTopEdgeTerminals();
+            List<Terminal> componentbottomedgeterminals = component.getBottomEdgeTerminals();
+
+            int terminalitertor = 1;
+            int finalterminalcount;
+            //Add top
+            for(Terminal terminal: componenttopedgeterminals){
+                finalterminalcount = componenttopedgeterminals.size() *  i + terminalitertor++;
+                terminalMap.addRecord(
+                        componentname,
+                        component,
+                        Integer.toString(finalterminalcount),
+                        terminal.getLabel()
+                );
+            }
+
+            //Add bottom
+            for(Terminal terminal : componentbottomedgeterminals){
+                finalterminalcount = componenttopedgeterminals.size() * dim +
+                        componentbottomedgeterminals.size() * i + terminalitertor++;
+                terminalMap.addRecord(
+                        componentname,
+                        component,
+                        Integer.toString(finalterminalcount),
+                        terminal.getLabel()
+                );
+            }
 
             //Add the component to constraint context for applying constraints
             constraintContextComponents.add(component);
