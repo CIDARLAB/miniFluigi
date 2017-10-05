@@ -39,7 +39,7 @@ public class MINTArbitraryTerminalMap {
             //Create Entries for arbitrary terminal specification
             TargetNode nodetoadd;
             if(null != queryterminallabel && null != targetterminallabel){
-                nodetoadd = new TargetNode(alias, null);
+                nodetoadd = new TargetNode(alias, new TargetRecord(component));
                 //create entries in the children
                 nodetoadd.addChild(
                     new TargetNode(
