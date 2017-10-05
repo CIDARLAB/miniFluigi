@@ -153,6 +153,20 @@ public class PartialMINTConstraintParser extends PartialMINTNetlistParser {
             }
         }
 
+        if(paramsHashmap.containsKey("horizontalConnect")){
+            if(("YES").equals(paramsHashmap.get("horizontalConnect"))){
+                throw new UnsupportedOperationException("Need to implement code to make arbitrary connections between" +
+                        "the components");
+            }
+        }
+
+        if(paramsHashmap.containsKey("verticalConnect")){
+            if(("YES").equals(paramsHashmap.get("verticalConnect"))){
+                throw new UnsupportedOperationException("Need to implement code to make arbitrary connections between" +
+                        "the components");
+            }
+        }
+
         Constraint constraint = new GridConstraint(horizontalspacing, verticalspacing, constraintContextComponents);
 
         device.addConstraint(constraint);

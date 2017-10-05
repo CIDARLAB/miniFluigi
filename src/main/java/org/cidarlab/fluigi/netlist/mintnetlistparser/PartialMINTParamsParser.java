@@ -67,8 +67,11 @@ public class PartialMINTParamsParser extends PartialMINTDeviceArchitectureParser
                     component.addParam(key, paramsHashmap.get(key));
                     break;
                 case INVALID_NAME:
-                    //TODO: Add the error thing
-                    throw new UnsupportedOperationException("Component: Create error mechanism for invalid names");
+                    System.out.println("Warning ! - Component \"" + currententity.getMINTName()
+                            + "\" does not support the parameter \"" + key + "\"");
+
+                    //TODO: Create Unified error generation mechanism and add above stuff
+                    break;
                 case INVALID_TYPE:
                     //TODO: Add the error thing
                     throw new UnsupportedOperationException("Component: Create error mechanism for invalid type");

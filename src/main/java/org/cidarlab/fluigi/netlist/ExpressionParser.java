@@ -46,6 +46,10 @@ public class ExpressionParser extends expressiongrammarBaseListener {
     @Override
     public void enterParameter_atom(expressiongrammarParser.Parameter_atomContext ctx) {
         String paramkey = ctx.ID().getText();
+        //Check if the parameter exists in expressionparams first
+        if(!expressionPrams.containsKey(paramkey)){
+            throw new UnsupportedOperationException("Could not find parameter: "  + paramkey);
+        }
         double paramvalue = expressionPrams.get(paramkey);
         atomstack.push(paramvalue);
     }

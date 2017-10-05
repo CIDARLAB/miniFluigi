@@ -10,10 +10,9 @@ import org.cidarlab.fluigi.netlist.expressiongrammar.expressiongrammarParser;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
+import static org.cidarlab.fluigi.netlist.TechEntity.ComponentType.*;
 
 /**
  * Created by krishna on 3/7/17.
@@ -54,13 +53,16 @@ public class TechEntity {
         String typestring = (String) entityjson.get("type");
         switch (typestring){
             case "PRIMITIVE":
-                this.type = ComponentType.PRIMITIVE;
+                this.type = PRIMITIVE;
                 break;
             case "COMPOSITE":
-                this.type = ComponentType.COMPOSITE;
+                this.type = COMPOSITE;
                 break;
             case "SCALING":
-                this.type = ComponentType.SCALING;
+                this.type = SCALING;
+                break;
+            case "FEATURE":
+                this.type = FEATURE;
                 break;
         }
         JSONObject paramtypeshmobject = (JSONObject) entityjson.get("params");
@@ -101,18 +103,20 @@ public class TechEntity {
             throw new UnsupportedOperationException("Implement warning if there are no default param values");
         }
 
-        //Import all the terminal information
-        if(entityjson.containsKey("terminals")){
-            JSONArray terminalarray = (JSONArray) entityjson.get("terminals");
-            Iterator it  = terminalarray.listIterator();
-            while(it.hasNext()){
-                JSONObject terminalobject = (JSONObject) it.next();
-                TechTerminal techTerminal = new TechTerminal((String)terminalobject.get("label")); //Sets the label
-                techTerminal.setXposexpression((String)terminalobject.get("x"));
-                techTerminal.setYposexpression((String)terminalobject.get("y"));
-                techTerminal.setLayer((String)terminalobject.get("layer"));
+        //Import all the terminal information if its a composite or a primitive, there needs to be more mojo if its scaling
+        if(this.type == COMPOSITE || this.type == PRIMITIVE) {
+            if (entityjson.containsKey("terminals")) {
+                JSONArray terminalarray = (JSONArray) entityjson.get("terminals");
+                Iterator it = terminalarray.listIterator();
+                while (it.hasNext()) {
+                    JSONObject terminalobject = (JSONObject) it.next();
+                    TechTerminal techTerminal = new TechTerminal((String) terminalobject.get("label")); //Sets the label
+                    techTerminal.setXposexpression((String) terminalobject.get("x"));
+                    techTerminal.setYposexpression((String) terminalobject.get("y"));
+                    techTerminal.setLayer((String) terminalobject.get("layer"));
 
-                this.terminalHashMap.put(techTerminal.getLabel(), techTerminal);
+                    this.terminalHashMap.put(techTerminal.getLabel(), techTerminal);
+                }
             }
         }
 
@@ -171,8 +175,27 @@ public class TechEntity {
         return mintname;
     }
 
-    public List<Terminal> getTerminals(){
-        throw new UnsupportedOperationException("Need to implement method that calculates the locations of the components");
+    public List<Terminal> getDefaultTerminals(){
+        List<Terminal> ret = new ArrayList<>();
+        Terminal terminal;
+        TechTerminal techterminal;
+        if(this.type == COMPOSITE || this.type == PRIMITIVE) {
+            for (String key : terminalHashMap.keySet()) {
+                terminal = new Terminal();
+                techterminal = terminalHashMap.get(key);
+                terminal.setLabel(key);
+                terminal.setXOffset(this.parseExpression(techterminal.getXposexpression(), this.paramDefaults));
+                terminal.setYOffset(this.parseExpression(techterminal.getYposexpression(), this.paramDefaults));
+                terminal.setLayer(terminalHashMap.get(key).getLayer());
+                ret.add(terminal);
+            }
+
+        }else if(this.type == SCALING){
+            throw new UnsupportedOperationException("Need to implement terminal generation for scaling components");
+        } else {
+            throw new UnsupportedOperationException("This should not have any implementation");
+        }
+        return ret;
     }
 
     HashMap<String, String> expressionParams;
@@ -226,6 +249,10 @@ public class TechEntity {
         return parseExpression(yspanexpression, params);
     }
 
+    public ComponentType getType() {
+        return type;
+    }
+
     public enum ParamVerification {
         VALID,
         INVALID_NAME,
@@ -243,7 +270,7 @@ public class TechEntity {
     public enum ComponentType{
         PRIMITIVE,
         COMPOSITE,
-        SCALING
+        FEATURE, SCALING
     }
 
 

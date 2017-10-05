@@ -39,18 +39,10 @@ public class   PartialMINTNetlistParser extends PartialMINTParamsParser {
         List<UfnameContext> componentnames = ctx.ufnames().ufname();
         for(UfnameContext componentname : componentnames){
 
-            Component component = new Component(componentname.getText());
-
-            //set the correct technology
-            //Q. Figure out if this should be the key or the reference to the actual tech entity object.
-            //A. We use the string key here instead of the entity object because we might want to include subdevices as
-            // modules.
-            component.setTechnology(currententity.getName());
-
-            verifyAndAddParams(component);
+            Component component = createAndVerifyComponentHelper(componentname.getText());
 
             //Add the terminal map
-            addAllTerminalsToTerminalMap(component);
+            addAllTerminalsToTerminalMapHelper(component);
 
             //Add the component to constraint context for applying constraints
             constraintContextComponents.add(component);
@@ -85,12 +77,10 @@ public class   PartialMINTNetlistParser extends PartialMINTParamsParser {
 
         for (int i = 0; i < xdim; i++) {
             for (int j = 0; j < ydim; j++) {
-                component = new Component(componentname + "_" + i+1 + "_" + j+1);
-                component.setTechnology(currententity.getMINTName());
-                verifyAndAddParams(component);
+                component = createAndVerifyComponentHelper(componentname + "_" + i+1 + "_" + j+1);
 
                 //Add the terminal map records for the edge components
-                if(0 == i){//Top row
+                if(0 == j){//Top row
                     componentTopEdgeTerminalList = component.getTopEdgeTerminals();
                     terminalnumberiterator = 1;
                     for (Terminal terminal : componentTopEdgeTerminalList) {
@@ -104,7 +94,9 @@ public class   PartialMINTNetlistParser extends PartialMINTParamsParser {
                                 );
                     }
                     
-                }else if (xdim-1 == i){ // Right column
+                }
+
+                if (xdim-1 == i){ // Right column
                     componentTopEdgeTerminalList = component.getTopEdgeTerminals();
                     componentRightEdgeTerminalList = component.getRightEdgeTerminals();
                     terminalnumberiterator = 1;
@@ -121,7 +113,9 @@ public class   PartialMINTNetlistParser extends PartialMINTParamsParser {
                         );
                     }
 
-                }else if (ydim - 1 == j){ //Bottom row
+                }
+
+                if (ydim - 1 == j){ //Bottom row
                     componentTopEdgeTerminalList = component.getTopEdgeTerminals();
                     componentRightEdgeTerminalList = component.getRightEdgeTerminals();
                     componentBottomEdgeTerminalList = component.getBottomEdgeTerminals();
@@ -131,8 +125,8 @@ public class   PartialMINTNetlistParser extends PartialMINTParamsParser {
                         finalterminalnumberiterator =
                                 componentTopEdgeTerminalList.size() * xdim
                                         + componentRightEdgeTerminalList.size() * ydim
-                                        + componentBottomEdgeTerminalList.size() * (xdim - i)
-                                        + (componentBottomEdgeTerminalList.size() - (terminalnumberiterator--));
+                                        + (componentBottomEdgeTerminalList.size()*(xdim-i)
+                                        - (terminalnumberiterator--));
                         terminalMap.addRecord(
                                 componentname,
                                 component,
@@ -142,7 +136,9 @@ public class   PartialMINTNetlistParser extends PartialMINTParamsParser {
 
                     }
 
-                }else if (0 == j){ //Left row
+                }
+
+                if (0 == i){ //Left row
                     componentTopEdgeTerminalList = component.getTopEdgeTerminals();
                     componentRightEdgeTerminalList = component.getRightEdgeTerminals();
                     componentBottomEdgeTerminalList = component.getBottomEdgeTerminals();
@@ -150,12 +146,13 @@ public class   PartialMINTNetlistParser extends PartialMINTParamsParser {
 
                     terminalnumberiterator = componentLeftEdgeTerminalList.size()-1;
 
-                    for(Terminal terminal : componentBottomEdgeTerminalList){
+                    for(Terminal terminal : componentLeftEdgeTerminalList){
                         finalterminalnumberiterator =
                                 componentTopEdgeTerminalList.size() * xdim
                                         + componentRightEdgeTerminalList.size() * ydim
                                         + componentBottomEdgeTerminalList.size() * xdim
-                                        + (componentLeftEdgeTerminalList.size() - (terminalnumberiterator--));
+                                        + (componentLeftEdgeTerminalList.size() * (ydim - j)
+                                        - (terminalnumberiterator--));
                         terminalMap.addRecord(
                                 componentname,
                                 component,
@@ -178,6 +175,7 @@ public class   PartialMINTNetlistParser extends PartialMINTParamsParser {
 
     }
 
+
     /**
      * {@inheritDoc}
      * <p>
@@ -187,7 +185,6 @@ public class   PartialMINTNetlistParser extends PartialMINTParamsParser {
      */
     @Override
     public void exitBankStat(BankStatContext ctx) {
-        //TODO: Do the whole bank spiel
         super.exitBankStat(ctx);
         int dim = Integer.parseInt(ctx.dim.getText());
         String componentname = ctx.ufname().getText();
@@ -195,10 +192,7 @@ public class   PartialMINTNetlistParser extends PartialMINTParamsParser {
         Component component;
 
         for (int i = 0; i < dim; i++) {
-            component = new Component(componentname + "_" + i+1);
-            component.setTechnology(currententity.getMINTName());
-            verifyAndAddParams(component);
-
+            component = createAndVerifyComponentHelper(componentname + "_" + i+1);
 
             //Create terminals that need to be connected with the required alias
             List<Terminal> componenttopedgeterminals = component.getTopEdgeTerminals();
@@ -244,10 +238,25 @@ public class   PartialMINTNetlistParser extends PartialMINTParamsParser {
             Component component = new Component(componentname.getText());
             component.setTechnology("NODE");
 
-            addAllTerminalsToTerminalMap(component);
+            addAllTerminalsToTerminalMapHelper(component);
 
             device.addComponent(component);
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     * <p>
+     * <p>The default implementation does nothing.</p>
+     *
+     * @param ctx
+     */
+    @Override
+    public void exitSpanStat(SpanStatContext ctx) {
+        super.exitSpanStat(ctx);
+        //TODO: Typically these are the scaling primitives, I need to figure out how to deal with this better, can I hack it or not but if its hacky then I'll need to modify it again
+        throw new UnsupportedOperationException("Need to implement the thing for the span kind of primitives");
+
     }
 
     @Override
@@ -258,7 +267,7 @@ public class   PartialMINTNetlistParser extends PartialMINTParamsParser {
         component.setTechnology(entitytext);
         verifyAndAddParams(component);
 
-        addAllTerminalsToTerminalMap(component);
+        addAllTerminalsToTerminalMapHelper(component);
 
         device.addComponent(component);
         device.addValve(component, flowconnection);
@@ -275,12 +284,12 @@ public class   PartialMINTNetlistParser extends PartialMINTParamsParser {
     public void exitChannelStat(ChannelStatContext ctx) {
         String connection_name = ctx.ufname().getText();
         //Get the source uftarget
-        TargetRecord sourcerecord = getArbitraryUFTargetRecord(ctx.source);
+        TargetRecord sourcerecord = getArbitraryUFTargetRecordHelper(ctx.source);
         String sourceID = sourcerecord.getComponentID();
         String sourceTerminal = sourcerecord.getTerminalLabel();
 
         //Get the sink uftarget
-        TargetRecord sinkrecord = getArbitraryUFTargetRecord(ctx.sink);
+        TargetRecord sinkrecord = getArbitraryUFTargetRecordHelper(ctx.sink);
         String sinkID = sinkrecord.getComponentID();
         String sinkTeriminal = sinkrecord.getTerminalLabel();
 
@@ -316,7 +325,7 @@ public class   PartialMINTNetlistParser extends PartialMINTParamsParser {
         //Set the layer
         connection.setLayerID(currentlayer.getId());
 
-        TargetRecord sourcerecord = getArbitraryUFTargetRecord(ctx.source);
+        TargetRecord sourcerecord = getArbitraryUFTargetRecordHelper(ctx.source);
         String sourceid = sourcerecord.getComponentID();
         String sourceterminal = sourcerecord.getTerminalLabel();
         connection.setSourceID(sourceid);
@@ -327,7 +336,7 @@ public class   PartialMINTNetlistParser extends PartialMINTParamsParser {
         String sinkterminal;
         for(UftargetContext uftargetContext : ctx.sinks.uftarget()){
             //Loop through each of the targets and then add and update the sinks
-            sinkrecord = getArbitraryUFTargetRecord(uftargetContext);
+            sinkrecord = getArbitraryUFTargetRecordHelper(uftargetContext);
             sinkid = sinkrecord.getComponentID();
             sinkterminal = sinkrecord.getTerminalLabel();
             connection.addSinkID(sinkid);
@@ -358,7 +367,7 @@ public class   PartialMINTNetlistParser extends PartialMINTParamsParser {
     Private Helper Methods
      */
 
-    private TargetRecord getArbitraryUFTargetRecord(UftargetContext uftargetContext) {
+    private TargetRecord getArbitraryUFTargetRecordHelper(UftargetContext uftargetContext) {
         //Query things from the new arbitrary terminalmap
         //Note: I'm hoping all the errors get thrown internally
         String componentref = uftargetContext.target_name.getText();
@@ -372,11 +381,27 @@ public class   PartialMINTNetlistParser extends PartialMINTParamsParser {
         return ret;
     }
 
-    private void addAllTerminalsToTerminalMap(Component component) {
+    private void addAllTerminalsToTerminalMapHelper(Component component) {
         //Add records to terminal map
         for(Terminal terminal : component.getTerminals()){
             terminalMap.addRecord(component.getId(), component, terminal.getLabel(), terminal.getLabel());
         }
     }
+
+    private Component createAndVerifyComponentHelper(String id) {
+        Component ret = new Component(id);
+
+        //set the correct technology
+        //Q. Figure out if this should be the key or the reference to the actual tech entity object.
+        //A. We use the string key here instead of the entity object because we might want to include subdevices as
+        // modules.
+
+        ret.setTechnology(currententity.getMINTName());
+        ret.setTerminals(currententity.getDefaultTerminals());
+        ret.setType(currententity.getType());
+        verifyAndAddParams(ret);
+        return ret;
+    }
+
 
 }

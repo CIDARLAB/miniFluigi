@@ -33,12 +33,15 @@ public class TechTerminal extends Point{
         this.yposexpression = yposexpression;
     }
 
-
     public void setLayer(String layer) {
         this.layer = layer;
     }
 
     public String getLabel() {
         return label;
+    }
+
+    public String getLayer() {
+        return layer;
     }
 }

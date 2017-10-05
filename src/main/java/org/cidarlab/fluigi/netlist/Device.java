@@ -5,6 +5,9 @@
  */
 package org.cidarlab.fluigi.netlist;
 
+import org.cidarlab.fluigi.netlist.constraints.Constraint;
+import org.cidarlab.fluigi.netlist.constraints.OrientationConstraint;
+
 import java.util.*;
 
 /**
@@ -22,6 +25,7 @@ public class Device {
     private HashMap<Component, Connection> valvemap;
     private List<Component> imports;
     private List<LayerBlock> layerBlocks;
+    private List<Constraint> constraintList;
 
     public Device(){
         layerBlocks = new ArrayList<>();
@@ -31,6 +35,7 @@ public class Device {
         dependencies = new ArrayList<>();
         valvemap = new HashMap<>();
         imports = new ArrayList<>();
+        constraintList = new ArrayList<>();
     }
 
     public Device(String string) {
@@ -138,5 +143,10 @@ public class Device {
 
     public void addLayerBlock(LayerBlock layerblock) {
         layerBlocks.add(layerblock);
+    }
+
+    public void addConstraint(Constraint constraint) {
+        //Add in LIFO order
+        this.constraintList.add(0, constraint);
     }
 }
