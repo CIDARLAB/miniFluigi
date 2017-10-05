@@ -1,8 +1,10 @@
 package org.cidarlab.fluigi.netlist.mintnetlistparser;
 
+import org.cidarlab.fluigi.core.LibraryManager;
 import org.cidarlab.fluigi.netlist.Device;
 import org.cidarlab.fluigi.netlist.LayerBlock;
 import org.cidarlab.fluigi.netlist.LogicalLayer;
+import org.cidarlab.fluigi.netlist.TechLibrary;
 import org.cidarlab.fluigi.netlist.mintgrammar.mintgrammarBaseListener;
 import org.cidarlab.fluigi.netlist.mintgrammar.mintgrammarParser;
 
@@ -12,6 +14,7 @@ public class PartialMINTDeviceArchitectureParser extends mintgrammarBaseListener
     int layercount = 0;
     int layerblockcount = 0;
     LayerBlock currentLayerBlock;
+    TechLibrary techLibrary = LibraryManager.techLibrary;
 
     public PartialMINTDeviceArchitectureParser() {
         device = new Device();
@@ -27,6 +30,19 @@ public class PartialMINTDeviceArchitectureParser extends mintgrammarBaseListener
     @Override
     public void enterNetlist(mintgrammarParser.NetlistContext ctx) {
         super.enterNetlist(ctx);
+    }
+
+    /**
+     * {@inheritDoc}
+     * <p>
+     * <p>The default implementation does nothing.</p>
+     *
+     * @param ctx
+     */
+    @Override
+    public void exitImportStat(mintgrammarParser.ImportStatContext ctx) {
+        super.exitImportStat(ctx);
+        throw new UnsupportedOperationException("The v2 parser does not support importing of subdevices at the moment");
     }
 
     /**

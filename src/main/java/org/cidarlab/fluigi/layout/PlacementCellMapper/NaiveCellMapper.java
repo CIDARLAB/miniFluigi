@@ -29,7 +29,7 @@ public class NaiveCellMapper extends CellMapper {
 
     @Override
     public void importLayout(Placement placement) {
-        //TODO : Loop through the placement's cells and just import the coordinates to the device's components
+        //Loop through the placement's cells and just import the coordinates to the device's components
         for(Cell c : placement.getCells()){
             //Get the component in the device using the ID
             Component componenttoedit = device.getComponent(c.getID());
@@ -44,7 +44,7 @@ public class NaiveCellMapper extends CellMapper {
     @Override
     public List<Placement> generateLayouts() {
         /*
-        Do the floodfill algorithm and figure out all the unconnected graphs in the device.
+        Do the algorithm and figure out all the unconnected graphs in the device.
          */
         ArrayList<Placement> placementProlems = new ArrayList<>();
         SimpleDirectedGraph<Component, DefaultEdge> devicegraph = new SimpleDirectedGraph(DefaultEdge.class);

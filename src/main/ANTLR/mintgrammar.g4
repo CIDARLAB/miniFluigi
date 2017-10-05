@@ -4,7 +4,7 @@
 
 grammar mintgrammar;
 
-netlist
+netIMlist
     :   importBlock?
         header
         ufmoduleBlock?

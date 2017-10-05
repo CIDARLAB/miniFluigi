@@ -38,7 +38,8 @@ public class LibraryManager {
 
         TechEntity techEntity;
         JSONParser parser;
-
+        System.out.println("Read TECH_LIBRARY Directory:");
+        System.out.println("Building Tech Library:");
         FileFilter filter = new FileFilter() {
             @Override
             public boolean accept(File pathname) {
@@ -53,12 +54,15 @@ public class LibraryManager {
                 JSONObject entityjson = (JSONObject)parser.parse(new FileReader(techfile));
                 techEntity.importFromJSON(entityjson);
                 techLibrary.addEntity(techEntity);
+                System.out.println("--> Added: "+ techfile.getName());
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (ParseException e) {
                 e.printStackTrace();
             }
         }
+
+        //TODO: Read old place and route data
 
     }
 }

@@ -10,7 +10,6 @@ import org.cidarlab.fluigi.netlist.mintgrammar.mintgrammarParser;
 import java.util.HashMap;
 
 public class PartialMINTParamsParser extends PartialMINTDeviceArchitectureParser {
-    TechLibrary techLibrary = LibraryManager.techLibrary;
     HashMap<String, String> paramsHashmap;
     TechEntity currententity;
 
