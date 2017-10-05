@@ -5,7 +5,9 @@
  */
 package org.cidarlab.fluigi.netlist;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.json.simple.JSONObject;
@@ -154,26 +156,139 @@ public class Component {
     }
 
 
-    //TODO: WARNING ! All these methods should return the terminals ordered clockwise
+    //WARNING ! All these methods should return the terminals ordered clockwise
+    private List<Terminal> clockwiselist, topedgelist, leftedgelist, rightedgelist, bottomedgelist;
+
+
     public List<Terminal> getTerminals() {
-        throw new UnsupportedOperationException("Implement the method to return terminals");
+        return clockwiselist;
     }
 
     public List<Terminal> getTopEdgeTerminals() {
-        throw new UnsupportedOperationException("Implement the method to return terminals top edge");
+        return topedgelist;
     }
 
     public List<Terminal> getRightEdgeTerminals() {
-        throw new UnsupportedOperationException("Implement the method to return terminals right edge");
-
+        return rightedgelist;
     }
 
     public List<Terminal> getLeftEdgeTerminals() {
-        throw new UnsupportedOperationException("Implement the method to return terminals left edge");
-
+        return leftedgelist;
     }
 
     public List<Terminal> getBottomEdgeTerminals() {
-        throw new UnsupportedOperationException("Implement the method to return terminals bottom edge");
+        return bottomedgelist;
+    }
+
+
+    //----------------Terminal Variables--------------------
+    int xmax = 0, xmin= 0, ymin = 0, ymax = 0;
+
+    public void setTerminals(List<Terminal> terminalList) {
+
+        for (Terminal terminal: terminalList) {
+            this.terminalsHashMap.put(terminal.getLabel(), terminal);
+
+            //Figuring out the max and min locations of the terminals
+            if(terminal.getX() <= xmin){
+                xmin = terminal.getX();
+            }
+            if(terminal.getY() <= ymin){
+                ymin = terminal.getY();
+            }
+            if(terminal.getX() >= xmax){
+                xmax = terminal.getX();
+            }
+            if(terminal.getY() >= ymax){
+                ymax = terminal.getY();
+            }
+        }
+
+        //Arrange all the terminals in clockwise direction and then add them to top, bottom, left and right
+
+        /*
+        Algorithm :
+        - Create 4 linked lists
+        - For every terminal check what edge it falls on
+        -----> Based on the edge add it to the respective linked list
+        -----> Make sure its ordered on the linked list
+        - Stitch together all the linked lists
+         */
+
+        topedgelist = new ArrayList<>();
+        rightedgelist = new ArrayList<>();
+        leftedgelist = new ArrayList<>();
+        bottomedgelist = new ArrayList<>();
+
+        for(Terminal terminal: terminalList){
+            //Check which edge the terminal falls on
+            if(ymin == terminal.getY()){ //Top Edge
+                //if x:increasing -> terminal:increasing
+                //Go through list and add accordingly
+                if(topedgelist.isEmpty()){
+                    topedgelist.add(terminal);
+                    continue;
+                }
+                for(int i = 0; i<topedgelist.size(); i++){
+                    Terminal terminal2 = topedgelist.get(i);
+                    if(terminal.getX()<=terminal2.getX()){
+                        topedgelist.add(i,terminal);
+                        continue;
+                    }
+                }
+            }else if(xmax == terminal.getX()){ //Right Edge
+                //if y:increasing -> terminal:increasing
+                if(rightedgelist.isEmpty()){
+                    rightedgelist.add(terminal);
+                    continue;
+                }
+                for(int i = 0; i<rightedgelist.size(); i++){
+                    Terminal terminal2 = rightedgelist.get(i);
+                    if(terminal.getY()<=terminal2.getY()){
+                        rightedgelist.add(i,terminal);
+                        continue;
+                    }
+                }
+            }else if(ymax == terminal.getY()){ //Bottom Edge
+                //if x:increasing -> terminal:decreasing
+                if(bottomedgelist.isEmpty()){
+                    bottomedgelist.add(terminal);
+                    continue;
+                }
+                for(int i = bottomedgelist.size()-1 ; i>-1; i--){
+                    Terminal terminal2 = bottomedgelist.get(i);
+                    if(terminal.getX()<=terminal2.getX()){
+                        bottomedgelist.add(i+1,terminal);
+                        continue;
+                    }
+                }
+            }else if(xmin == terminal.getX()){ //Left Edge
+                //if y:increasing -> terminal:decreasing
+                if(leftedgelist.isEmpty()){
+                    leftedgelist.add(terminal);
+                    continue;
+                }
+                for(int i = bottomedgelist.size()-1 ; i>-1; i--){
+                    Terminal terminal2 = bottomedgelist.get(i);
+                    if(terminal.getY()<=terminal2.getY()){
+                        bottomedgelist.add(i+1,terminal);
+                        continue;
+                    }
+                }
+            }
+        }
+
+        //Final stitching of the linked lists
+        clockwiselist = new LinkedList<>();
+        clockwiselist.addAll(topedgelist);
+        clockwiselist.addAll(rightedgelist);
+        clockwiselist.addAll(bottomedgelist);
+        clockwiselist.addAll(leftedgelist);
+
+
+    }
+
+    public void setType(TechEntity.ComponentType type) {
+        this.type = type;
     }
 }
