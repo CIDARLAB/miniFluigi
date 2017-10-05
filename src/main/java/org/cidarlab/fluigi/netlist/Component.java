@@ -20,7 +20,7 @@ public class Component {
 
     private String id;
     private String technology;
-    private HashMap<String, String> params;
+    private HashMap<String, Object> params;
     private int x,y,w,h;
     private TechEntity.ComponentType type;
     private float rotation;
@@ -75,14 +75,14 @@ public class Component {
     /**
      * @return the params
      */
-    public HashMap<String, String> getParams() {
+    public HashMap<String, Object> getParams() {
         return params;
     }
 
     /**
      * @param params the params to set
      */
-    public void setParams(HashMap<String, String> params) {
+    public void setParams(HashMap<String, Object> params) {
         this.params = params;
     }
 

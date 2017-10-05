@@ -162,8 +162,13 @@ public class Device {
                         "entity described for the component");
             }
 
-            componenttoupdate.setXSpan(currententity.getXSpan(componenttoupdate.getParams()));
-            componenttoupdate.setYSpan(currententity.getYSpan(componenttoupdate.getParams()));
+            HashMap<String, String> paramstopass = new HashMap<>();
+            for(String key : componenttoupdate.getParams().keySet()){
+                String payload = componenttoupdate.getParams().get(key).toString();
+                paramstopass.put(key, payload);
+            }
+            componenttoupdate.setXSpan(currententity.getXSpan(paramstopass));
+            componenttoupdate.setYSpan(currententity.getYSpan(paramstopass));
         }
     }
 }

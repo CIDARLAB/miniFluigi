@@ -129,22 +129,7 @@ public class InterchangeV1 {
             layers.add(layerid);
             tempJSONObject.put("layers",layers);
 
-            AbstractJSONMap abstractJSONMap = new AbstractJSONMap();
-            HashMap<String, String> paramsinstrings= component.getParams();
-            String payload;
-            int intvalue;
-            for(String key : paramsinstrings.keySet()){
-                //Convert each of the params into the required object
-                payload = paramsinstrings.get(key);
-                try {
-                    intvalue = Integer.parseInt(payload);
-                    abstractJSONMap.put(key, intvalue);
-                }catch (NumberFormatException e){
-                    abstractJSONMap.put(key, payload);
-                }
-
-
-            }
+            AbstractJSONMap abstractJSONMap = new AbstractJSONMap(component.getParams());
 
             tempJSONObject.put("params", abstractJSONMap);
             componentsMap.put(component.getId(), tempJSONObject);
