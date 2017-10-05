@@ -31,7 +31,7 @@ public class TechLibrary {
 
     public TechEntity getMINTEntity(String entityname) {
 
-        //This is because of antlr's thing and because I cant figure out how to make a good grammar
+        //This is because of antlr's thing and because I cant figure out how to make a better grammar
         for(String key: mintlibrary.keySet()){
             //TODO: Figure out how to avoid the regex replace
             String keywithoutspaces = key.replaceAll("\\s+","");

@@ -20,7 +20,7 @@ public class Component {
 
     private String id;
     private String technology;
-    private HashMap<String, Object> params;
+    private HashMap<String, String> params;
     private int x,y,w,h;
     private TechEntity.ComponentType type;
     private float rotation;
@@ -38,7 +38,7 @@ public class Component {
         JSONObject paramsoObject = (JSONObject) jsoncomponent.get(JSONKeyWords.PARAMETERS);
         for(Object key : paramsoObject.keySet()){
             Object value  = jsoncomponent.get(key);
-            getParams().put((String)key, value);
+            getParams().put((String)key, (String)value);
         }
     }
 
@@ -75,14 +75,14 @@ public class Component {
     /**
      * @return the params
      */
-    public HashMap<String, Object> getParams() {
+    public HashMap<String, String> getParams() {
         return params;
     }
 
     /**
      * @param params the params to set
      */
-    public void setParams(HashMap<String, Object> params) {
+    public void setParams(HashMap<String, String> params) {
         this.params = params;
     }
 
@@ -151,7 +151,7 @@ public class Component {
         return this.id.equals(((Component) o).getId());
     }
 
-    public void addParam(String key, Object o) {
+    public void addParam(String key, String o) {
         params.put(key, o);
     }
 

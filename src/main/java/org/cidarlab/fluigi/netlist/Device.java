@@ -149,4 +149,21 @@ public class Device {
         //Add in LIFO order
         this.constraintList.add(0, constraint);
     }
+
+    public void updateXYSpans(TechLibrary techLibrary){
+        //TODO: Implement method that will go through all the components and update the x and y spans
+        TechEntity currententity;
+        for (Component componenttoupdate : getComponents()) {
+            currententity = techLibrary.getMINTEntity(componenttoupdate.getTechnology());
+
+            //Check if this is null, if it is then we need to rethink how this is working
+            if(null == currententity){
+                throw new UnsupportedOperationException("Need to handle the situation where there is no technology " +
+                        "entity described for the component");
+            }
+
+            componenttoupdate.setXSpan(currententity.getXSpan(componenttoupdate.getParams()));
+            componenttoupdate.setYSpan(currententity.getYSpan(componenttoupdate.getParams()));
+        }
+    }
 }
