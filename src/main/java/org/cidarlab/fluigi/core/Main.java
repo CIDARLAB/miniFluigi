@@ -16,6 +16,7 @@ import org.apache.logging.log4j.Logger;
 import org.cidarlab.fluigi.layout.Placement;
 import org.cidarlab.fluigi.layout.PlacementCellMapper.CellMapper;
 import org.cidarlab.fluigi.layout.PlacementCellMapper.NaiveCellMapper;
+import org.cidarlab.fluigi.netlist.TechLibrary;
 import org.cidarlab.fluigi.netlist.mintgrammar.mintgrammarLexer;
 import org.cidarlab.fluigi.netlist.mintgrammar.mintgrammarParser;
 import org.cidarlab.fluigi.netlist.DesignTree;
@@ -184,6 +185,7 @@ public class Main {
         CellMapper cellMapper;
         while (iterator.hasNext()) {
             device = iterator.next();
+            device.updateXYSpans(LibraryManager.techLibrary);
             cellMapper = new NaiveCellMapper(device);
             placementproblems = cellMapper.generateLayouts();
 

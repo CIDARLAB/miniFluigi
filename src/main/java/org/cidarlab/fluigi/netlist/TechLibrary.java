@@ -30,7 +30,8 @@ public class TechLibrary {
     }
 
     public TechEntity getMINTEntity(String entityname) {
-
+        //Format the query too
+        entityname = entityname.replaceAll("\\s+","");
         //This is because of antlr's thing and because I cant figure out how to make a better grammar
         for(String key: mintlibrary.keySet()){
             //TODO: Figure out how to avoid the regex replace
