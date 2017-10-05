@@ -4,7 +4,7 @@
 
 grammar mintgrammar;
 
-netIMlist
+netlist
     :   importBlock?
         header
         ufmoduleBlock?
@@ -100,7 +100,7 @@ gridStat
     ;
 
 spanStat
-    :   entity ufname  INT 'to' INT paramsStat ';'
+    :   entity ufnames  in=INT 'to' out=INT paramsStat ';'
     ;
 
 primitiveWithOrientationConstraintStat

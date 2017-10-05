@@ -42,6 +42,12 @@ public class PartialMINTDeviceArchitectureParser extends mintgrammarBaseListener
     @Override
     public void exitImportStat(mintgrammarParser.ImportStatContext ctx) {
         super.exitImportStat(ctx);
+        //TODO: Implement importing into the parser
+        /**
+         * ALG:
+         * - Create a techentity for each of the imports and add them to the tech library
+         * This way when the modules are created, we can use the same exact techlibrary matching
+         */
         throw new UnsupportedOperationException("The v2 parser does not support importing of subdevices at the moment");
     }
 

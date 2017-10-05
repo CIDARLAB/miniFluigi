@@ -254,11 +254,31 @@ public class   PartialMINTNetlistParser extends PartialMINTParamsParser {
     @Override
     public void exitSpanStat(SpanStatContext ctx) {
         super.exitSpanStat(ctx);
-        //TODO: Typically these are the scaling primitives, I need to figure out how to deal with this better, can I hack it or not but if its hacky then I'll need to modify it again
-        throw new UnsupportedOperationException("Need to implement the thing for the span kind of primitives");
+        String invalue = ctx.in.getText();
+        String outvalue = ctx.out.getText();
 
+        paramsHashmap.put("in", invalue);
+        paramsHashmap.put("out", outvalue);
+
+        List<UfnameContext> componentnames = ctx.ufnames().ufname();
+        for(UfnameContext componentname : componentnames){
+
+            Component component = createAndVerifyComponentHelper(componentname.getText());
+
+            //Add the terminal map
+            addAllTerminalsToTerminalMapHelper(component);
+
+            //Add the component to constraint context for applying constraints
+            constraintContextComponents.add(component);
+            //Adding the component to the device
+            device.addComponent(component);
+        }
     }
 
+    /**
+     *
+     * @param ctx
+     */
     @Override
     public void exitValveStat(ValveStatContext ctx) {
         Component component = new Component(ctx.ufname().get(0).getText());

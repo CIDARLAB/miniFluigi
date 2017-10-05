@@ -1163,18 +1163,20 @@ public class mintgrammarParser extends Parser {
 	}
 
 	public static class SpanStatContext extends ParserRuleContext {
+		public Token in;
+		public Token out;
 		public EntityContext entity() {
 			return getRuleContext(EntityContext.class,0);
 		}
-		public UfnameContext ufname() {
-			return getRuleContext(UfnameContext.class,0);
+		public UfnamesContext ufnames() {
+			return getRuleContext(UfnamesContext.class,0);
+		}
+		public ParamsStatContext paramsStat() {
+			return getRuleContext(ParamsStatContext.class,0);
 		}
 		public List<TerminalNode> INT() { return getTokens(mintgrammarParser.INT); }
 		public TerminalNode INT(int i) {
 			return getToken(mintgrammarParser.INT, i);
-		}
-		public ParamsStatContext paramsStat() {
-			return getRuleContext(ParamsStatContext.class,0);
 		}
 		public SpanStatContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -1199,13 +1201,13 @@ public class mintgrammarParser extends Parser {
 			setState(203);
 			entity();
 			setState(204);
-			ufname();
+			ufnames();
 			setState(205);
-			match(INT);
+			((SpanStatContext)_localctx).in = match(INT);
 			setState(206);
 			match(T__12);
 			setState(207);
-			match(INT);
+			((SpanStatContext)_localctx).out = match(INT);
 			setState(208);
 			paramsStat();
 			setState(209);
@@ -2648,7 +2650,7 @@ public class mintgrammarParser extends Parser {
 		"\u00c4\7\r\2\2\u00c4\u00c5\5P)\2\u00c5\u00c6\7\f\2\2\u00c6\u00c7\7(\2"+
 		"\2\u00c7\u00c8\7\16\2\2\u00c8\u00c9\7(\2\2\u00c9\u00ca\5\60\31\2\u00ca"+
 		"\u00cb\5\64\33\2\u00cb\u00cc\7\6\2\2\u00cc#\3\2\2\2\u00cd\u00ce\5\60\31"+
-		"\2\u00ce\u00cf\5P)\2\u00cf\u00d0\7(\2\2\u00d0\u00d1\7\17\2\2\u00d1\u00d2"+
+		"\2\u00ce\u00cf\5R*\2\u00cf\u00d0\7(\2\2\u00d0\u00d1\7\17\2\2\u00d1\u00d2"+
 		"\7(\2\2\u00d2\u00d3\5\64\33\2\u00d3\u00d4\7\6\2\2\u00d4%\3\2\2\2\u00d5"+
 		"\u00d9\5X-\2\u00d6\u00da\5 \21\2\u00d7\u00da\5$\23\2\u00d8\u00da\5\36"+
 		"\20\2\u00d9\u00d6\3\2\2\2\u00d9\u00d7\3\2\2\2\u00d9\u00d8\3\2\2\2\u00da"+
