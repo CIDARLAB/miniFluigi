@@ -1,10 +1,16 @@
 package org.cidarlab.fluigi.netlist.mintnetlistparser;
 
+import org.cidarlab.fluigi.netlist.Component;
+import org.cidarlab.fluigi.netlist.Connection;
 import org.cidarlab.fluigi.netlist.Enumerations;
+import org.cidarlab.fluigi.netlist.Terminal;
 import org.cidarlab.fluigi.netlist.constraints.Constraint;
 import org.cidarlab.fluigi.netlist.constraints.GridConstraint;
 import org.cidarlab.fluigi.netlist.constraints.OrientationConstraint;
 import org.cidarlab.fluigi.netlist.mintgrammar.mintgrammarParser;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PartialMINTConstraintParser extends PartialMINTNetlistParser {
 
@@ -133,6 +139,10 @@ public class PartialMINTConstraintParser extends PartialMINTNetlistParser {
         int horizontalspacing = 0;
         int verticalspacing = 0;
 
+        int xdim = Integer.parseInt(ctx.xdim.getText());
+        int ydim = Integer.parseInt(ctx.ydim.getText());
+        String name = ctx.ufname().getText();
+
         if(paramsHashmap.containsKey("horizontalSpacing")){
             horizontalspacing = Integer.parseInt(paramsHashmap.get("horizontalSpacing"));
         }
@@ -141,29 +151,103 @@ public class PartialMINTConstraintParser extends PartialMINTNetlistParser {
             verticalspacing = Integer.parseInt(paramsHashmap.get("verticalSpacing"));
         }
 
-        if(paramsHashmap.containsKey("horizontalValves")){
-            if(("YES").equals(paramsHashmap.get("horizontalValves"))){
-                throw new UnsupportedOperationException("Need to implement code to increase spacing for a valve");
-            }
-        }
 
-        if(paramsHashmap.containsKey("verticalValves")){
-            if(("YES").equals(paramsHashmap.get("verticalValves"))){
-                throw new UnsupportedOperationException("Need to implement code to increase spacing for a valve");
-            }
-        }
 
         if(paramsHashmap.containsKey("horizontalConnect")){
             if(("YES").equals(paramsHashmap.get("horizontalConnect"))){
-                throw new UnsupportedOperationException("Need to implement code to make arbitrary connections between" +
-                        "the components");
+
+                //Loop through all the components and then based on the algorithm generate the connections
+                //Refer https://github.com/CIDARLAB/miniFluigi/wiki/Algorithms#grid-connections for details of algorithm
+
+                Component samplecomponent  = constraintContextComponents.get(0);
+
+                List<Terminal> leftterminalslist = samplecomponent.getLeftEdgeTerminals();
+                List<Terminal> rightterminalslist = samplecomponent.getRightEdgeTerminals();
+
+                List<Terminal> smalllist;
+                List<Terminal> biglist;
+                List<Connection> connectionList;
+
+                Component sourcecomponent;
+                Component sinkcomponent;
+
+                if(leftterminalslist.size() <= rightterminalslist.size()){
+                    smalllist = leftterminalslist;
+                    biglist = rightterminalslist;
+                }else{
+                    biglist = leftterminalslist;
+                    smalllist = rightterminalslist;
+                }
+
+                //Get the source and sink components
+                for(int x = 0; x < xdim - 1; x++){
+                    for(int y = 0; y < ydim; y++){
+                        int sourceindex = x*xdim + y*ydim;
+                        int sinkindex = (x+1)*xdim + y*ydim;
+                        sourcecomponent = constraintContextComponents.get(sourceindex);
+                        sinkcomponent = constraintContextComponents.get(sinkindex);
+
+
+                        connectionList = createGridChannelConnectionHelper(name, smalllist, biglist, sourcecomponent, sinkcomponent, x, y);
+
+                    }
+                }
+
+                if(paramsHashmap.containsKey("horizontalValves")){
+                    if(("YES").equals(paramsHashmap.get("horizontalValves"))){
+                        throw new UnsupportedOperationException("Need to implement code to increase spacing for a valve");
+                    }
+                }
+
             }
         }
 
         if(paramsHashmap.containsKey("verticalConnect")){
             if(("YES").equals(paramsHashmap.get("verticalConnect"))){
-                throw new UnsupportedOperationException("Need to implement code to make arbitrary connections between" +
-                        "the components");
+
+                //Loop through all the components and then based on the algorithm generate the connections
+                //Refer https://github.com/CIDARLAB/miniFluigi/wiki/Algorithms#grid-connections for details of algorithm
+
+                Component samplecomponent  = constraintContextComponents.get(0);
+
+                List<Terminal> leftterminalslist = samplecomponent.getLeftEdgeTerminals();
+                List<Terminal> rightterminalslist = samplecomponent.getRightEdgeTerminals();
+
+                List<Terminal> smalllist;
+                List<Terminal> biglist;
+                List<Connection> connectionList;
+
+                Component sourcecomponent;
+                Component sinkcomponent;
+
+                if(leftterminalslist.size() <= rightterminalslist.size()){
+                    smalllist = leftterminalslist;
+                    biglist = rightterminalslist;
+                }else{
+                    biglist = leftterminalslist;
+                    smalllist = rightterminalslist;
+                }
+
+                //Get the source and sink components
+                for(int x = 0; x < xdim ; x++){
+                    for(int y = 0; y < ydim -1 ; y++){
+                        int sourceindex = x*xdim + y*ydim;
+                        int sinkindex = (x)*xdim + (y+1)*ydim;
+                        sourcecomponent = constraintContextComponents.get(sourceindex);
+                        sinkcomponent = constraintContextComponents.get(sinkindex);
+
+                        connectionList = createGridChannelConnectionHelper(name, smalllist, biglist, sourcecomponent, sinkcomponent, x, y);
+
+                    }
+                }
+
+
+                if(paramsHashmap.containsKey("verticalValves")){
+                    if(("YES").equals(paramsHashmap.get("verticalValves"))){
+                        throw new UnsupportedOperationException("Need to implement code to increase spacing for a valve");
+                    }
+                }
+
             }
         }
 
@@ -283,6 +367,38 @@ public class PartialMINTConstraintParser extends PartialMINTNetlistParser {
         constraintContextHorizontalDirection = null;
         constraintContextVerticalDirection = null;
         constraintContextLength = null;
+    }
+
+    private List<Connection> createGridChannelConnectionHelper(String name, List<Terminal> smalllist, List<Terminal> biglist, Component sourcecomponent, Component sinkcomponent, int x, int y) {
+
+        List<Connection> ret = new ArrayList<>();
+
+        //Loop through the terminals
+        for(int i = 0; i < smalllist.size(); i++){
+            Terminal smallterminal = smalllist.get(i);
+            Terminal bigterminal = biglist.get(i);
+
+            //Create the connection (for the channel)
+            Connection connection = new Connection("ch_" + name + "_h_" + x +"_"+ y + "_" + i);
+            //Set the layer
+            connection.setLayerID(currentlayer.getId());
+
+            //Set the source and sink
+            connection.setSourceID(sourcecomponent.getId());
+
+            connection.addSinkID(sinkcomponent.getId());
+
+            //Update the terminalmap for the connection
+            connection.updateTerminalMap(sourcecomponent.getId(), null);
+            connection.updateTerminalMap(sinkcomponent.getId(), null);
+            verifyAndAddConnectionParams(connection);
+
+            ret.add(connection);
+
+            device.addConnection(connection);
+        }
+
+        return ret;
     }
 
 }
