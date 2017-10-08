@@ -1,10 +1,8 @@
 package org.cidarlab.fluigi.netlist.mintnetlistparser;
 
-import org.cidarlab.fluigi.core.LibraryManager;
 import org.cidarlab.fluigi.netlist.Component;
 import org.cidarlab.fluigi.netlist.Connection;
 import org.cidarlab.fluigi.netlist.TechEntity;
-import org.cidarlab.fluigi.netlist.TechLibrary;
 import org.cidarlab.fluigi.netlist.mintgrammar.mintgrammarParser;
 
 import java.util.HashMap;
@@ -60,7 +58,7 @@ public class PartialMINTParamsParser extends PartialMINTDeviceArchitectureParser
 
     protected void verifyAndAddParams(Component component) {
         for(String key: paramsHashmap.keySet()){
-            TechEntity.ParamVerification verification = currententity.verifyParam(key, paramsHashmap.get(key));
+            TechEntity.ParamVerificationResult verification = currententity.verifyParam(key, paramsHashmap.get(key));
             switch (verification){
                 case VALID:
                     component.addParam(key, paramsHashmap.get(key));
@@ -86,7 +84,7 @@ public class PartialMINTParamsParser extends PartialMINTDeviceArchitectureParser
             if(null == entity){
                 throw new UnsupportedOperationException("Connection: Could not find the channel entity file");
             }
-            TechEntity.ParamVerification verification = entity.verifyParam(key, paramsHashmap.get(key));
+            TechEntity.ParamVerificationResult verification = entity.verifyParam(key, paramsHashmap.get(key));
             switch (verification){
                 case VALID:
                     connection.addParam(key, paramsHashmap.get(key));

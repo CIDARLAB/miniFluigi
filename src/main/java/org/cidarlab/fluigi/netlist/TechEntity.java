@@ -12,7 +12,7 @@ import org.json.simple.JSONObject;
 
 import java.util.*;
 
-import static org.cidarlab.fluigi.netlist.TechEntity.ComponentType.*;
+import static org.cidarlab.fluigi.netlist.TechEntity.TechEntityType.*;
 
 /**
  * Created by krishna on 3/7/17.
@@ -27,7 +27,7 @@ public class TechEntity {
 
     private String yspanexpression;
 
-    private ComponentType type;
+    private TechEntityType type;
 
     private HashMap<String, ParameterType> paramsTypes;
 
@@ -122,7 +122,7 @@ public class TechEntity {
 
     }
 
-    public ParamVerification verifyParam(String parameter, String valuestring){
+    public ParamVerificationResult verifyParam(String parameter, String valuestring){
 
         //Checking if the parameter is defined in the techfile
         if(paramsTypes.containsKey(parameter)){
@@ -132,35 +132,35 @@ public class TechEntity {
             switch (parameterType){
                 case INT:
                     if(StringUtils.isNumeric(valuestring)){
-                        return ParamVerification.VALID;
+                        return ParamVerificationResult.VALID;
                     } else {
-                        return ParamVerification.INVALID_VALUE;
+                        return ParamVerificationResult.INVALID_VALUE;
                     }
                 case BOOL:
                     if("YES" == valuestring || "NO" == valuestring){
-                        return ParamVerification.VALID;
+                        return ParamVerificationResult.VALID;
                     } else {
-                        return ParamVerification.INVALID_VALUE;
+                        return ParamVerificationResult.INVALID_VALUE;
                     }
                 case DIRECTION:
                     if("LEFT" == valuestring || "RIGHT" == valuestring || "UP" == valuestring || "DOWN" == valuestring){
-                        return ParamVerification.VALID;
+                        return ParamVerificationResult.VALID;
                     } else {
-                        return ParamVerification.INVALID_VALUE;
+                        return ParamVerificationResult.INVALID_VALUE;
                     }
                 case ORIENTATION:
                     if("VERTICAL" == valuestring || "HORIZONTAL" == valuestring){
-                        return ParamVerification.VALID;
+                        return ParamVerificationResult.VALID;
                     } else {
-                        return ParamVerification.INVALID_VALUE;
+                        return ParamVerificationResult.INVALID_VALUE;
                     }
                 default:
                     //If the type is wrong
-                    return ParamVerification.INVALID_TYPE;
+                    return ParamVerificationResult.INVALID_TYPE;
             }
         } else {
             //Parameter is not defined in the techfile description
-            return ParamVerification.INVALID_NAME;
+            return ParamVerificationResult.INVALID_NAME;
         }
     }
 
@@ -249,11 +249,11 @@ public class TechEntity {
         return parseExpression(yspanexpression, params);
     }
 
-    public ComponentType getType() {
+    public TechEntityType getType() {
         return type;
     }
 
-    public enum ParamVerification {
+    public enum ParamVerificationResult {
         VALID,
         INVALID_NAME,
         INVALID_TYPE,
@@ -267,10 +267,11 @@ public class TechEntity {
         BOOL
     }
 
-    public enum ComponentType{
+    public enum TechEntityType {
         PRIMITIVE,
         COMPOSITE,
-        FEATURE, SCALING
+        FEATURE,
+        SCALING
     }
 
 

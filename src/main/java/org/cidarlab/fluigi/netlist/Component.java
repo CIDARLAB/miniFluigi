@@ -22,7 +22,7 @@ public class Component {
     private String technology;
     private HashMap<String, Object> params;
     private int x,y,w,h;
-    private TechEntity.ComponentType type;
+    private TechEntity.TechEntityType type;
     private float rotation;
 
     private HashMap<String, Terminal> terminalsHashMap;
@@ -288,7 +288,7 @@ public class Component {
 
     }
 
-    public void setType(TechEntity.ComponentType type) {
+    public void setType(TechEntity.TechEntityType type) {
         this.type = type;
     }
 }
