@@ -142,8 +142,7 @@ paramStat
     |   boolParam
     |   verticalDirectionParam
     |   horizontalDirectionParam
-    |   verticalConnectionParam
-    |   horizontalConnectParam
+    |   gridParam
     |   widthParam
     ;
 
@@ -173,13 +172,15 @@ horizontalDirectionParam
     :   'dir''='dir=('UP'|'DOWN')
     ;
 
-horizontalConnectParam
-    :   'horizontalConnect' '=' boolvalue
+gridParam
+    :   gridParamKey '=' gridParamValue
     ;
 
-verticalConnectionParam
-    :   'verticalConnect' '=' boolvalue
-    ;
+gridParamValue : boolvalue | value;
+
+gridParamKey
+    :   'horizontalConnect' |    'verticalConnect'  |   'verticalValves'    |   'horizontalValves'
+    |   'verticalSpacing'   |   'horizontalSpacing' ;
 
 ufmodulename
     :   ID_BIG

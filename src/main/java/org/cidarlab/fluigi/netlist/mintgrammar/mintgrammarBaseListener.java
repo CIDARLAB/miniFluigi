@@ -412,25 +412,37 @@ public class mintgrammarBaseListener implements mintgrammarListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterHorizontalConnectParam(mintgrammarParser.HorizontalConnectParamContext ctx) { }
+	@Override public void enterGridParam(mintgrammarParser.GridParamContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitHorizontalConnectParam(mintgrammarParser.HorizontalConnectParamContext ctx) { }
+	@Override public void exitGridParam(mintgrammarParser.GridParamContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterVerticalConnectionParam(mintgrammarParser.VerticalConnectionParamContext ctx) { }
+	@Override public void enterGridParamValue(mintgrammarParser.GridParamValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitVerticalConnectionParam(mintgrammarParser.VerticalConnectionParamContext ctx) { }
+	@Override public void exitGridParamValue(mintgrammarParser.GridParamValueContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterGridParamKey(mintgrammarParser.GridParamKeyContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitGridParamKey(mintgrammarParser.GridParamKeyContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

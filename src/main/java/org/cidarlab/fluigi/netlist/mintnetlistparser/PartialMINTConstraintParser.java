@@ -10,6 +10,7 @@ import org.cidarlab.fluigi.netlist.constraints.OrientationConstraint;
 import org.cidarlab.fluigi.netlist.mintgrammar.mintgrammarParser;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class PartialMINTConstraintParser extends PartialMINTNetlistParser {
@@ -19,9 +20,12 @@ public class PartialMINTConstraintParser extends PartialMINTNetlistParser {
     protected Enumerations.Orientation constriantContextOrientaiton = null;
     protected Integer constraintContextLength = null;
 
+    private HashMap<String, String> gridParamsHashmap;
+
 
     public PartialMINTConstraintParser() {
         super();
+        gridParamsHashmap = new HashMap<>();
     }
 
     @Override
@@ -133,6 +137,18 @@ public class PartialMINTConstraintParser extends PartialMINTNetlistParser {
      * @param ctx
      */
     @Override
+    public void enterGridParam(mintgrammarParser.GridParamContext ctx) {
+        gridParamsHashmap.put(ctx.gridParamKey().getText(), ctx.gridParamValue().getText());
+    }
+
+    /**
+     * {@inheritDoc}
+     * <p>
+     * <p>The default implementation does nothing.</p>
+     *
+     * @param ctx
+     */
+    @Override
     public void exitGridStat(mintgrammarParser.GridStatContext ctx) {
         super.exitGridStat(ctx);
 
@@ -143,18 +159,16 @@ public class PartialMINTConstraintParser extends PartialMINTNetlistParser {
         int ydim = Integer.parseInt(ctx.ydim.getText());
         String name = ctx.ufname().getText();
 
-        if(paramsHashmap.containsKey("horizontalSpacing")){
-            horizontalspacing = Integer.parseInt(paramsHashmap.get("horizontalSpacing"));
+        if(gridParamsHashmap.containsKey("horizontalSpacing")){
+            horizontalspacing = Integer.parseInt(gridParamsHashmap.get("horizontalSpacing"));
         }
 
-        if(paramsHashmap.containsKey("verticalSpacing")){
-            verticalspacing = Integer.parseInt(paramsHashmap.get("verticalSpacing"));
+        if(gridParamsHashmap.containsKey("verticalSpacing")){
+            verticalspacing = Integer.parseInt(gridParamsHashmap.get("verticalSpacing"));
         }
 
-
-
-        if(paramsHashmap.containsKey("horizontalConnect")){
-            if(("YES").equals(paramsHashmap.get("horizontalConnect"))){
+        if(gridParamsHashmap.containsKey("horizontalConnect")){
+            if(("YES").equals(gridParamsHashmap.get("horizontalConnect"))){
 
                 //Loop through all the components and then based on the algorithm generate the connections
                 //Refer https://github.com/CIDARLAB/miniFluigi/wiki/Algorithms#grid-connections for details of algorithm
@@ -182,11 +196,10 @@ public class PartialMINTConstraintParser extends PartialMINTNetlistParser {
                 //Get the source and sink components
                 for(int x = 0; x < xdim - 1; x++){
                     for(int y = 0; y < ydim; y++){
-                        int sourceindex = x*xdim + y*ydim;
-                        int sinkindex = (x+1)*xdim + y*ydim;
+                        int sourceindex = x*xdim + y%ydim;
+                        int sinkindex = (x+1)*xdim + y%ydim;
                         sourcecomponent = constraintContextComponents.get(sourceindex);
                         sinkcomponent = constraintContextComponents.get(sinkindex);
-
 
                         connectionList = createGridChannelConnectionHelper(name, smalllist, biglist, sourcecomponent, sinkcomponent, x, y);
 
@@ -194,7 +207,7 @@ public class PartialMINTConstraintParser extends PartialMINTNetlistParser {
                 }
 
                 if(paramsHashmap.containsKey("horizontalValves")){
-                    if(("YES").equals(paramsHashmap.get("horizontalValves"))){
+                    if(("YES").equals(gridParamsHashmap.get("horizontalValves"))){
                         throw new UnsupportedOperationException("Need to implement code to increase spacing for a valve");
                     }
                 }
@@ -202,8 +215,8 @@ public class PartialMINTConstraintParser extends PartialMINTNetlistParser {
             }
         }
 
-        if(paramsHashmap.containsKey("verticalConnect")){
-            if(("YES").equals(paramsHashmap.get("verticalConnect"))){
+        if(gridParamsHashmap.containsKey("verticalConnect")){
+            if(("YES").equals(gridParamsHashmap.get("verticalConnect"))){
 
                 //Loop through all the components and then based on the algorithm generate the connections
                 //Refer https://github.com/CIDARLAB/miniFluigi/wiki/Algorithms#grid-connections for details of algorithm
@@ -231,8 +244,8 @@ public class PartialMINTConstraintParser extends PartialMINTNetlistParser {
                 //Get the source and sink components
                 for(int x = 0; x < xdim ; x++){
                     for(int y = 0; y < ydim -1 ; y++){
-                        int sourceindex = x*xdim + y*ydim;
-                        int sinkindex = (x)*xdim + (y+1)*ydim;
+                        int sourceindex = x*xdim + y%ydim;
+                        int sinkindex = (x)*xdim + (y)%ydim + 1 ;
                         sourcecomponent = constraintContextComponents.get(sourceindex);
                         sinkcomponent = constraintContextComponents.get(sinkindex);
 
@@ -241,9 +254,8 @@ public class PartialMINTConstraintParser extends PartialMINTNetlistParser {
                     }
                 }
 
-
-                if(paramsHashmap.containsKey("verticalValves")){
-                    if(("YES").equals(paramsHashmap.get("verticalValves"))){
+                if(gridParamsHashmap.containsKey("verticalValves")){
+                    if(("YES").equals(gridParamsHashmap.get("verticalValves"))){
                         throw new UnsupportedOperationException("Need to implement code to increase spacing for a valve");
                     }
                 }
@@ -254,6 +266,8 @@ public class PartialMINTConstraintParser extends PartialMINTNetlistParser {
         Constraint constraint = new GridConstraint(horizontalspacing, verticalspacing, constraintContextComponents);
 
         device.addConstraint(constraint);
+
+        gridParamsHashmap.clear();
     }
 
     /**

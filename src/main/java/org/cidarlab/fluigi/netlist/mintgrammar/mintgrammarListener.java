@@ -338,25 +338,35 @@ public interface mintgrammarListener extends ParseTreeListener {
 	 */
 	void exitHorizontalDirectionParam(mintgrammarParser.HorizontalDirectionParamContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link mintgrammarParser#horizontalConnectParam}.
+	 * Enter a parse tree produced by {@link mintgrammarParser#gridParam}.
 	 * @param ctx the parse tree
 	 */
-	void enterHorizontalConnectParam(mintgrammarParser.HorizontalConnectParamContext ctx);
+	void enterGridParam(mintgrammarParser.GridParamContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link mintgrammarParser#horizontalConnectParam}.
+	 * Exit a parse tree produced by {@link mintgrammarParser#gridParam}.
 	 * @param ctx the parse tree
 	 */
-	void exitHorizontalConnectParam(mintgrammarParser.HorizontalConnectParamContext ctx);
+	void exitGridParam(mintgrammarParser.GridParamContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link mintgrammarParser#verticalConnectionParam}.
+	 * Enter a parse tree produced by {@link mintgrammarParser#gridParamValue}.
 	 * @param ctx the parse tree
 	 */
-	void enterVerticalConnectionParam(mintgrammarParser.VerticalConnectionParamContext ctx);
+	void enterGridParamValue(mintgrammarParser.GridParamValueContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link mintgrammarParser#verticalConnectionParam}.
+	 * Exit a parse tree produced by {@link mintgrammarParser#gridParamValue}.
 	 * @param ctx the parse tree
 	 */
-	void exitVerticalConnectionParam(mintgrammarParser.VerticalConnectionParamContext ctx);
+	void exitGridParamValue(mintgrammarParser.GridParamValueContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link mintgrammarParser#gridParamKey}.
+	 * @param ctx the parse tree
+	 */
+	void enterGridParamKey(mintgrammarParser.GridParamKeyContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link mintgrammarParser#gridParamKey}.
+	 * @param ctx the parse tree
+	 */
+	void exitGridParamKey(mintgrammarParser.GridParamKeyContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link mintgrammarParser#ufmodulename}.
 	 * @param ctx the parse tree
