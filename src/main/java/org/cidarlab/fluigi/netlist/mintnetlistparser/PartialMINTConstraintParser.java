@@ -4,6 +4,7 @@ import org.cidarlab.fluigi.netlist.Component;
 import org.cidarlab.fluigi.netlist.Connection;
 import org.cidarlab.fluigi.netlist.Enumerations;
 import org.cidarlab.fluigi.netlist.Terminal;
+import org.cidarlab.fluigi.netlist.constraints.BankConstraint;
 import org.cidarlab.fluigi.netlist.constraints.Constraint;
 import org.cidarlab.fluigi.netlist.constraints.GridConstraint;
 import org.cidarlab.fluigi.netlist.constraints.OrientationConstraint;
@@ -295,9 +296,15 @@ public class PartialMINTConstraintParser extends PartialMINTNetlistParser {
     @Override
     public void exitBankStat(mintgrammarParser.BankStatContext ctx) {
         super.exitBankStat(ctx);
-        //TODO: Implement the constraint for bank
-        throw new UnsupportedOperationException();
+        //Implement the constraint for bank
 
+        int spacing = 0;
+        if(paramsHashmap.containsKey("spacing")){
+            spacing = Integer.parseInt(paramsHashmap.get("spacing"));
+        }
+        Constraint constraint = new BankConstraint(spacing, constraintContextComponents);
+
+        device.addConstraint(constraint);
     }
 
     //------------------- Constraint Params ---------------------
