@@ -113,10 +113,14 @@ public class PartialMINTDeviceArchitectureParser extends mintgrammarBaseListener
      */
     @Override
     public void enterControlBlock(mintgrammarParser.ControlBlockContext ctx) {
-        currentlayer = new LogicalLayer(Integer.toString(layercount++));
-        device.addLayer(currentlayer);
-        currentlayer.setLayerType(LogicalLayer.LogicalLayerType.CONTROL);
-        currentLayerBlock.setControlLayer(currentlayer);
+        if(null == currentLayerBlock.getControlLayer()){
+            currentlayer = new LogicalLayer(Integer.toString(layercount++));
+            device.addLayer(currentlayer);
+            currentlayer.setLayerType(LogicalLayer.LogicalLayerType.CONTROL);
+            currentLayerBlock.setControlLayer(currentlayer);
+        }else {
+            currentlayer = currentLayerBlock.getControlLayer();
+        }
     }
 
     /**

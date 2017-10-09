@@ -161,6 +161,9 @@ public class Component {
 
 
     public List<Terminal> getTerminals() {
+        if(null == clockwiselist){
+            throw new UnsupportedOperationException("Terminal list is null for component: " + this.technology);
+        }
         return clockwiselist;
     }
 

@@ -281,15 +281,21 @@ public class   PartialMINTNetlistParser extends PartialMINTParamsParser {
      */
     @Override
     public void exitValveStat(ValveStatContext ctx) {
-        Component component = new Component(ctx.ufname().get(0).getText());
-        Connection flowconnection = device.getConnection(ctx.ufname().get(1).getText());
+        //Set technology to valve
         String entitytext = ctx.valve_entity.getText();
-        component.setTechnology(entitytext);
-        verifyAndAddParams(component);
+        currententity = techLibrary.getMINTEntity(entitytext);
+
+        Component component = createAndVerifyComponentHelper(ctx.ufname().get(0).getText());
+
+        //Add the terminal map
+        addAllTerminalsToTerminalMapHelper(component);
 
         addAllTerminalsToTerminalMapHelper(component);
 
         device.addComponent(component);
+
+        //Add the valve relationship to the flow layer
+        Connection flowconnection = device.getConnection(ctx.ufname().get(1).getText());
         device.addValve(component, flowconnection);
     }
 
