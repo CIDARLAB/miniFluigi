@@ -4,7 +4,7 @@ import org.cidarlab.fluigi.core.LibraryManager;
 import org.cidarlab.fluigi.netlist.Device;
 import org.cidarlab.fluigi.netlist.LayerBlock;
 import org.cidarlab.fluigi.netlist.LogicalLayer;
-import org.cidarlab.fluigi.netlist.TechLibrary;
+import org.cidarlab.fluigi.netlist.technology.TechLibrary;
 import org.cidarlab.fluigi.netlist.mintgrammar.mintgrammarBaseListener;
 import org.cidarlab.fluigi.netlist.mintgrammar.mintgrammarParser;
 
@@ -113,10 +113,14 @@ public class PartialMINTDeviceArchitectureParser extends mintgrammarBaseListener
      */
     @Override
     public void enterControlBlock(mintgrammarParser.ControlBlockContext ctx) {
-        currentlayer = new LogicalLayer(Integer.toString(layercount++));
-        device.addLayer(currentlayer);
-        currentlayer.setLayerType(LogicalLayer.LogicalLayerType.CONTROL);
-        currentLayerBlock.setControlLayer(currentlayer);
+        if(null == currentLayerBlock.getControlLayer()){
+            currentlayer = new LogicalLayer(Integer.toString(layercount++));
+            device.addLayer(currentlayer);
+            currentlayer.setLayerType(LogicalLayer.LogicalLayerType.CONTROL);
+            currentLayerBlock.setControlLayer(currentlayer);
+        }else {
+            currentlayer = currentLayerBlock.getControlLayer();
+        }
     }
 
     /**

@@ -1,10 +1,11 @@
-package org.cidarlab.fluigi.netlist;
+package org.cidarlab.fluigi.netlist.technology;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.apache.commons.lang3.StringUtils;
+import org.cidarlab.fluigi.netlist.Terminal;
 import org.cidarlab.fluigi.netlist.expressiongrammar.expressiongrammarLexer;
 import org.cidarlab.fluigi.netlist.expressiongrammar.expressiongrammarParser;
 import org.json.simple.JSONArray;
@@ -12,7 +13,7 @@ import org.json.simple.JSONObject;
 
 import java.util.*;
 
-import static org.cidarlab.fluigi.netlist.TechEntity.TechEntityType.*;
+import static org.cidarlab.fluigi.netlist.technology.TechEntity.TechEntityType.*;
 
 /**
  * Created by krishna on 3/7/17.

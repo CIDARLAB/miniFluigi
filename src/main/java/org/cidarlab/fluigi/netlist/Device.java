@@ -6,7 +6,8 @@
 package org.cidarlab.fluigi.netlist;
 
 import org.cidarlab.fluigi.netlist.constraints.Constraint;
-import org.cidarlab.fluigi.netlist.constraints.OrientationConstraint;
+import org.cidarlab.fluigi.netlist.technology.TechEntity;
+import org.cidarlab.fluigi.netlist.technology.TechLibrary;
 
 import java.util.*;
 
@@ -51,15 +52,28 @@ public class Device {
         layersHashMap.put(layer.getId(), layer);
     }
 
-    public void addComponent(Component component) {
+    public void addComponent(Component component, String layerid) {
         if(dependencies.contains(component.getTechnology())){
             imports.add(component);
         }
         components.add(component);
+
+        //Register component in the given layer
+        if(!layersHashMap.containsKey(layerid)){
+            throw new UnsupportedOperationException("It seems like the layer does not exist");
+        }
+        LogicalLayer layer = layersHashMap.get(layerid);
+        layer.addComponent(component);
     }
 
-    public void addConnection(Connection connection) {
+    public void addConnection(Connection connection, String layerid) {
         connections.add(connection);
+        if(!layersHashMap.containsKey(layerid)){
+            throw new UnsupportedOperationException("It seems like the layer does not exist");
+        }
+        LogicalLayer layer = layersHashMap.get(layerid);
+        layer.addConnection(connection);
+
     }
 
     /**
@@ -99,6 +113,15 @@ public class Device {
      */
     public void addValve(Component component, Connection connection) {
         this.valvemap.put(component, connection);
+    }
+
+
+    public void removeValve(Connection connection){
+        for(Component key: valvemap.keySet()){
+            if(valvemap.get(key).equals(connection)){
+                valvemap.remove(key);
+            }
+        }
     }
 
     /**

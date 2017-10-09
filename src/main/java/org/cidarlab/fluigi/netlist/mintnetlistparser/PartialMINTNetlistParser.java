@@ -4,6 +4,7 @@ import org.cidarlab.fluigi.netlist.*;
 import org.cidarlab.fluigi.netlist.mintgrammar.mintgrammarParser;
 import org.cidarlab.fluigi.netlist.mintgrammar.mintgrammarParser.*;
 import org.cidarlab.fluigi.netlist.mintnetlistparser.MINTArbitraryTerminalMap.TargetRecord;
+import org.cidarlab.fluigi.netlist.technology.TechEntity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,7 +40,7 @@ public class   PartialMINTNetlistParser extends PartialMINTParamsParser {
         List<UfnameContext> componentnames = ctx.ufnames().ufname();
         for(UfnameContext componentname : componentnames){
 
-            Component component = createAndVerifyComponentHelper(componentname.getText());
+            Component component = createAndVerifyComponentHelper(componentname.getText(), currententity);
 
             //Add the terminal map
             addAllTerminalsToTerminalMapHelper(component);
@@ -47,7 +48,7 @@ public class   PartialMINTNetlistParser extends PartialMINTParamsParser {
             //Add the component to constraint context for applying constraints
             constraintContextComponents.add(component);
             //Adding the component to the device
-            device.addComponent(component);
+            device.addComponent(component, currentlayer.getId());
         }
     }
 
@@ -77,7 +78,7 @@ public class   PartialMINTNetlistParser extends PartialMINTParamsParser {
 
         for (int i = 0; i < xdim; i++) {
             for (int j = 0; j < ydim; j++) {
-                component = createAndVerifyComponentHelper(componentname + "_" + i+1 + "_" + j+1);
+                component = createAndVerifyComponentHelper(componentname + "_" + i+1 + "_" + j+1, currententity);
 
                 //Add the terminal map records for the edge components
                 if(0 == j){//Top row
@@ -168,7 +169,7 @@ public class   PartialMINTNetlistParser extends PartialMINTParamsParser {
                 //Add the component to constraint context for applying constraints
                 constraintContextComponents.add(component);
                 //Adding the component to the device
-                device.addComponent(component);
+                device.addComponent(component, currentlayer.getId());
             }
 
         }
@@ -192,7 +193,7 @@ public class   PartialMINTNetlistParser extends PartialMINTParamsParser {
         Component component;
 
         for (int i = 0; i < dim; i++) {
-            component = createAndVerifyComponentHelper(componentname + "_" + i+1);
+            component = createAndVerifyComponentHelper(componentname + "_" + i+1, currententity);
 
             //Create terminals that need to be connected with the required alias
             List<Terminal> componenttopedgeterminals = component.getTopEdgeTerminals();
@@ -226,7 +227,7 @@ public class   PartialMINTNetlistParser extends PartialMINTParamsParser {
             //Add the component to constraint context for applying constraints
             constraintContextComponents.add(component);
             //Adding the component to the device
-            device.addComponent(component);
+            device.addComponent(component, currentlayer.getId());
         }
 
     }
@@ -240,7 +241,7 @@ public class   PartialMINTNetlistParser extends PartialMINTParamsParser {
 
             addAllTerminalsToTerminalMapHelper(component);
 
-            device.addComponent(component);
+            device.addComponent(component, currentlayer.getId());
         }
     }
 
@@ -263,7 +264,7 @@ public class   PartialMINTNetlistParser extends PartialMINTParamsParser {
         List<UfnameContext> componentnames = ctx.ufnames().ufname();
         for(UfnameContext componentname : componentnames){
 
-            Component component = createAndVerifyComponentHelper(componentname.getText());
+            Component component = createAndVerifyComponentHelper(componentname.getText(), currententity);
 
             //Add the terminal map
             addAllTerminalsToTerminalMapHelper(component);
@@ -271,7 +272,7 @@ public class   PartialMINTNetlistParser extends PartialMINTParamsParser {
             //Add the component to constraint context for applying constraints
             constraintContextComponents.add(component);
             //Adding the component to the device
-            device.addComponent(component);
+            device.addComponent(component, currentlayer.getId());
         }
     }
 
@@ -281,15 +282,18 @@ public class   PartialMINTNetlistParser extends PartialMINTParamsParser {
      */
     @Override
     public void exitValveStat(ValveStatContext ctx) {
-        Component component = new Component(ctx.ufname().get(0).getText());
-        Connection flowconnection = device.getConnection(ctx.ufname().get(1).getText());
-        String entitytext = ctx.valve_entity.getText();
-        component.setTechnology(entitytext);
-        verifyAndAddParams(component);
+        //Set technology to valve
+        Component component = createAndVerifyComponentHelper(ctx.ufname().get(0).getText(), currententity);
+
+        //Add the terminal map
+        addAllTerminalsToTerminalMapHelper(component);
 
         addAllTerminalsToTerminalMapHelper(component);
 
-        device.addComponent(component);
+        device.addComponent(component, currentlayer.getId());
+
+        //Add the valve relationship to the flow layer
+        Connection flowconnection = device.getConnection(ctx.ufname().get(1).getText());
         device.addValve(component, flowconnection);
     }
 
@@ -326,7 +330,7 @@ public class   PartialMINTNetlistParser extends PartialMINTParamsParser {
         connection.updateTerminalMap(sourceID, sourceTerminal);
         connection.updateTerminalMap(sinkID, sinkTeriminal);
         verifyAndAddConnectionParams(connection);
-        device.addConnection(connection);
+        device.addConnection(connection, currentlayer.getId());
 
     }
 
@@ -362,7 +366,7 @@ public class   PartialMINTNetlistParser extends PartialMINTParamsParser {
             connection.addSinkID(sinkid);
             connection.updateTerminalMap(sinkid,sinkterminal);
         }
-        device.addConnection(connection);
+        device.addConnection(connection, currentlayer.getId());
 
     }
 
@@ -401,14 +405,14 @@ public class   PartialMINTNetlistParser extends PartialMINTParamsParser {
         return ret;
     }
 
-    private void addAllTerminalsToTerminalMapHelper(Component component) {
+    protected void addAllTerminalsToTerminalMapHelper(Component component) {
         //Add records to terminal map
         for(Terminal terminal : component.getTerminals()){
             terminalMap.addRecord(component.getId(), component, terminal.getLabel(), terminal.getLabel());
         }
     }
 
-    private Component createAndVerifyComponentHelper(String id) {
+    protected Component createAndVerifyComponentHelper(String id, TechEntity componententity) {
         Component ret = new Component(id);
 
         //set the correct technology
@@ -416,9 +420,9 @@ public class   PartialMINTNetlistParser extends PartialMINTParamsParser {
         //A. We use the string key here instead of the entity object because we might want to include subdevices as
         // modules.
 
-        ret.setTechnology(currententity.getMINTName());
-        ret.setTerminals(currententity.getDefaultTerminals());
-        ret.setType(currententity.getType());
+        ret.setTechnology(componententity.getMINTName());
+        ret.setTerminals(componententity.getDefaultTerminals());
+        ret.setType(componententity.getType());
         verifyAndAddParams(ret);
         return ret;
     }

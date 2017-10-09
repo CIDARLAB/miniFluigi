@@ -1,14 +1,12 @@
 package org.cidarlab.fluigi.netlist.mintnetlistparser;
 
-import org.cidarlab.fluigi.netlist.Component;
-import org.cidarlab.fluigi.netlist.Connection;
-import org.cidarlab.fluigi.netlist.Enumerations;
-import org.cidarlab.fluigi.netlist.Terminal;
+import org.cidarlab.fluigi.netlist.*;
 import org.cidarlab.fluigi.netlist.constraints.BankConstraint;
 import org.cidarlab.fluigi.netlist.constraints.Constraint;
 import org.cidarlab.fluigi.netlist.constraints.GridConstraint;
 import org.cidarlab.fluigi.netlist.constraints.OrientationConstraint;
 import org.cidarlab.fluigi.netlist.mintgrammar.mintgrammarParser;
+import org.cidarlab.fluigi.netlist.technology.TechEntity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -181,7 +179,7 @@ public class PartialMINTConstraintParser extends PartialMINTNetlistParser {
 
                 List<Terminal> smalllist;
                 List<Terminal> biglist;
-                List<Connection> connectionList;
+                List<Connection> connectionList = null;
 
                 Component sourcecomponent;
                 Component sinkcomponent;
@@ -209,7 +207,17 @@ public class PartialMINTConstraintParser extends PartialMINTNetlistParser {
 
                 if(paramsHashmap.containsKey("horizontalValves")){
                     if(("YES").equals(gridParamsHashmap.get("horizontalValves"))){
-                        throw new UnsupportedOperationException("Need to implement code to increase spacing for a valve");
+                        //TODO: for each item in the connetion list create and add a valve
+                        if(null == connectionList){
+                            throw new UnsupportedOperationException("The connection list should not be null");
+                        }
+                        for(Connection conn : connectionList){
+                            //Get Default Valve technology
+                            TechEntity valveEntity = techLibrary.getMINTEntity(DefaultSettings.DEFAULT_VALVE_TECHNOLOGY);
+                            Component valvecomponent = createAndVerifyComponentHelper("valve_"+conn.getId(), valveEntity);
+                            addAllTerminalsToTerminalMapHelper(valvecomponent);
+                            device.addComponent(valvecomponent, currentLayerBlock.getControlLayer().getId());
+                        }
                     }
                 }
 
@@ -416,7 +424,7 @@ public class PartialMINTConstraintParser extends PartialMINTNetlistParser {
 
             ret.add(connection);
 
-            device.addConnection(connection);
+            device.addConnection(connection, currentlayer.getId());
         }
 
         return ret;

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.cidarlab.fluigi.netlist.json.JSONKeyWords;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -115,5 +116,13 @@ public class Connection {
 
     public void addParam(String key, Object value) {
         params.put(key, value);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(! (obj instanceof Connection)){
+            return false;
+        }
+        return this.id.equals(((Connection)obj).getId());
     }
 }

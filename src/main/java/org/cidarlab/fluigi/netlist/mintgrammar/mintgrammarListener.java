@@ -1,4 +1,4 @@
-// Generated from /Users/krishna/CIDAR/MiniFluigi/src/main/ANTLR/mintgrammar.g4 by ANTLR 4.7
+// Generated from C:/Users/krishna/Documents/GitHub/miniFluigi/src/main/ANTLR\mintgrammar.g4 by ANTLR 4.7
 package org.cidarlab.fluigi.netlist.mintgrammar;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 

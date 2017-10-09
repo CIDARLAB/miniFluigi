@@ -1,7 +1,7 @@
 package org.cidarlab.fluigi.core;
 
-import org.cidarlab.fluigi.netlist.TechEntity;
-import org.cidarlab.fluigi.netlist.TechLibrary;
+import org.cidarlab.fluigi.netlist.technology.TechEntity;
+import org.cidarlab.fluigi.netlist.technology.TechLibrary;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;

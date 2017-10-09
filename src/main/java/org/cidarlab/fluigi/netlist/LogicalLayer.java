@@ -45,6 +45,14 @@ public class LogicalLayer {
         return connections;
     }
 
+    public void addComponent(Component component) {
+        this.components.add(component);
+    }
+
+    public void addConnection(Connection connection) {
+        this.connections.add(connection);
+    }
+
     public enum LogicalLayerType {
         FLOW,
         CONTROL,

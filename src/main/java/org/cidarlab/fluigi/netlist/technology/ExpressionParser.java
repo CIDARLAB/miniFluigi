@@ -1,4 +1,4 @@
-package org.cidarlab.fluigi.netlist;
+package org.cidarlab.fluigi.netlist.technology;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.TerminalNode;

@@ -16,14 +16,12 @@ import org.apache.logging.log4j.Logger;
 import org.cidarlab.fluigi.layout.Placement;
 import org.cidarlab.fluigi.layout.PlacementCellMapper.CellMapper;
 import org.cidarlab.fluigi.layout.PlacementCellMapper.NaiveCellMapper;
-import org.cidarlab.fluigi.netlist.TechLibrary;
 import org.cidarlab.fluigi.netlist.mintgrammar.mintgrammarLexer;
 import org.cidarlab.fluigi.netlist.mintgrammar.mintgrammarParser;
 import org.cidarlab.fluigi.netlist.DesignTree;
 import org.cidarlab.fluigi.netlist.Device;
-import org.cidarlab.fluigi.netlist.JSONNetlistParser;
+import org.cidarlab.fluigi.netlist.json.JSONNetlistParser;
 import org.cidarlab.fluigi.netlist.mintnetlistparser.PartialMINTConstraintParser;
-import org.cidarlab.fluigi.netlist.mintnetlistparser.PartialMINTNetlistParser;
 import org.cidarlab.fluigi.output.JSONNetlist;
 import org.cidarlab.fluigi.place.simulatedannealing.SAPlacer;
 

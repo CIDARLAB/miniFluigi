@@ -2,7 +2,7 @@ package org.cidarlab.fluigi.netlist.mintnetlistparser;
 
 import org.cidarlab.fluigi.netlist.Component;
 import org.cidarlab.fluigi.netlist.Connection;
-import org.cidarlab.fluigi.netlist.TechEntity;
+import org.cidarlab.fluigi.netlist.technology.TechEntity;
 import org.cidarlab.fluigi.netlist.mintgrammar.mintgrammarParser;
 
 import java.util.HashMap;

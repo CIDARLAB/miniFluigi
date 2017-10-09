@@ -1,4 +1,4 @@
-package org.cidarlab.fluigi.netlist;
+package org.cidarlab.fluigi.netlist.technology;
 
 import org.cidarlab.fluigi.geometry.Point;
 

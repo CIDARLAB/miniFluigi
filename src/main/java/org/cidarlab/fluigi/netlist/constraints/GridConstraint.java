@@ -7,7 +7,13 @@ import java.util.HashMap;
 import java.util.List;
 
 public class GridConstraint extends Constraint {
+    private final int horizontalspacing;
+    private final int verticalspacing;
+
     public GridConstraint(int horizontalspacing, int verticalspacing, List<Component> constraintContextComponents) {
+        super(constraintContextComponents);
+        this.horizontalspacing = horizontalspacing;
+        this.verticalspacing = verticalspacing;
     }
 
     @Override

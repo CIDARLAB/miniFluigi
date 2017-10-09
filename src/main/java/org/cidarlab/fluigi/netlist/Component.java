@@ -10,6 +10,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.cidarlab.fluigi.netlist.json.JSONKeyWords;
+import org.cidarlab.fluigi.netlist.technology.TechEntity;
 import org.json.simple.JSONObject;
 
 /**
@@ -161,6 +163,9 @@ public class Component {
 
 
     public List<Terminal> getTerminals() {
+        if(null == clockwiselist){
+            throw new UnsupportedOperationException("Terminal list is null for component: " + this.technology);
+        }
         return clockwiselist;
     }
 

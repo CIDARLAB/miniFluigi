@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.cidarlab.fluigi.netlist;
+package org.cidarlab.fluigi.netlist.json;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -12,6 +12,10 @@ import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.cidarlab.fluigi.netlist.Component;
+import org.cidarlab.fluigi.netlist.Connection;
+import org.cidarlab.fluigi.netlist.Device;
+import org.cidarlab.fluigi.netlist.LogicalLayer;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -86,7 +90,7 @@ public class JSONNetlistParser {
             JSONObject jsoncomponent = (JSONObject) it.next();
             Component component = new Component(getID(jsoncomponent));
             component.importFromJSON(jsoncomponent);
-            device.addComponent(component);
+            device.addComponent(component, (String)jsoncomponent.get("layer"));
         }
     }
 
@@ -96,7 +100,7 @@ public class JSONNetlistParser {
             JSONObject jsonconnection = (JSONObject) it.next();
             Connection connection = new Connection(getID(jsonconnection));
             connection.importFromJSON(jsonconnection);
-            device.addConnection(connection);
+            device.addConnection(connection, (String)jsonconnection.get("layer"));
         }
     }
 
