@@ -64,7 +64,6 @@ integrationBlock
 flowStat
     :   primitiveStat
     |   primitiveWithOrientationConstraintStat
-    |   nodeStat
     |   channelStat
     |   netStat
     |   valveStat
@@ -109,10 +108,6 @@ primitiveWithOrientationConstraintStat
 
 valveStat
     :   entity ufname 'on' ufname paramsStat ';'
-    ;
-
-nodeStat
-    :   'NODE' ufnames ';'
     ;
 
 channelStat

@@ -232,19 +232,6 @@ public class   PartialMINTNetlistParser extends PartialMINTParamsParser {
 
     }
 
-    @Override
-    public void exitNodeStat(NodeStatContext ctx) {
-        List<UfnameContext> componentnames = ctx.ufnames().ufname();
-        for(UfnameContext componentname : componentnames){
-            Component component = new Component(componentname.getText());
-            component.setTechnology("NODE");
-
-            addAllTerminalsToTerminalMapHelper(component);
-
-            device.addComponent(component, currentlayer.getId());
-        }
-    }
-
     /**
      * {@inheritDoc}
      * <p>

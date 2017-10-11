@@ -208,16 +208,6 @@ public interface mintgrammarListener extends ParseTreeListener {
 	 */
 	void exitValveStat(mintgrammarParser.ValveStatContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link mintgrammarParser#nodeStat}.
-	 * @param ctx the parse tree
-	 */
-	void enterNodeStat(mintgrammarParser.NodeStatContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link mintgrammarParser#nodeStat}.
-	 * @param ctx the parse tree
-	 */
-	void exitNodeStat(mintgrammarParser.NodeStatContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link mintgrammarParser#channelStat}.
 	 * @param ctx the parse tree
 	 */

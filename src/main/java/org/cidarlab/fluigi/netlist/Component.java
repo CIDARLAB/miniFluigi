@@ -238,9 +238,10 @@ public class Component {
                     Terminal terminal2 = topedgelist.get(i);
                     if(terminal.getX()<=terminal2.getX()){
                         topedgelist.add(i,terminal);
-                        continue;
+                        break;
                     }
                 }
+                continue;
             }else if(xmax == terminal.getX()){ //Right Edge
                 //if y:increasing -> terminal:increasing
                 if(rightedgelist.isEmpty()){
@@ -251,9 +252,10 @@ public class Component {
                     Terminal terminal2 = rightedgelist.get(i);
                     if(terminal.getY()<=terminal2.getY()){
                         rightedgelist.add(i,terminal);
-                        continue;
+                        break;
                     }
                 }
+                continue;
             }else if(ymax == terminal.getY()){ //Bottom Edge
                 //if x:increasing -> terminal:decreasing
                 if(bottomedgelist.isEmpty()){
@@ -264,9 +266,10 @@ public class Component {
                     Terminal terminal2 = bottomedgelist.get(i);
                     if(terminal.getX()<=terminal2.getX()){
                         bottomedgelist.add(i+1,terminal);
-                        continue;
+                        break;
                     }
                 }
+                continue;
             }else if(xmin == terminal.getX()){ //Left Edge
                 //if y:increasing -> terminal:decreasing
                 if(leftedgelist.isEmpty()){
@@ -277,9 +280,10 @@ public class Component {
                     Terminal terminal2 = bottomedgelist.get(i);
                     if(terminal.getY()<=terminal2.getY()){
                         bottomedgelist.add(i+1,terminal);
-                        continue;
+                        break;
                     }
                 }
+                continue;
             }
         }
 
