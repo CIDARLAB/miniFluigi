@@ -7,12 +7,12 @@ public class Enumerations {
         VERTICAL
     }
 
-    public enum VerticalDirection {
+    public enum HorizontalDirection {
         UP,
         DOWN
     }
 
-    public enum HorizontalDirection {
+    public enum VerticalDirection {
         RIGHT,
         LEFT
     }

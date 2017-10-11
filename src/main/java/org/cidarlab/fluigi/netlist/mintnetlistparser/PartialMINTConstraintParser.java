@@ -65,58 +65,60 @@ public class PartialMINTConstraintParser extends PartialMINTNetlistParser {
             throw new UnsupportedOperationException("Need to implement error throwing mechanism for bad constraints");
         }
 
-        if(Enumerations.Orientation.VERTICAL == constriantContextOrientaiton){
-            if(null == constraintContextVerticalDirection){
+        if(Enumerations.Orientation.HORIZONTAL == constriantContextOrientaiton){
+            if(null == constraintContextHorizontalDirection){
                 //Check if there's a default parameter for the techentity
                 String direction = currententity.getDefaultParamValue("direction");
                 if(null == direction) {
-                    throw new UnsupportedOperationException("No default direction found for the primitive, give unsupported constraint error");
-                }
-                switch (direction){
-                    case "UP":
-                        rotation = 180;
-                        break;
-                    case "DOWN":
-                        rotation = 0;
-                        break;
-                    default:
-                        throw new UnsupportedOperationException("Need to implement error throwing mech for error in tech file");
+                    rotation = 0;
+                } else {
+                    switch (direction) {
+                        case "RIGHT":
+                            rotation = 180;
+                            break;
+                        case "LEFT":
+                            rotation = 0;
+                            break;
+                        default:
+                            throw new UnsupportedOperationException("Need to implement error throwing mech for error in tech file");
+                    }
                 }
             }else {
 
                 switch (constraintContextVerticalDirection) {
-                    case UP:
+                    case RIGHT:
                         rotation = 180;
                         break;
-                    case DOWN:
+                    case LEFT:
                         rotation = 0;
                         break;
                 }
             }
 
         }else{
-            if(null == constraintContextHorizontalDirection){
+            if(null == constraintContextVerticalDirection){
                 String direction = currententity.getDefaultParamValue("direction");
                 if(null == direction) {
-                    throw new UnsupportedOperationException("No default direction found for the primitive, give unsupported constraint error");
-                }
-                switch (direction){
-                    case "RIGHT":
-                        rotation = 90;
-                        break;
-                    case "LEFT":
-                        rotation = 270;
-                        break;
-                    default:
-                        throw new UnsupportedOperationException("Need to implement error throwing mech for error in tech file");
+                    rotation = 0;
+                }else {
+                    switch (direction) {
+                        case "UP":
+                            rotation = 90;
+                            break;
+                        case "DOWN":
+                            rotation = 270;
+                            break;
+                        default:
+                            throw new UnsupportedOperationException("Need to implement error throwing mech for error in tech file");
+                    }
                 }
             }else {
 
                 switch (constraintContextHorizontalDirection) {
-                    case LEFT:
+                    case UP:
                         rotation = 270;
                         break;
-                    case RIGHT:
+                    case DOWN:
                         rotation = 90;
                         break;
                 }
@@ -356,11 +358,11 @@ public class PartialMINTConstraintParser extends PartialMINTNetlistParser {
         //Set the current vertical direction flag
 
         switch (ctx.getText()){
-            case "UP":
-                constraintContextVerticalDirection = Enumerations.VerticalDirection.UP;
+            case "LEFT":
+                constraintContextVerticalDirection = Enumerations.VerticalDirection.LEFT;
                 break;
-            case "DOWN":
-                constraintContextVerticalDirection = Enumerations.VerticalDirection.DOWN;
+            case "RIGHT":
+                constraintContextVerticalDirection = Enumerations.VerticalDirection.RIGHT;
                 break;
         }
 
@@ -374,11 +376,11 @@ public class PartialMINTConstraintParser extends PartialMINTNetlistParser {
         //Set the current horizontal direction flag
 
         switch (ctx.getText()){
-            case "LEFT":
-                constraintContextHorizontalDirection = Enumerations.HorizontalDirection.LEFT;
+            case "UP":
+                constraintContextHorizontalDirection = Enumerations.HorizontalDirection.UP;
                 break;
-            case "RIGHT":
-                constraintContextHorizontalDirection = Enumerations.HorizontalDirection.RIGHT;
+            case "DOWN":
+                constraintContextHorizontalDirection = Enumerations.HorizontalDirection.DOWN;
                 break;
         }
 
