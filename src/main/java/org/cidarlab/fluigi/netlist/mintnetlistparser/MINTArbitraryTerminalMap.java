@@ -67,7 +67,7 @@ public class MINTArbitraryTerminalMap {
         if(null == componentreference){
             throw new UnsupportedOperationException("This should not be null create error for this scenario");
         }else if(!targetNodes.containsKey(componentreference)){
-            throw new UnsupportedOperationException("Could not find any reference to the given component reference");
+            throw new UnsupportedOperationException("Could not find any reference to the given component reference:" + componentreference);
         }else if(null == terminallabel){
             //Return the record where just the query would work
             //Return the record

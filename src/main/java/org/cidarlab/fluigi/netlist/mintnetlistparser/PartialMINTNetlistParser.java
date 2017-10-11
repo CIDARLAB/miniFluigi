@@ -394,8 +394,13 @@ public class   PartialMINTNetlistParser extends PartialMINTParamsParser {
 
     protected void addAllTerminalsToTerminalMapHelper(Component component) {
         //Add records to terminal map
-        for(Terminal terminal : component.getTerminals()){
-            terminalMap.addRecord(component.getId(), component, terminal.getLabel(), terminal.getLabel());
+        if(component.getTerminals().isEmpty()){
+            //Add just the component iscase there are no terminals
+            terminalMap.addRecord(component.getId(), component, null, null);
+        }else {
+            for (Terminal terminal : component.getTerminals()) {
+                terminalMap.addRecord(component.getId(), component, terminal.getLabel(), terminal.getLabel());
+            }
         }
     }
 
