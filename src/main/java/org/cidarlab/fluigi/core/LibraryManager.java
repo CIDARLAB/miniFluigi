@@ -16,16 +16,11 @@ import java.util.HashMap;
  * Created by krishna on 3/7/17.
  */
 public class LibraryManager {
-    /**
-     * TODO: Generate the execution and the entity library.
-     */
-
-    public static TechLibrary techLibrary;
     public static HashMap<String, String> deviceLibrary;
 
     public static void initLibrary(){
         deviceLibrary = new HashMap<>();
-        techLibrary = new TechLibrary("mint");
+        TechLibrary.techLibrary = new TechLibrary("mint");
         /*
         TODO: Read through the directory and create new tech entities that have to be loaded.
          */
@@ -53,7 +48,7 @@ public class LibraryManager {
                 parser = new JSONParser();
                 JSONObject entityjson = (JSONObject)parser.parse(new FileReader(techfile));
                 techEntity.importFromJSON(entityjson);
-                techLibrary.addEntity(techEntity);
+                TechLibrary.techLibrary.addEntity(techEntity);
                 System.out.println("--> Added: "+ techfile.getName());
             } catch (IOException e) {
                 e.printStackTrace();

@@ -1,6 +1,5 @@
 package org.cidarlab.fluigi.netlist.mintnetlistparser;
 
-import org.cidarlab.fluigi.core.LibraryManager;
 import org.cidarlab.fluigi.netlist.Device;
 import org.cidarlab.fluigi.netlist.LayerBlock;
 import org.cidarlab.fluigi.netlist.LogicalLayer;
@@ -14,7 +13,7 @@ public class PartialMINTDeviceArchitectureParser extends mintgrammarBaseListener
     int layercount = 0;
     int layerblockcount = 0;
     LayerBlock currentLayerBlock;
-    TechLibrary techLibrary = LibraryManager.techLibrary;
+    TechLibrary techLibrary = TechLibrary.techLibrary;
 
     public PartialMINTDeviceArchitectureParser() {
         device = new Device();

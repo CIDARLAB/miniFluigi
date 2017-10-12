@@ -22,6 +22,7 @@ import org.cidarlab.fluigi.netlist.DesignTree;
 import org.cidarlab.fluigi.netlist.Device;
 import org.cidarlab.fluigi.netlist.json.JSONNetlistParser;
 import org.cidarlab.fluigi.netlist.mintnetlistparser.PartialMINTConstraintParser;
+import org.cidarlab.fluigi.netlist.technology.TechLibrary;
 import org.cidarlab.fluigi.output.JSONNetlist;
 import org.cidarlab.fluigi.place.simulatedannealing.SAPlacer;
 
@@ -183,7 +184,7 @@ public class Main {
         CellMapper cellMapper;
         while (iterator.hasNext()) {
             device = iterator.next();
-            device.updateXYSpans(LibraryManager.techLibrary);
+            device.updateXYSpans(TechLibrary.techLibrary);
             cellMapper = new NaiveCellMapper(device);
             placementproblems = cellMapper.generateLayouts();
 

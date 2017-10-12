@@ -7,6 +7,12 @@ import java.util.HashMap;
  */
 public class TechLibrary {
 
+    /**
+     * TODO: Generate the execution and the entity library.
+     */
+
+    public static TechLibrary techLibrary;
+
     private HashMap<String, TechEntity> library;
     private HashMap<String, TechEntity> mintlibrary;
     private final String techLibraryName;
