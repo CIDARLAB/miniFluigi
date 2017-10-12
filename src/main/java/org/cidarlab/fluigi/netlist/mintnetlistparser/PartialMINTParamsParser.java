@@ -1,7 +1,7 @@
 package org.cidarlab.fluigi.netlist.mintnetlistparser;
 
-import org.cidarlab.fluigi.netlist.Component;
-import org.cidarlab.fluigi.netlist.Connection;
+import org.cidarlab.fluigi.model.Component;
+import org.cidarlab.fluigi.model.Connection;
 import org.cidarlab.fluigi.netlist.technology.TechEntity;
 import org.cidarlab.fluigi.netlist.mintgrammar.mintgrammarParser;
 

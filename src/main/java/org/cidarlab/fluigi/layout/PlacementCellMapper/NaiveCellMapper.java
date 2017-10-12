@@ -2,9 +2,9 @@ package org.cidarlab.fluigi.layout.PlacementCellMapper;
 
 import org.cidarlab.fluigi.layout.Cell;
 import org.cidarlab.fluigi.layout.Placement;
-import org.cidarlab.fluigi.netlist.Component;
-import org.cidarlab.fluigi.netlist.Connection;
-import org.cidarlab.fluigi.netlist.Device;
+import org.cidarlab.fluigi.model.Component;
+import org.cidarlab.fluigi.model.Connection;
+import org.cidarlab.fluigi.model.Device;
 import org.jgrapht.alg.ConnectivityInspector;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleDirectedGraph;

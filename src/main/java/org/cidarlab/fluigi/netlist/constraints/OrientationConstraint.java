@@ -1,7 +1,7 @@
 package org.cidarlab.fluigi.netlist.constraints;
 
 import org.cidarlab.fluigi.geometry.Point;
-import org.cidarlab.fluigi.netlist.Component;
+import org.cidarlab.fluigi.model.Component;
 
 import java.util.HashMap;
 import java.util.List;

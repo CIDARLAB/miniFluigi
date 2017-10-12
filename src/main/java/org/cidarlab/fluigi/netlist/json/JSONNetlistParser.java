@@ -12,10 +12,10 @@ import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.cidarlab.fluigi.netlist.Component;
-import org.cidarlab.fluigi.netlist.Connection;
-import org.cidarlab.fluigi.netlist.Device;
-import org.cidarlab.fluigi.netlist.LogicalLayer;
+import org.cidarlab.fluigi.model.Component;
+import org.cidarlab.fluigi.model.Connection;
+import org.cidarlab.fluigi.model.Device;
+import org.cidarlab.fluigi.model.LogicalLayer;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;

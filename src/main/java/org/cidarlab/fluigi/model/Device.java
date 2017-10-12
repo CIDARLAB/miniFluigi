@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.cidarlab.fluigi.netlist;
+package org.cidarlab.fluigi.model;
 
 import org.cidarlab.fluigi.netlist.constraints.Constraint;
 import org.cidarlab.fluigi.netlist.technology.TechEntity;

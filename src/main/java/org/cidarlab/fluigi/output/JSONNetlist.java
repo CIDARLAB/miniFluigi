@@ -6,18 +6,12 @@
 package org.cidarlab.fluigi.output;
 
 import org.cidarlab.fluigi.core.Parameters;
-import org.cidarlab.fluigi.layout.Placement;
-import org.cidarlab.fluigi.layout.PlacementCellMapper.CellMapper;
-import org.cidarlab.fluigi.layout.PlacementCellMapper.NaiveCellMapper;
-import org.cidarlab.fluigi.netlist.DesignTree;
-import org.cidarlab.fluigi.netlist.Device;
-import org.cidarlab.fluigi.place.simulatedannealing.SAPlacer;
+import org.cidarlab.fluigi.model.DesignTree;
+import org.cidarlab.fluigi.model.Device;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Iterator;
-import java.util.List;
 
 import static org.cidarlab.fluigi.core.Parameters.FILE_SEPARATOR;
 

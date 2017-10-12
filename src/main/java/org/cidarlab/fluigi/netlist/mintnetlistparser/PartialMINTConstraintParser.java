@@ -1,6 +1,9 @@
 package org.cidarlab.fluigi.netlist.mintnetlistparser;
 
-import org.cidarlab.fluigi.netlist.*;
+import org.cidarlab.fluigi.model.Component;
+import org.cidarlab.fluigi.model.Connection;
+import org.cidarlab.fluigi.model.Terminal;
+import org.cidarlab.fluigi.netlist.Enumerations;
 import org.cidarlab.fluigi.netlist.constraints.BankConstraint;
 import org.cidarlab.fluigi.netlist.constraints.Constraint;
 import org.cidarlab.fluigi.netlist.constraints.GridConstraint;

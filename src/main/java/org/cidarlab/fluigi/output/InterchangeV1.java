@@ -4,15 +4,14 @@ package org.cidarlab.fluigi.output;
  * Created by krishna on 8/21/17.
  */
 
-import org.cidarlab.fluigi.netlist.Component;
-import org.cidarlab.fluigi.netlist.Connection;
-import org.cidarlab.fluigi.netlist.Device;
-import org.cidarlab.fluigi.netlist.LogicalLayer;
+import org.cidarlab.fluigi.model.Component;
+import org.cidarlab.fluigi.model.Connection;
+import org.cidarlab.fluigi.model.Device;
+import org.cidarlab.fluigi.model.LogicalLayer;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * This is Class that will have the ability to generate the JSON outputs in the standard interchange formats

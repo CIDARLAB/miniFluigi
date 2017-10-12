@@ -1,6 +1,4 @@
-package org.cidarlab.fluigi.netlist;
-
-import java.util.ArrayList;
+package org.cidarlab.fluigi.model;
 
 public class LayerBlock {
     String id;

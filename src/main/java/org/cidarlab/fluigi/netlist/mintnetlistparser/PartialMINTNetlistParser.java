@@ -1,6 +1,8 @@
 package org.cidarlab.fluigi.netlist.mintnetlistparser;
 
-import org.cidarlab.fluigi.netlist.*;
+import org.cidarlab.fluigi.model.Component;
+import org.cidarlab.fluigi.model.Connection;
+import org.cidarlab.fluigi.model.Terminal;
 import org.cidarlab.fluigi.netlist.mintgrammar.mintgrammarParser;
 import org.cidarlab.fluigi.netlist.mintgrammar.mintgrammarParser.*;
 import org.cidarlab.fluigi.netlist.mintnetlistparser.MINTArbitraryTerminalMap.TargetRecord;

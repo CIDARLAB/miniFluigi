@@ -5,7 +5,7 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.apache.commons.lang3.StringUtils;
-import org.cidarlab.fluigi.netlist.Terminal;
+import org.cidarlab.fluigi.model.Terminal;
 import org.cidarlab.fluigi.netlist.expressiongrammar.expressiongrammarLexer;
 import org.cidarlab.fluigi.netlist.expressiongrammar.expressiongrammarParser;
 import org.json.simple.JSONArray;

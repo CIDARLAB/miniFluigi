@@ -1,6 +1,6 @@
 package org.cidarlab.fluigi.netlist.mintnetlistparser;
 
-import org.cidarlab.fluigi.netlist.Component;
+import org.cidarlab.fluigi.model.Component;
 
 import java.util.HashMap;
 

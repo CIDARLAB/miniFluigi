@@ -1,8 +1,8 @@
 package org.cidarlab.fluigi.netlist.mintnetlistparser;
 
-import org.cidarlab.fluigi.netlist.Device;
-import org.cidarlab.fluigi.netlist.LayerBlock;
-import org.cidarlab.fluigi.netlist.LogicalLayer;
+import org.cidarlab.fluigi.model.Device;
+import org.cidarlab.fluigi.model.LayerBlock;
+import org.cidarlab.fluigi.model.LogicalLayer;
 import org.cidarlab.fluigi.netlist.technology.TechLibrary;
 import org.cidarlab.fluigi.netlist.mintgrammar.mintgrammarBaseListener;
 import org.cidarlab.fluigi.netlist.mintgrammar.mintgrammarParser;

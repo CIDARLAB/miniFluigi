@@ -1,7 +1,7 @@
 package org.cidarlab.fluigi.layout.PlacementCellMapper;
 
 import org.cidarlab.fluigi.layout.Placement;
-import org.cidarlab.fluigi.netlist.Device;
+import org.cidarlab.fluigi.model.Device;
 
 import java.util.List;
 
