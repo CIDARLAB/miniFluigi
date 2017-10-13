@@ -13,7 +13,7 @@ public class PartialMINTDeviceArchitectureParser extends mintgrammarBaseListener
     int layercount = 0;
     int layerblockcount = 0;
     LayerBlock currentLayerBlock;
-    TechLibrary techLibrary = TechLibrary.techLibrary;
+    TechLibrary techLibrary = TechLibrary.instance;
 
     public PartialMINTDeviceArchitectureParser() {
         device = new Device();

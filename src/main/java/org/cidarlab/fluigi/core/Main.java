@@ -184,7 +184,7 @@ public class Main {
         CellMapper cellMapper;
         while (iterator.hasNext()) {
             device = iterator.next();
-            device.updateXYSpans(TechLibrary.techLibrary);
+            device.updateXYSpans(TechLibrary.instance);
             cellMapper = new NaiveCellMapper(device);
             placementproblems = cellMapper.generateLayouts();
 
