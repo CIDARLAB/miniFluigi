@@ -16,6 +16,7 @@ import org.apache.logging.log4j.Logger;
 import org.cidarlab.fluigi.layout.Placement;
 import org.cidarlab.fluigi.layout.PlacementCellMapper.CellMapper;
 import org.cidarlab.fluigi.layout.PlacementCellMapper.NaiveCellMapper;
+import org.cidarlab.fluigi.manufacturing.FeatureMapper;
 import org.cidarlab.fluigi.netlist.mintgrammar.mintgrammarLexer;
 import org.cidarlab.fluigi.netlist.mintgrammar.mintgrammarParser;
 import org.cidarlab.fluigi.model.DesignTree;
@@ -208,6 +209,16 @@ public class Main {
         /*
         TODO: Do routing for each of the routes. Call and implement the flowrouter.
         */
+
+        /*
+        Map all the features of the components to the device's components
+        */
+        iterator = designTree.iterator();
+        while (iterator.hasNext()){
+            device = iterator.next();
+            FeatureMapper mapper = new FeatureMapper(device);
+            device.setFeatures(mapper.generateFeatureList());
+        }
 
         JSONNetlist output = new JSONNetlist();
         output.setOutputDirectory(Parameters.OUTPUT_DIRECTORY_PATH);

@@ -309,6 +309,7 @@ public class   PartialMINTNetlistParser extends PartialMINTParamsParser {
 
         //Create the connection (for the channel)
         Connection connection = new Connection(connection_name);
+        connection.setTechnology(currententity.getMINTName());
         //Set the layer
         connection.setLayerID(currentlayer.getId());
         //Set the source and sink

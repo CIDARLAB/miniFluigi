@@ -26,7 +26,7 @@ public class Connection {
     private HashMap<String, String> terminalMap;
     private ArrayList<String> sinks;
     private String layerID;
-
+    private String technology;
 
 
     public Connection(String id) {
@@ -118,11 +118,19 @@ public class Connection {
         params.put(key, value);
     }
 
+    public String getTechnology() {
+        return technology;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if(! (obj instanceof Connection)){
             return false;
         }
         return this.id.equals(((Connection)obj).getId());
+    }
+
+    public void setTechnology(String technology) {
+        this.technology = technology;
     }
 }

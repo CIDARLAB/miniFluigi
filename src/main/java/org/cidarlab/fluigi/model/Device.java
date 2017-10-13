@@ -5,6 +5,7 @@
  */
 package org.cidarlab.fluigi.model;
 
+import org.cidarlab.fluigi.manufacturing.Feature;
 import org.cidarlab.fluigi.netlist.constraints.Constraint;
 import org.cidarlab.fluigi.netlist.technology.TechEntity;
 import org.cidarlab.fluigi.netlist.technology.TechLibrary;
@@ -23,10 +24,11 @@ public class Device {
     private HashMap<String,LogicalLayer> layersHashMap;
     private ArrayList<Component> components;
     private ArrayList<Connection> connections;
-    private HashMap<Component, Connection> valvemap;
+    private HashMap<Connection, Component> valvemap;
     private List<Component> imports;
     private List<LayerBlock> layerBlocks;
     private List<Constraint> constraintList;
+    private List<Feature> features;
 
     public Device(){
         layerBlocks = new ArrayList<>();
@@ -112,16 +114,12 @@ public class Device {
      * @param connection
      */
     public void addValve(Component component, Connection connection) {
-        this.valvemap.put(component, connection);
+        this.valvemap.put(connection, component);
     }
 
 
     public void removeValve(Connection connection){
-        for(Component key: valvemap.keySet()){
-            if(valvemap.get(key).equals(connection)){
-                valvemap.remove(key);
-            }
-        }
+        this.valvemap.remove(connection);
     }
 
     /**
@@ -192,6 +190,26 @@ public class Device {
             }
             componenttoupdate.setXSpan(currententity.getXSpan(paramstopass));
             componenttoupdate.setYSpan(currententity.getYSpan(paramstopass));
+        }
+    }
+
+    public void setFeatures(List<Feature> features) {
+        this.features = features;
+    }
+
+    public List<LayerBlock> getLayerBlocks() {
+        return layerBlocks;
+    }
+
+    public void addFeatures(List<Feature> features) {
+        throw new UnsupportedOperationException("Implement method to add features to the device's list of features");
+    }
+
+    public Component getValveComponent(Connection connection) {
+        if (valvemap.containsKey(connection)){
+            return this.valvemap.get(connection);
+        }else{
+            return null;
         }
     }
 }
