@@ -1,6 +1,6 @@
 package org.cidarlab.fluigi.netlist.technology;
 
-import org.cidarlab.fluigi.geometry.Point;
+import org.cidarlab.fluigi.layout.Point;
 
 /**
  * Created by krishna on 8/24/17.

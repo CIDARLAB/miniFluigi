@@ -13,6 +13,8 @@ import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.apache.commons.cli.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.cidarlab.fluigi.layout.ObstacleMap;
+import org.cidarlab.fluigi.layout.ObstacleMapMapper;
 import org.cidarlab.fluigi.layout.Placement;
 import org.cidarlab.fluigi.layout.PlacementCellMapper.CellMapper;
 import org.cidarlab.fluigi.layout.PlacementCellMapper.NaiveCellMapper;
@@ -42,6 +44,10 @@ public class Main {
     private static String outputDirectory;
     private static boolean isDebugPrintEnabled;
 
+    private static boolean PLACE_DO_FLAG = true;
+    private static boolean ROUTE_DO_FLAG = true;
+    private static boolean DRC_DO_FLAG = true;
+
     private static List<String> inputPaths = new ArrayList<>();
 
     private static Logger logger = LogManager.getRootLogger();
@@ -55,9 +61,9 @@ public class Main {
         options.addOption("o", "out", true, "Specify the output directory, Defaults to the output folder");
         options.addOption("h", "help", false, "Show help information.");
         options.addOption("d", "debug", false, "This enables all the debug printing");
-        options.addOption("c", "cello", false, "This enables Cello Mode of operation");
-        options.addOption("u", "user", true, "Give the username");
-        options.addOption("p", "pass", true, "Give the password");
+        options.addOption("c", "check", false, "Overrides the application to just do the DRC");
+        options.addOption("r", "route", false, "Overrides the application to just route");
+        options.addOption("p", "place", false, "Overrides the application to just place the device");
         options.addOption("x", "convert", false, "This enables the MINT conversion mode");
         return options;
     }
@@ -83,7 +89,6 @@ public class Main {
         }
 
         if ((null != cl) && cl.hasOption("out")) {
-            //outputFormat = cl.getOptionValue("out").toLowerCase();
             outputDirectory = cl.getOptionValue("out");
             if (null == outputDirectory) {
                 System.exit(ErrorCodes.MISSING_ARG_VALUES);
@@ -93,6 +98,30 @@ public class Main {
             Parameters.OUTPUT_DIRECTORY_PATH = outputDirectory;
         }
 
+        if ((null != cl) && cl.hasOption("convert")) {
+            //SET THE APPLICATION FLAGS
+            PLACE_DO_FLAG = false;
+            ROUTE_DO_FLAG = false;
+            DRC_DO_FLAG = false;
+        }
+
+        if ((null != cl) && cl.hasOption("place")) {
+            //SET THE APPLICATION FLAGS
+            ROUTE_DO_FLAG = false;
+            DRC_DO_FLAG = false;
+        }
+
+        if ((null != cl) && cl.hasOption("route")) {
+            //SET THE APPLICATION FLAGS
+            PLACE_DO_FLAG = false;
+            DRC_DO_FLAG = false;
+        }
+
+        if ((null != cl) && cl.hasOption("DRC")) {
+            //SET THE APPLICATION FLAGS
+            PLACE_DO_FLAG = false;
+            ROUTE_DO_FLAG = false;
+        }
 
         isDebugPrintEnabled = cl.hasOption("debug");
 
@@ -170,7 +199,6 @@ public class Main {
 
         }
 
-
        /*
         TODO: Integrate Design tree, iterate through the designs and then
         recursively do the place and route.
@@ -185,32 +213,54 @@ public class Main {
         CellMapper cellMapper;
         while (iterator.hasNext()) {
             device = iterator.next();
-            device.updateXYSpans(TechLibrary.instance);
-            cellMapper = new NaiveCellMapper(device);
-            placementproblems = cellMapper.generateLayouts();
 
-            for (Placement placementproblem : placementproblems) {
-                SAPlacer placer = new SAPlacer();
+            if(PLACE_DO_FLAG) {
+                device.updateXYSpans(TechLibrary.instance);
+                cellMapper = new NaiveCellMapper(device);
+                placementproblems = cellMapper.generateLayouts();
 
-                placer.loadProblem(placementproblem);
+                for (Placement placementproblem : placementproblems) {
+                    SAPlacer placer = new SAPlacer();
 
-                placer.place();
+                    placer.loadProblem(placementproblem);
 
+                    placer.place();
+
+                    /*
+                    TODO: Create a verification system to ensure that the placement is working correctly.
+                    */
+
+                    cellMapper.importLayout(placementproblem);
+                }
+            }
+
+            if(ROUTE_DO_FLAG) {
                 /*
-                TODO: Create a verification system to ensure that the placement is working correctly.
+                TODO: Do routing for each of the routes. Call and implement the flowrouter.
                 */
 
-                cellMapper.importLayout(placementproblem);
+                ObstacleMap obstacleMap = (new ObstacleMapMapper(device)).generateObstacleMap();
+
+                s
+
+            }
+
+            if(DRC_DO_FLAG){
+                /*
+                TODO: Do DRC of the device.
+                 */
             }
 
         }
 
+        generateJSONOutput(designTree);
 
-        /*
-        TODO: Do routing for each of the routes. Call and implement the flowrouter.
-        */
 
-        /*
+    }
+
+    private static void generateJSONOutput(DesignTree designTree) {
+        Iterator<Device> iterator;
+        Device device;/*
         Map all the features of the components to the device's components
         */
         iterator = designTree.iterator();

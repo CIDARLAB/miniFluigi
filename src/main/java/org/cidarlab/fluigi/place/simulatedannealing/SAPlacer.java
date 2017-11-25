@@ -368,9 +368,9 @@ public class SAPlacer extends Placer {
                 cell = perturbedcell;
             }
             minx = cell.getX();
-            maxx = cell.getX() + cell.getW();
+            maxx = cell.getX() + cell.getXspan();
             miny = cell.getY();
-            maxy = cell.getY() + cell.getH();
+            maxy = cell.getY() + cell.getYspan();
         }
 
         return Math.abs(maxx - minx) * Math.abs(maxy - miny);
@@ -428,15 +428,15 @@ public class SAPlacer extends Placer {
 
         int Ax1 = cellA.getX();
         int Ay1 = cellA.getY();
-        int Ax2 = cellA.getX() + cellA.getW();
-        int Ay2 = cellA.getY() + cellA.getH();
+        int Ax2 = cellA.getX() + cellA.getXspan();
+        int Ay2 = cellA.getY() + cellA.getYspan();
 
         //Get coordinates of Cell B
 
         int Bx1 = cellB.getX();
         int By1 = cellB.getY();
-        int Bx2 = cellB.getX() + cellB.getW();
-        int By2 = cellB.getY() + cellB.getH();
+        int Bx2 = cellB.getX() + cellB.getXspan();
+        int By2 = cellB.getY() + cellB.getYspan();
 
         //First check if they overlap
 
@@ -532,9 +532,9 @@ public class SAPlacer extends Placer {
         for(Cell cell : cells){
             //Check if perturbed cell
             minx = cell.getX();
-            maxx = cell.getX() + cell.getW();
+            maxx = cell.getX() + cell.getXspan();
             miny = cell.getY();
-            maxy = cell.getY() + cell.getH();
+            maxy = cell.getY() + cell.getYspan();
         }
 
         return Math.abs(maxx - minx) * Math.abs(maxy - miny);

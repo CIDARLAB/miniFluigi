@@ -161,6 +161,12 @@ public class Placement {
         return maxY;
     }
 
+    public List<Cell> getCells(int xmin, int xmax, int ymin, int ymax) {
+        //TODO: Change this to Quadtree / Multidimensional k-d Tree at some point
+        List<Cell> ret = new ArrayList<>();
+
+        throw new UnsupportedOperationException();
+    }
 
     /*
     TODO: Need to figure out a way to retrieve the connection offset for the pins

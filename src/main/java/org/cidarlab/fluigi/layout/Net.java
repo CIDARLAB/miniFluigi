@@ -1,6 +1,5 @@
 package org.cidarlab.fluigi.layout;
 
-import org.cidarlab.fluigi.geometry.Point;
 import org.jgrapht.graph.DefaultEdge;
 
 /**
@@ -20,4 +19,21 @@ public class Net extends DefaultEdge {
     private Point source;
     private Point target;
 
+    @Override
+    public Point getSource() {
+        return source;
+    }
+
+    public void setSource(Point source) {
+        this.source = source;
+    }
+
+    @Override
+    public Point getTarget() {
+        return target;
+    }
+
+    public void setTarget(Point target) {
+        this.target = target;
+    }
 }

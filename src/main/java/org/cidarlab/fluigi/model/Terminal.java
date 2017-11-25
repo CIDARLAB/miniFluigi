@@ -1,6 +1,6 @@
 package org.cidarlab.fluigi.model;
 
-import org.cidarlab.fluigi.geometry.Point;
+import org.cidarlab.fluigi.layout.Point;
 
 import java.util.HashMap;
 

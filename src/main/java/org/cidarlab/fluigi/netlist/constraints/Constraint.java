@@ -1,6 +1,6 @@
 package org.cidarlab.fluigi.netlist.constraints;
 
-import org.cidarlab.fluigi.geometry.Point;
+import org.cidarlab.fluigi.layout.Point;
 import org.cidarlab.fluigi.model.Component;
 
 import java.util.ArrayList;

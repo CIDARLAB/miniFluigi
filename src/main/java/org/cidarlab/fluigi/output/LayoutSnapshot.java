@@ -54,7 +54,7 @@ public class LayoutSnapshot {
         g2D.scale(SCALE_FACTOR, SCALE_FACTOR);
         //Draw Rectangles for each of the cells
         for(Cell c : placement.getCells()){
-            g2D.drawRect(c.getX(), c.getY(), c.getW(), c.getH());
+            g2D.drawRect(c.getX(), c.getY(), c.getXspan(), c.getYspan());
         }
     }
 
