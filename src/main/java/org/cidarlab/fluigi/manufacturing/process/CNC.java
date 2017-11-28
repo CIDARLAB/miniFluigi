@@ -4,6 +4,9 @@ import org.cidarlab.fluigi.manufacturing.Feature;
 import org.jfree.graphics2d.svg.SVGGraphics2D;
 
 import java.awt.*;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,8 +31,6 @@ public class CNC extends ManufacturingOutput {
         this.yspan = yspan;
         this.devicename = devicename;
     }
-
-    Color drawcolor;
 
     @Override
     public void generateDeviceOutput(List<Feature> features) {
@@ -76,16 +77,27 @@ public class CNC extends ManufacturingOutput {
         svgcanvas.setGeometryDP(10);
         if(invertx){
             svgcanvas.scale(SVG_DEFAULT_PT_TO_UM, SVG_DEFAULT_PT_TO_UM);
+            svgcanvas.setColor(Color.RED);
         }else{
             svgcanvas.scale(-SVG_DEFAULT_PT_TO_UM, SVG_DEFAULT_PT_TO_UM);
+            svgcanvas.setColor(Color.BLUE);
         }
 
         return svgcanvas;
     }
 
     @Override
-    protected Graphics2D flushCanvas(Graphics2D canvas, String filename) {
-        throw new UnsupportedOperationException("Implement SVG output");
+    protected void flushCanvas(Graphics2D canvas, String filename) {
+        String fullfilename = outputdirectory + System.getProperty("file.separator") +
+                filename + ".svg";
+        try {
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(fullfilename));
+            String svgtext = ((SVGGraphics2D)canvas).getSVGDocument();
+            bufferedWriter.write(svgtext);
+            bufferedWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void generateSTLs() {
@@ -94,7 +106,8 @@ public class CNC extends ManufacturingOutput {
     }
 
     private void drawHeightLayers(boolean iscontrol) {
-        //TODO: Do the 2.5D alg
+        //Do the 2.5D alg
+
         //Sort the features based on height
         int z_val = 0;
         Graphics2D svgcanvas;
@@ -145,7 +158,7 @@ public class CNC extends ManufacturingOutput {
         //TODO: Update this to draw polyline edges
         Graphics2D svgcanvas = generateCanvas(xspan, yspan, iscontrol);
 
-        float strokeWidth = (float) (5);
+        float strokeWidth = 5;
         Stroke box = new BasicStroke(strokeWidth, CAP_ROUND, JOIN_ROUND);
         Stroke curStroke = svgcanvas.getStroke();
         svgcanvas.setStroke(box);

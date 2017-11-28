@@ -15,5 +15,5 @@ public abstract class ManufacturingOutput {
 
     protected abstract Graphics2D generateCanvas(int xspan, int yspan, boolean invertx);
 
-    protected abstract Graphics2D flushCanvas(Graphics2D canvas, String filename);
+    protected abstract void flushCanvas(Graphics2D canvas, String filename);
 }
