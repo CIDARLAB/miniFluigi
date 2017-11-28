@@ -18,4 +18,10 @@ public class Softlithography extends ManufacturingOutput {
     protected Graphics2D generateCanvas(int xspan, int yspan, boolean invertx) {
         throw new UnsupportedOperationException("Need to implement the eps canvas generation");
     }
+
+    @Override
+    protected void flushCanvas(Graphics2D canvas, String filename) {
+        throw new UnsupportedOperationException("Need to implement the eps filewrite");
+
+    }
 }
