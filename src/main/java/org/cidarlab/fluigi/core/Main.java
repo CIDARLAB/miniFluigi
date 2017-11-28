@@ -241,7 +241,7 @@ public class Main {
 
                 ObstacleMap obstacleMap = (new ObstacleMapMapper(device)).generateObstacleMap();
 
-                s
+
 
             }
 
