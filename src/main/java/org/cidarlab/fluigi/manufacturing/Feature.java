@@ -38,4 +38,8 @@ public class Feature {
     public int getY() {
         return ((int[])mparams.get("position"))[1];
     }
+
+    public int getHeight() {
+        return (int)mparams.get("height");
+    }
 }
