@@ -4,6 +4,8 @@ package org.cidarlab.fluigi.output;
  * Created by krishna on 8/21/17.
  */
 
+import org.cidarlab.fluigi.manufacturing.DrawLayer;
+import org.cidarlab.fluigi.manufacturing.Feature;
 import org.cidarlab.fluigi.model.Component;
 import org.cidarlab.fluigi.model.Connection;
 import org.cidarlab.fluigi.model.Device;
@@ -47,6 +49,38 @@ public class InterchangeV1 {
         this();
         this.rootDeviceObject = device;
         generateNetlist();
+    }
+
+    /**
+     * Generates the features
+     */
+    public void generateFeatures() {
+        //TODO: Generate the features JSON and then add them to the rootjsonobject
+        JSONArray drawlayerArray = new JSONArray();
+        for (DrawLayer layer  : rootDeviceObject.getDrawLayers()){
+            JSONObject drawlayerJSONObject = new JSONObject();
+            drawlayerArray.add(drawlayerJSONObject);
+            JSONArray featuresarray = new JSONArray();
+            drawlayerJSONObject.put("features", featuresarray);
+            for(Feature feature : layer.getFeatures()){
+                insertFeature(featuresarray, feature);
+            }
+        }
+        rootJSONObject.put("features", drawlayerArray);
+        throw new UnsupportedOperationException("Implement function to generate the JSON" +
+                "for all the draw layers");
+    }
+
+    private void insertFeature(JSONArray featuresArray, Feature feature) {
+        /*
+        TODO: Go through the JSON Feature object and then add it to the drawlayerJSON object
+         */
+        /*
+        TODO: At the end of everything put the feature into the featuresArray
+         */
+        throw new UnsupportedOperationException();
+
+
     }
 
     /**

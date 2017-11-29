@@ -72,10 +72,10 @@ public class CNC extends ManufacturingOutput {
     }
 
     @Override
-    protected Graphics2D generateCanvas(int xspan, int yspan, boolean invertx){
+    protected Graphics2D generateCanvas(int xspan, int yspan, boolean iscontrol){
         SVGGraphics2D svgcanvas = new SVGGraphics2D(xspan, yspan);
         svgcanvas.setGeometryDP(10);
-        if(invertx){
+        if(iscontrol){
             svgcanvas.scale(SVG_DEFAULT_PT_TO_UM, SVG_DEFAULT_PT_TO_UM);
             svgcanvas.setColor(Color.RED);
         }else{

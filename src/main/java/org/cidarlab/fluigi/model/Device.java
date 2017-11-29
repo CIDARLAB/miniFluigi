@@ -5,6 +5,7 @@
  */
 package org.cidarlab.fluigi.model;
 
+import org.cidarlab.fluigi.manufacturing.DrawLayer;
 import org.cidarlab.fluigi.manufacturing.Feature;
 import org.cidarlab.fluigi.netlist.constraints.Constraint;
 import org.cidarlab.fluigi.netlist.technology.TechEntity;
@@ -29,6 +30,7 @@ public class Device {
     private List<LayerBlock> layerBlocks;
     private List<Constraint> constraintList;
     private List<Feature> features;
+    private List<DrawLayer> drawLayers;
 
     public Device(){
         layerBlocks = new ArrayList<>();
@@ -262,5 +264,9 @@ public class Device {
         }else{
             return null;
         }
+    }
+
+    public List<DrawLayer> getDrawLayers() {
+        return drawLayers;
     }
 }
