@@ -29,9 +29,9 @@ public class LayoutSnapshot {
     public LayoutSnapshot(String name, Placement placement){
         outputname = name;
         //Calculate the YWIDTH for a given XWIDTH
-        float aspectratio = placement.getWidth()/placement.getHeight();
+        float aspectratio = placement.getXSpan()/placement.getYSpan();
         YWIDTH = Math.round(XWIDTH/aspectratio);
-        SCALE_FACTOR = XWIDTH/placement.getWidth();
+        SCALE_FACTOR = XWIDTH/placement.getXSpan();
         image = new BufferedImage(XWIDTH, YWIDTH, BufferedImage.TYPE_INT_ARGB);
         generateImage(placement);
         writeOutput();

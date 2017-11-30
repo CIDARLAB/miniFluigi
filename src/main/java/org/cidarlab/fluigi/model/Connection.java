@@ -22,7 +22,9 @@ public class Connection {
     private final HashMap<String, Object> params;
     private final String id;
     private String sourceID;
-    // Component ID , Pin Number
+    /**
+     *   Stores the connectivity as Map :Component ID , Pin Number:
+     */
     private HashMap<String, String> terminalMap;
     private ArrayList<String> sinks;
     private String layerID;
@@ -37,6 +39,10 @@ public class Connection {
 
     }
 
+    /**
+     * Imports the connection object from JSON interchange V1
+     * @param jsonconnection
+     */
     public void importFromJSON(JSONObject jsonconnection) {
         this.sourceID = (String)jsonconnection.get(JSONKeyWords.SOURCE);
         JSONArray sinks = (JSONArray)jsonconnection.get(JSONKeyWords.SINKS);
@@ -72,6 +78,8 @@ public class Connection {
     }
 
     /**
+     * Returns the layer
+     * //TODO: change this to list so that we can allow multilayer routing
      * @return the layerID
      */
     public String getLayerID() {
@@ -79,6 +87,8 @@ public class Connection {
     }
 
     /**
+     * Sets the layer id of the connection
+     * TODO: Update this to list so that we can do multilayer stuff
      * @param layerID the layerID to set
      */
     public void setLayerID(String layerID) {
@@ -94,30 +104,61 @@ public class Connection {
         return sinks;
     }
 
+    /**
+     * Adds a sink to the connection
+     * @param id
+     */
     public void addSinkID(String id) {
         sinks.add(id);
     }
 
+    /**
+     * Associates a terminal to the component. This data-structure can be used if we do pin assignment
+     * @param id
+     * @param sourceterminal
+     */
     public void updateTerminalMap(String id, String sourceterminal) {
         terminalMap.put(id, sourceterminal);
     }
 
+    /**
+     * Returns the id of the connection
+     * @return
+     */
     public String getId() {
         return id;
     }
 
+    /**
+     * Get the terminal associated with a source or a sink associated with this connection
+     * @param sourceID
+     * @return
+     */
     public String getTerminalLabel(String sourceID) {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * Returns the params hashmap
+     * @return
+     */
     public HashMap<String, Object> getParams() {
         return params;
     }
 
+    /**
+     * Insert key, value in connection params
+     * @param key
+     * @param value
+     */
     public void addParam(String key, Object value) {
         params.put(key, value);
     }
 
+    /**
+     * Returns the technology associated with the connection
+     * @return
+     */
     public String getTechnology() {
         return technology;
     }
@@ -130,6 +171,10 @@ public class Connection {
         return this.id.equals(((Connection)obj).getId());
     }
 
+    /**
+     * Sets the technology associated with the connection
+     * @param technology
+     */
     public void setTechnology(String technology) {
         this.technology = technology;
     }

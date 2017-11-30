@@ -161,7 +161,10 @@ public class Component {
     //WARNING ! All these methods should return the terminals ordered clockwise
     private List<Terminal> clockwiselist, topedgelist, leftedgelist, rightedgelist, bottomedgelist;
 
-
+    /**
+     * Returns the clockwise list of all the terminals in the component
+     * @return
+     */
     public List<Terminal> getTerminals() {
         if(null == clockwiselist){
             throw new UnsupportedOperationException("Terminal list is null for component: " + this.technology);
@@ -169,18 +172,34 @@ public class Component {
         return clockwiselist;
     }
 
+    /**
+     * Returns the clockwise list for the terminals on the topedge
+     * @return
+     */
     public List<Terminal> getTopEdgeTerminals() {
         return topedgelist;
     }
 
+    /**
+     * Returns the clockwise list for the terminals on the rightedge
+     * @return
+     */
     public List<Terminal> getRightEdgeTerminals() {
         return rightedgelist;
     }
 
+    /**
+     * Returns the clockwise list for the terminals on the leftedge
+     * @return
+     */
     public List<Terminal> getLeftEdgeTerminals() {
         return leftedgelist;
     }
 
+    /**
+     * Returns the clockwise list for the terminals on the bottom edge
+     * @return
+     */
     public List<Terminal> getBottomEdgeTerminals() {
         return bottomedgelist;
     }
@@ -189,6 +208,10 @@ public class Component {
     //----------------Terminal Variables--------------------
     int xmax = 0, xmin= 0, ymin = 0, ymax = 0;
 
+    /**
+     * Allows you to associate a list of terminals to the component
+     * @param terminalList
+     */
     public void setTerminals(List<Terminal> terminalList) {
 
         for (Terminal terminal: terminalList) {
@@ -297,6 +320,11 @@ public class Component {
 
     }
 
+    /**
+     * Sets the component type : PRIMITIVE | COMPOSITE | FEATURE | SCALING.
+     * This step is important for subsequent steps when we do feature generation and other technology related operations
+     * @param type
+     */
     public void setType(TechEntity.TechEntityType type) {
         this.type = type;
     }

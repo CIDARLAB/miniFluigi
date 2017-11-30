@@ -31,24 +31,41 @@ public class LogicalLayer {
     }
 
     /**
+     * Returns the id of Logical Layer
      * @return the id
      */
     public String getId() {
         return id;
     }
 
+    /**
+     * Returns the component list
+     * @return
+     */
     public List<Component> getComponents() {
         return components;
     }
 
+    /**
+     * Returns the connection list
+     * @return
+     */
     public List<Connection> getConnections() {
         return connections;
     }
 
+    /**
+     * Add a component to the logical layer
+     * @param component
+     */
     public void addComponent(Component component) {
         this.components.add(component);
     }
 
+    /**
+     * Add a connection to the logical layer
+     * @param connection
+     */
     public void addConnection(Connection connection) {
         this.connections.add(connection);
     }
@@ -67,6 +84,10 @@ public class LogicalLayer {
         connections = new ArrayList<>();
     }
 
+    /**
+     * Import Logical Layer from the JSON Interchange V1
+     * @param jsonlayer
+     */
     public void importFromJSON(JSONObject jsonlayer) {
         JSONObject paramsObject = (JSONObject) jsonlayer.get("params");
         String layertype = (String) paramsObject.get("type");

@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- *
+ * This object represents the graph that is used by the place and route algorithms throughout Fluigi
  * @author krishna
  */
 public class Placement {
@@ -27,11 +27,24 @@ public class Placement {
         placementGraph = new SimpleDirectedGraph<>(Net.class);
     }
 
+    /**
+     * Add a cell to the Placement object
+     * @param id
+     * @param x
+     * @param y
+     * @param w
+     * @param h
+     */
     public void addCell(String id, int x, int y, int w, int h) {
         Cell cell = new Cell(id, x, y, w, h);
         placementGraph.addVertex(cell);
     }
 
+    /**
+     * Add a net to the Placement object
+     * @param sourceID
+     * @param targetID
+     */
     public void addNet(String sourceID, String targetID){
 
         Cell sourceCell = null;
@@ -58,6 +71,11 @@ public class Placement {
         placementGraph.addEdge(sourceCell,targetCell);
     }
 
+    /**
+     * Add multi-target net to the placement object
+     * @param sourceID
+     * @param targets
+     */
     public void addNets(String sourceID, List<String> targets) {
         Cell sourceCell = null;
         ArrayList<Cell> targetCells = new ArrayList<>();
@@ -88,6 +106,10 @@ public class Placement {
 
     }
 
+    /**
+     * Returns all the vertices (Cell objects) that are part of the netlist graph
+     * @return
+     */
     public ArrayList<Cell> getCells(){
         return new ArrayList<>(this.placementGraph.vertexSet());
     }
@@ -139,7 +161,11 @@ public class Placement {
         }
     }
 
-    public int getWidth() {
+    /**
+     * Returns the X dimension of the entire placement object
+     * @return
+     */
+    public int getXSpan() {
         int maxX = 0;
         for(Cell c  : getCells()){
             if(c.getMaxX() > maxX){
@@ -150,7 +176,11 @@ public class Placement {
         return maxX;
     }
 
-    public int getHeight() {
+    /**
+     * Returns the Y dimension of the entire placement object
+      * @return
+     */
+    public int getYSpan() {
         int maxY = 0;
         for(Cell c  : getCells()){
             if(c.getMaxY() > maxY){
@@ -161,6 +191,14 @@ public class Placement {
         return maxY;
     }
 
+    /**
+     * Returns the objects that lie within the given XY window
+     * @param xmin
+     * @param xmax
+     * @param ymin
+     * @param ymax
+     * @return
+     */
     public List<Cell> getCells(int xmin, int xmax, int ymin, int ymax) {
         //TODO: Change this to Quadtree / Multidimensional k-d Tree at some point
         List<Cell> ret = new ArrayList<>();

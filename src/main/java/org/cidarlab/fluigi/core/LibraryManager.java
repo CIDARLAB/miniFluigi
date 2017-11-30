@@ -17,6 +17,9 @@ import java.util.HashMap;
 public class LibraryManager {
     public static HashMap<String, String> deviceLibrary;
 
+    /**
+     * Initializes the applications component and feature libraries
+     */
     public static void initLibrary(){
         deviceLibrary = new HashMap<>();
         initTechLibrary();

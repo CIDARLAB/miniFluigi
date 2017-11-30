@@ -212,8 +212,8 @@ public class SAPlacer extends Placer {
         System.out.println("Translating placement: " + -minx + ", " +  -miny);
         problem.translateCells(-minx, -miny);
 
-        System.out.println("Placement Width: " + problem.getWidth());
-        System.out.println("Placement Height: " + problem.getHeight());
+        System.out.println("Placement Width: " + problem.getXSpan());
+        System.out.println("Placement Height: " + problem.getYSpan());
 
     }
 
