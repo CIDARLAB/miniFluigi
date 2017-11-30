@@ -64,6 +64,18 @@ public class expressiongrammarBaseListener implements expressiongrammarListener 
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterFunction_expression(expressiongrammarParser.Function_expressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitFunction_expression(expressiongrammarParser.Function_expressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterPrimary_expression(expressiongrammarParser.Primary_expressionContext ctx) { }
 	/**
 	 * {@inheritDoc}

@@ -131,11 +131,11 @@ public class Connection {
 
     /**
      * Get the terminal associated with a source or a sink associated with this connection
-     * @param sourceID
+     * @param componentID
      * @return
      */
-    public String getTerminalLabel(String sourceID) {
-        throw new UnsupportedOperationException();
+    public String getTerminalLabel(String componentID) {
+        return terminalMap.get(componentID);
     }
 
     /**

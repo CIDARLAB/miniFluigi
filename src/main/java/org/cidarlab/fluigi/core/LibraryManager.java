@@ -23,7 +23,8 @@ public class LibraryManager {
     public static void initLibrary(){
         deviceLibrary = new HashMap<>();
         initTechLibrary();
-        initFeatureLibrary();
+        //TODO: Uncomment this once all the features generation pieces are done
+        //initFeatureLibrary();
         //TODO: Read old place and route data
 
     }

@@ -87,7 +87,7 @@ public class InterchangeV1 {
      *
      */
     private void generateNetlist() {
-        rootJSONObject.put("version",1);
+        rootJSONObject.put("version", 1);
         rootJSONObject.put("name", rootDeviceObject.getName());
 
         //Generate the layers
@@ -132,7 +132,7 @@ public class InterchangeV1 {
         JSONArray sinks = new JSONArray();
         //Loop through the sinks
         for(String componentid : connection.getSinks()){
-            sinks.add(new TerminalJSON(componentid, connection.getTerminalLabel(componentid)));
+            sinks.add(new TerminalJSON(componentid, connection.getTerminalLabel(componentid)).getJSONObject());
         }
         tempJSONObject.put("sinks",sinks);
         //TODO: Create the JSON params of the connection
@@ -147,6 +147,7 @@ public class InterchangeV1 {
      */
     private void insertComponent(Component component, String layerid) {
         //Check if it already exists
+        tempJSONObject = new JSONObject();
         if(componentsMap.containsKey(component.getId())){
             //Update the layers for this component
             ((JSONArray)
@@ -164,7 +165,7 @@ public class InterchangeV1 {
 
             AbstractJSONMap abstractJSONMap = new AbstractJSONMap(component.getParams());
 
-            tempJSONObject.put("params", abstractJSONMap);
+            tempJSONObject.put("params", abstractJSONMap.getJSONObject());
             componentsMap.put(component.getId(), tempJSONObject);
         }
     }
@@ -178,7 +179,7 @@ public class InterchangeV1 {
         tempJSONObject = new JSONObject();
         tempJSONObject.put("name", layer.getId());
         tempJSONObject.put("id", layer.getId());
-        tempJSONObject.put("type", layer.getLayerType());
+        tempJSONObject.put("type", layer.getLayerType().toString());
         layersArray.add(tempJSONObject);
     }
 

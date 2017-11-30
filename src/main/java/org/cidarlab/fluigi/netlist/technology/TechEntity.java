@@ -119,6 +119,26 @@ public class TechEntity {
                     this.terminalHashMap.put(techTerminal.getLabel(), techTerminal);
                 }
             }
+        } else if (this.type == SCALING) {
+            if (entityjson.containsKey("terminals")) {
+                JSONArray terminalarray = (JSONArray) entityjson.get("terminals");
+                Iterator it = terminalarray.listIterator();
+                while (it.hasNext()) {
+                    JSONObject terminalobject = (JSONObject) it.next();
+                    TechTerminal techTerminal = new TechTerminal((String) terminalobject.get("start")); //Sets the label
+                    techTerminal.setXposexpression((String) terminalobject.get("x"));
+                    techTerminal.setYposexpression((String) terminalobject.get("y"));
+                    techTerminal.setLayer((String) terminalobject.get("layer"));
+                    techTerminal.setStart((String) terminalobject.get("start"));
+                    techTerminal.setEnd((String) terminalobject.get("end"));
+
+                    this.terminalHashMap.put(techTerminal.getLabel(), techTerminal);
+                }
+            }
+        } else if(this.type == FEATURE) {
+            //Noop
+        } else{
+            throw new UnsupportedOperationException("Unsupported component type");
         }
 
     }
@@ -176,8 +196,10 @@ public class TechEntity {
         return mintname;
     }
 
-    public List<Terminal> getDefaultTerminals(){
+    public List<Terminal> getComponentTerminals(HashMap<String, String> componentparams){
         List<Terminal> ret = new ArrayList<>();
+        HashMap<String, String> tempparams = new HashMap<>();
+        tempparams.putAll(componentparams);
         Terminal terminal;
         TechTerminal techterminal;
         if(this.type == COMPOSITE || this.type == PRIMITIVE) {
@@ -185,18 +207,40 @@ public class TechEntity {
                 terminal = new Terminal();
                 techterminal = terminalHashMap.get(key);
                 terminal.setLabel(key);
-                terminal.setXOffset(this.parseExpression(techterminal.getXposexpression(), this.paramDefaults));
-                terminal.setYOffset(this.parseExpression(techterminal.getYposexpression(), this.paramDefaults));
+                terminal.setXOffset(this.parseExpression(techterminal.getXposexpression(), tempparams));
+                terminal.setYOffset(this.parseExpression(techterminal.getYposexpression(), tempparams));
                 terminal.setLayer(terminalHashMap.get(key).getLayer());
                 ret.add(terminal);
             }
-
         }else if(this.type == SCALING){
-            throw new UnsupportedOperationException("Need to implement terminal generation for scaling components");
+            //TODO: Loop through each of the terminals. Start the index at the given start expression value
+            HashMap<String, Terminal> temp = new HashMap<>();
+            int i, N;
+            for( String key : terminalHashMap.keySet()){
+                techterminal = terminalHashMap.get(key);
+                //We figure out the start location from the label which is the start for the scaling component
+                i = parseExpression(techterminal.getStart(), tempparams);
+                N = parseExpression(techterminal.getEnd(), tempparams);
+                //Now that we know the i value put it back in for the scaling primitive to work
+                tempparams.put("i",Integer.toString(i));
+                //Now put tech terminals until N, we effective replace the terminal sets as we keep doing the iterations
+                while (i<=N){
+                    terminal = new Terminal();
+                    terminal.setLabel((Integer.toString(i)));
+                    terminal.setXOffset(this.parseExpression(techterminal.getXposexpression(), tempparams));
+                    terminal.setYOffset(this.parseExpression(techterminal.getYposexpression(), tempparams));
+                    terminal.setLayer(terminalHashMap.get(key).getLayer());
+                    temp.put(terminal.getLabel(), terminal);
+                    i++;
+                }
+            }
+            //Dump all the values into the return list
+            ret.addAll(temp.values());
         } else {
             throw new UnsupportedOperationException("This should not have any implementation");
         }
         return ret;
+
     }
 
     HashMap<String, String> expressionParams;

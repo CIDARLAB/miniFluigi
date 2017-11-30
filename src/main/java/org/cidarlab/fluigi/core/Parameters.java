@@ -5,8 +5,8 @@ package org.cidarlab.fluigi.core;
  */
 public class Parameters {
     public static final String FILE_SEPARATOR = System.getProperty("file.separator");
-    public static String FEATURE_LIBRARY_PATH = "C:\\Users\\krishna\\CIDAR\\mint" + FILE_SEPARATOR + "features";
-    public static String TECH_LIBRARY_PATH = "C:\\Users\\krishna\\CIDAR\\mint" + FILE_SEPARATOR + "techfiles";
+    public static String FEATURE_LIBRARY_PATH = "../mint" + FILE_SEPARATOR + "features";
+    public static String TECH_LIBRARY_PATH = "../mint" + FILE_SEPARATOR + "techfiles";
     public static String OUTPUT_DIRECTORY_PATH = "./output" + FILE_SEPARATOR;
-    public static String GENERATED_PATH = "/Users/krishna/CIDAR/gen" + FILE_SEPARATOR;
+    public static String GENERATED_PATH = "./gen" + FILE_SEPARATOR;
 }

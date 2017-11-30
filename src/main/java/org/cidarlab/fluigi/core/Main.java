@@ -26,6 +26,7 @@ import org.cidarlab.fluigi.model.Device;
 import org.cidarlab.fluigi.netlist.json.JSONNetlistParser;
 import org.cidarlab.fluigi.netlist.mintnetlistparser.PartialMINTConstraintParser;
 import org.cidarlab.fluigi.netlist.technology.TechLibrary;
+import org.cidarlab.fluigi.output.InterchangeV1;
 import org.cidarlab.fluigi.output.JSONNetlist;
 import org.cidarlab.fluigi.place.simulatedannealing.SAPlacer;
 
@@ -259,19 +260,8 @@ public class Main {
     }
 
     private static void generateJSONOutput(DesignTree designTree) {
-        Iterator<Device> iterator;
-        Device device;/*
-        Map all the features of the components to the device's components
-        */
-        iterator = designTree.iterator();
-        while (iterator.hasNext()){
-            device = iterator.next();
-            FeatureMapper mapper = new FeatureMapper(device);
-            device.setFeatures(mapper.generateFeatureList());
-        }
+        JSONNetlist jsonNetlist = new JSONNetlist();
+        jsonNetlist.generateOutput(designTree);
 
-        JSONNetlist output = new JSONNetlist();
-        output.setOutputDirectory(Parameters.OUTPUT_DIRECTORY_PATH);
-        output.generateOutput(designTree);
     }
 }

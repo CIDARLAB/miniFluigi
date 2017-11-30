@@ -48,6 +48,16 @@ public interface expressiongrammarListener extends ParseTreeListener {
 	 */
 	void exitSigned_atom(expressiongrammarParser.Signed_atomContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link expressiongrammarParser#function_expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterFunction_expression(expressiongrammarParser.Function_expressionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link expressiongrammarParser#function_expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitFunction_expression(expressiongrammarParser.Function_expressionContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link expressiongrammarParser#primary_expression}.
 	 * @param ctx the parse tree
 	 */
