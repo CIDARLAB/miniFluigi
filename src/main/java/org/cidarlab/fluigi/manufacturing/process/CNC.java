@@ -1,5 +1,6 @@
 package org.cidarlab.fluigi.manufacturing.process;
 
+import org.cidarlab.fluigi.manufacturing.DrawLayer;
 import org.cidarlab.fluigi.manufacturing.Feature;
 import org.jfree.graphics2d.svg.SVGGraphics2D;
 
@@ -25,6 +26,7 @@ public class CNC extends ManufacturingOutput {
     private List<Feature> edgefeatures;
     private List<Feature> xyfeatures;
     private List<Feature> xyzfeatures;
+    int layeriterator = 0;
 
     public CNC(String devicename, int xspan, int yspan){
         this.xspan = xspan;
@@ -33,7 +35,8 @@ public class CNC extends ManufacturingOutput {
     }
 
     @Override
-    public void generateDeviceOutput(List<Feature> features) {
+    public void generateDeviceOutput(List<DrawLayer> drawLayers) {
+
         /*
         Step 1: Get all the Z features
         Step 2: Get the EDGE features
@@ -45,30 +48,45 @@ public class CNC extends ManufacturingOutput {
         xyfeatures = new ArrayList<>();
         xyzfeatures = new ArrayList<>();
 
-        for (Feature feature: features) {
-            switch (feature.getType()){
-                case EDGE:
-                    edgefeatures.add(feature);
-                    break;
-                case XY:
-                    xyfeatures.add(feature);
-                    break;
-                case Z:
-                    zfeatures.add(feature);
-                    break;
-                case XYZ:
-                    xyzfeatures.add(feature);
-                    break;
+        List<Feature> features;
+
+        for (DrawLayer drawlayer : drawLayers){
+
+            features = drawlayer.getFeatures();
+
+            for (Feature feature: features) {
+                switch (feature.getType()){
+                    case EDGE:
+                        edgefeatures.add(feature);
+                        break;
+                    case XY:
+                        xyfeatures.add(feature);
+                        break;
+                    case Z:
+                        zfeatures.add(feature);
+                        break;
+                    case XYZ:
+                        xyzfeatures.add(feature);
+                        break;
+                }
             }
+
+            if(drawlayer.getParam("type").equals("CONTROL")){
+                drawEdges(true);
+                drawPorts(true);
+                drawHeightLayers(true);
+            }else if(drawlayer.getParam("type").equals("FLOW")){
+                drawEdges(false);
+                drawPorts(false);
+                drawHeightLayers(false);
+            }else{
+                throw new UnsupportedOperationException("Draw layer is missing a \"type\" parameter");
+            }
+            generateSTLs();
+            layeriterator++;
         }
 
-        drawEdges(false);
-        drawEdges(true);
-        drawPorts(false);
-        drawPorts(true);
-        drawHeightLayers(false);
-        drawHeightLayers(true);
-        generateSTLs();
+
     }
 
     @Override
