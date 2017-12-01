@@ -1,5 +1,9 @@
 grammar expressiongrammar;
 
+@header {
+package org.cidarlab.fluigi.netlist.expressiongrammar;
+}
+
 atom
     :   number_atom
     |   parameter_atom

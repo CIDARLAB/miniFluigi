@@ -4,6 +4,10 @@
 
 grammar mintgrammar;
 
+@header {
+package org.cidarlab.fluigi.netlist.mintgrammar;
+}
+
 netlist
     :   importBlock?
         header
