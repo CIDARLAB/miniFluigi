@@ -1,4 +1,4 @@
-![Fluigi Logo](http://52.34.11.70/wp-content/uploads/2013/08/research-fluigi-1.png
+![Fluigi Logo](http://52.34.11.70/wp-content/uploads/2013/08/research-fluigi-1.png)
 
 # Fluigi
 
