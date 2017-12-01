@@ -48,10 +48,10 @@ public class MinDistancePlacer extends Placer {
             Cell target = mPlacement.getNetTarget(net);
             if (source.getID().equals(id)) {
                 connectedCells.add(target);
-                connectedTerminals.add(net.getTarget());
+                connectedTerminals.add(new Point((int) target.getCenterX(), (int) target.getCenterY()));
             } else {
                 connectedCells.add(source);
-                connectedTerminals.add(net.getSource());
+                connectedTerminals.add(new Point((int) target.getCenterX(), (int) target.getCenterY()));
             }
         }
 
