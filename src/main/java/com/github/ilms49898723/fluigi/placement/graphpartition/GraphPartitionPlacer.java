@@ -1,34 +1,46 @@
 package com.github.ilms49898723.fluigi.placement.graphpartition;
 
-import com.github.ilms49898723.fluigi.device.component.BaseComponent;
-import com.github.ilms49898723.fluigi.device.graph.DeviceGraph;
-import com.github.ilms49898723.fluigi.device.graph.GraphEdge;
-import com.github.ilms49898723.fluigi.device.graph.GraphUtil;
-import com.github.ilms49898723.fluigi.device.symbol.ComponentLayer;
-import com.github.ilms49898723.fluigi.device.symbol.SymbolTable;
-import com.github.ilms49898723.fluigi.placement.BasePlacer;
-import com.github.ilms49898723.fluigi.processor.parameter.Parameters;
-import javafx.geometry.Point2D;
+import org.cidarlab.fluigi.layout.Cell;
+import org.cidarlab.fluigi.layout.Net;
+import org.cidarlab.fluigi.layout.Placement;
+import org.cidarlab.fluigi.layout.Point;
+import org.cidarlab.fluigi.place.Placer;
 import org.jgrapht.Graph;
+import org.jgrapht.graph.DefaultEdge;
 
 import java.util.*;
 
-public class GraphPartitionPlacer extends BasePlacer {
+public class GraphPartitionPlacer extends Placer {
     private static final int NUM_CELLS_IN_A_SLOT = 4;
+    private static final int MAX_WIDTH = 76800;
+    private static final int MAX_HEIGHT = 76800;
 
-    private Graph<String, GraphEdge> mGraph;
+    private Placement mPlacement;
+    private Graph<String, DefaultEdge> mGraph;
 
-    public GraphPartitionPlacer(SymbolTable symbolTable, DeviceGraph deviceGraph, Parameters parameters) {
-        super(symbolTable, deviceGraph, parameters);
-        mGraph = GraphUtil.constructGraph(mDeviceGraph.getGraph(), mSymbolTable, ComponentLayer.FLOW);
+    public GraphPartitionPlacer(Placement placement) {
+        mPlacement = placement;
+        problem = placement;
+        constructGraph();
     }
 
     @Override
-    public boolean placement() {
-        return graphPartition(mGraph, Point2D.ZERO, new Point2D(mParameters.getMaxDeviceWidth(), mParameters.getMaxDeviceHeight()));
+    public void place() {
+        graphPartition(mGraph, Point.zero(), new Point(MAX_WIDTH, MAX_HEIGHT));
     }
 
-    private boolean graphPartition(Graph<String, GraphEdge> graph, Point2D basePoint, Point2D size) {
+    private void constructGraph() {
+        for (Cell cell : mPlacement.getCells()) {
+            mGraph.addVertex(cell.getID());
+        }
+        for (Net net : mPlacement.getNets()) {
+            Cell source = mPlacement.getNetSource(net);
+            Cell target = mPlacement.getNetTarget(net);
+            mGraph.addEdge(source.getID(), target.getID());
+        }
+    }
+
+    private boolean graphPartition(Graph<String, DefaultEdge> graph, Point basePoint, Point size) {
         if (graph.vertexSet().size() <= NUM_CELLS_IN_A_SLOT) {
             return placeCells(graph, basePoint, size);
         } else {
@@ -40,23 +52,23 @@ public class GraphPartitionPlacer extends BasePlacer {
             Set<String> vertexB = new HashSet<>();
             vertexB.addAll(graph.vertexSet());
             vertexB.removeAll(vertexA);
-            Graph<String, GraphEdge> subGraphA = GraphUtil.constructSubGraph(graph, vertexA);
-            Graph<String, GraphEdge> subGraphB = GraphUtil.constructSubGraph(graph, vertexB);
+            Graph<String, DefaultEdge> subGraphA = GraphUtil.constructSubGraph(graph, vertexA);
+            Graph<String, DefaultEdge> subGraphB = GraphUtil.constructSubGraph(graph, vertexB);
             double rateA = getRate(vertexA, graph.vertexSet());
             double rateB = 1.0 - rateA;
             if (size.getX() < size.getY()) {
-                Point2D newBasePointA = new Point2D(basePoint.getX(), basePoint.getY());
-                Point2D newBasePointB = new Point2D(basePoint.getX(), basePoint.getY() + size.getY() * rateA);
-                Point2D newSizeA = new Point2D(size.getX(), size.getY() * rateA);
-                Point2D newSizeB = new Point2D(size.getX(), size.getY() * rateB);
+                Point newBasePointA = new Point(basePoint.getX(), basePoint.getY());
+                Point newBasePointB = new Point(basePoint.getX(), (int) (basePoint.getY() + size.getY() * rateA));
+                Point newSizeA = new Point(size.getX(), (int) (size.getY() * rateA));
+                Point newSizeB = new Point(size.getX(), (int) (size.getY() * rateB));
                 boolean resultA = graphPartition(subGraphA, newBasePointA, newSizeA);
                 boolean resultB = graphPartition(subGraphB, newBasePointB, newSizeB);
                 return resultA && resultB;
             } else {
-                Point2D newBasePointA = new Point2D(basePoint.getX(), basePoint.getY());
-                Point2D newBasePointB = new Point2D(basePoint.getX() + size.getX() * rateA, basePoint.getY());
-                Point2D newSizeA = new Point2D(size.getX() * rateA, size.getY());
-                Point2D newSizeB = new Point2D(size.getX() * rateB, size.getY());
+                Point newBasePointA = new Point(basePoint.getX(), basePoint.getY());
+                Point newBasePointB = new Point((int) (basePoint.getX() + size.getX() * rateA), basePoint.getY());
+                Point newSizeA = new Point((int) (size.getX() * rateA), size.getY());
+                Point newSizeB = new Point((int) (size.getX() * rateB), size.getY());
                 boolean resultA = graphPartition(subGraphA, newBasePointA, newSizeA);
                 boolean resultB = graphPartition(subGraphB, newBasePointB, newSizeB);
                 return resultA && resultB;
@@ -70,7 +82,7 @@ public class GraphPartitionPlacer extends BasePlacer {
         return a / b;
     }
 
-    private Set<String> breadthFirstSearch(Graph<String, GraphEdge> graph, String start, int limit) {
+    private Set<String> breadthFirstSearch(Graph<String, DefaultEdge> graph, String start, int limit) {
         Set<String> result = new HashSet<>();
         int size = 0;
         Queue<String> queue = new ArrayDeque<>();
@@ -79,8 +91,10 @@ public class GraphPartitionPlacer extends BasePlacer {
         size++;
         while (!queue.isEmpty() && size < limit) {
             String front = queue.poll();
-            for (GraphEdge edge : graph.edgesOf(front)) {
-                String out = (edge.getVertexA().equals(front)) ? edge.getVertexB() : edge.getVertexA();
+            for (DefaultEdge edge : graph.edgesOf(front)) {
+                String vertexA = graph.getEdgeSource(edge);
+                String vertexB = graph.getEdgeTarget(edge);
+                String out = (vertexA.equals(front)) ? vertexB : vertexA;
                 if (!result.contains(out)) {
                     if (size < limit) {
                         result.add(out);
@@ -93,17 +107,18 @@ public class GraphPartitionPlacer extends BasePlacer {
         return result;
     }
 
-    private boolean placeCells(Graph<String, GraphEdge> graph, Point2D basePoint, Point2D size) {
-        Point2D a = basePoint.add(new Point2D(size.getX() / 4, size.getY() / 4));
-        Point2D b = basePoint.add(new Point2D(size.getX() * 3 / 4, size.getY() / 4));
-        Point2D c = basePoint.add(new Point2D(size.getX() / 4, size.getY() * 3 / 4));
-        Point2D d = basePoint.add(new Point2D(size.getX() * 3 / 4, size.getY() * 3 / 4));
-        List<Point2D> mps = new ArrayList<>();
+    private boolean placeCells(Graph<String, DefaultEdge> graph, Point basePoint, Point size) {
+        Point a = basePoint.add(new Point(size.getX() / 4, size.getY() / 4));
+        Point b = basePoint.add(new Point(size.getX() * 3 / 4, size.getY() / 4));
+        Point c = basePoint.add(new Point(size.getX() / 4, size.getY() * 3 / 4));
+        Point d = basePoint.add(new Point(size.getX() * 3 / 4, size.getY() * 3 / 4));
+        List<Point> mps = new ArrayList<>();
         mps.addAll(Arrays.asList(a, b, c, d));
         int counter = 0;
         for (String v : graph.vertexSet()) {
-            BaseComponent component = mSymbolTable.get(v);
-            component.setPosition(mps.get(counter));
+            Cell cell = mPlacement.getCell(v);
+            cell.setX(mps.get(counter).getX());
+            cell.setY(mps.get(counter).getY());
             counter++;
         }
         return true;

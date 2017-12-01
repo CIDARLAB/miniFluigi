@@ -1,5 +1,6 @@
 package com.github.ilms49898723.fluigi.placement.mindistance;
 
+import com.github.ilms49898723.fluigi.placement.graphpartition.GraphPartitionPlacer;
 import org.apache.commons.lang3.NotImplementedException;
 import org.cidarlab.fluigi.layout.Cell;
 import org.cidarlab.fluigi.layout.Net;
@@ -16,10 +17,12 @@ public class MinDistancePlacer extends Placer {
     public MinDistancePlacer(Placement placement) {
         mLocked = new HashMap<>();
         mPlacement = placement;
+        problem = placement;
     }
 
     @Override
     public void place() {
+        new GraphPartitionPlacer(mPlacement).place();
         minDistance();
     }
 
