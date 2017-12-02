@@ -8,6 +8,7 @@ package org.cidarlab.fluigi.layout;
 import org.cidarlab.fluigi.core.ErrorCodes;
 import org.jgrapht.graph.SimpleDirectedGraph;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -106,6 +107,15 @@ public class Placement {
 
     }
 
+    public Cell getCell(String cellId) {
+        for (Cell c : placementGraph.vertexSet()) {
+            if (c.getID().equals(cellId)) {
+                return c;
+            }
+        }
+        return null;
+    }
+
     /**
      * Returns all the vertices (Cell objects) that are part of the netlist graph
      * @return
@@ -121,6 +131,19 @@ public class Placement {
                 cell.setY(y);
             }
         }
+    }
+
+    public Set<Net> netsOfCell(String cellId) {
+        for (Cell c : placementGraph.vertexSet()) {
+            if (c.getID().equals(cellId)) {
+                return netsOfCell(c);
+            }
+        }
+        return new HashSet<>();
+    }
+
+    public Set<Net> netsOfCell(Cell cell) {
+        return placementGraph.edgesOf(cell);
     }
 
     /**

@@ -7,6 +7,15 @@ public class Point {
     private int x;
     private int y;
 
+    public Point() {
+
+    }
+
+    public Point(int ix, int iy) {
+        x = ix;
+        y = iy;
+    }
+
     /**
      * Returns the X coordinate of the point
      * @return
@@ -37,5 +46,28 @@ public class Point {
      */
     public void setY(int y) {
         this.y = y;
+    }
+
+    public Point add(Point that) {
+        return new Point(x + that.x, y + that.y);
+    }
+
+    public Point subtract(Point that) {
+        return new Point(x - that.x, y - that.y);
+    }
+
+    public Point midPoint(Point that) {
+        return new Point(
+                (x + that.x) / 2,
+                (y + that.y) / 2
+        );
+    }
+
+    public int manhattanDistance(Point that) {
+        return Math.abs(x - that.x) + Math.abs(y - that.y);
+    }
+
+    public static Point zero() {
+        return new Point(0, 0);
     }
 }

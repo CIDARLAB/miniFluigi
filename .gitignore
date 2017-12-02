@@ -21,7 +21,6 @@ nb-configuration.xml
 .nb-gradle/
 
 #Mac Crap
-.*
 *~
 *DS_Store*
 
@@ -38,3 +37,11 @@ buildNumber.properties
 .mvn/timing.properties
 /nbproject/
 *.iml
+
+
+#Gradle
+.gradle/
+
+#IntelliJ
+.idea/
+out/
