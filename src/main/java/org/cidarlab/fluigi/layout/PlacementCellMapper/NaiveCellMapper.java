@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Set;
 
 /**
+ * Create Placement object(Cells and Nets) from Device object and separates disconnected graphs
+ *
  * Created by krishna on 7/17/17.
  */
 public class NaiveCellMapper extends CellMapper {

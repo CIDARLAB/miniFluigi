@@ -11,6 +11,8 @@ public class TechTerminal extends Point{
     private String xposexpression;
     private String yposexpression;
     private String layer;
+    private String start;
+    private String end;
 
     public TechTerminal(String label) {
         super();
@@ -43,5 +45,19 @@ public class TechTerminal extends Point{
 
     public String getLayer() {
         return layer;
+    }
+
+    public String getStart() {
+        return start;
+    }
+
+    public String getEnd() { return end; }
+
+    public void setStart(String start) {
+        this.start = start;
+    }
+
+    public void setEnd(String end){
+        this.end = end;
     }
 }

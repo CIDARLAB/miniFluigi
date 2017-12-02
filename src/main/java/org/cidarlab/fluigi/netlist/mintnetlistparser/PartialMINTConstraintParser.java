@@ -4,10 +4,7 @@ import org.cidarlab.fluigi.model.Component;
 import org.cidarlab.fluigi.model.Connection;
 import org.cidarlab.fluigi.model.Terminal;
 import org.cidarlab.fluigi.netlist.Enumerations;
-import org.cidarlab.fluigi.netlist.constraints.BankConstraint;
-import org.cidarlab.fluigi.netlist.constraints.Constraint;
-import org.cidarlab.fluigi.netlist.constraints.GridConstraint;
-import org.cidarlab.fluigi.netlist.constraints.OrientationConstraint;
+import org.cidarlab.fluigi.netlist.constraints.*;
 import org.cidarlab.fluigi.netlist.mintgrammar.mintgrammarParser;
 import org.cidarlab.fluigi.netlist.technology.TechEntity;
 
@@ -17,8 +14,7 @@ import java.util.List;
 
 public class PartialMINTConstraintParser extends PartialMINTNetlistParser {
 
-    protected Enumerations.HorizontalDirection constraintContextHorizontalDirection = null;
-    protected Enumerations.VerticalDirection constraintContextVerticalDirection = null;
+    protected Enumerations.Direction constraintContextDirection = null;
     protected Enumerations.Orientation constriantContextOrientaiton = null;
     protected Integer constraintContextLength = null;
 
@@ -69,7 +65,7 @@ public class PartialMINTConstraintParser extends PartialMINTNetlistParser {
         }
 
         if(Enumerations.Orientation.HORIZONTAL == constriantContextOrientaiton){
-            if(null == constraintContextHorizontalDirection){
+            if(null == constraintContextDirection){
                 //Check if there's a default parameter for the techentity
                 String direction = currententity.getDefaultParamValue("direction");
                 if(null == direction) {
@@ -83,12 +79,13 @@ public class PartialMINTConstraintParser extends PartialMINTNetlistParser {
                             rotation = 0;
                             break;
                         default:
-                            throw new UnsupportedOperationException("Need to implement error throwing mech for error in tech file");
+                            throw new UnsupportedOperationException("Missing direction parameter for component: " +
+                                    constraintContextComponents.get(0).getId());
                     }
                 }
             }else {
 
-                switch (constraintContextVerticalDirection) {
+                switch (constraintContextDirection) {
                     case RIGHT:
                         rotation = 180;
                         break;
@@ -99,7 +96,7 @@ public class PartialMINTConstraintParser extends PartialMINTNetlistParser {
             }
 
         }else{
-            if(null == constraintContextVerticalDirection){
+            if(null == constraintContextDirection){
                 String direction = currententity.getDefaultParamValue("direction");
                 if(null == direction) {
                     rotation = 0;
@@ -117,7 +114,7 @@ public class PartialMINTConstraintParser extends PartialMINTNetlistParser {
                 }
             }else {
 
-                switch (constraintContextHorizontalDirection) {
+                switch (constraintContextDirection) {
                     case UP:
                         rotation = 270;
                         break;
@@ -295,7 +292,8 @@ public class PartialMINTConstraintParser extends PartialMINTNetlistParser {
     public void exitSpanStat(mintgrammarParser.SpanStatContext ctx) {
         super.exitSpanStat(ctx);
         //TODO: We need to check if the span is of Type Tree/Fan and then generate the respective cells
-        throw new UnsupportedOperationException();
+        Constraint constraint = new TreeConstraint(constraintContextComponents);
+        device.addConstraint(constraint);
 
     }
 
@@ -354,41 +352,35 @@ public class PartialMINTConstraintParser extends PartialMINTNetlistParser {
 
     }
 
+
+    /**
+     * {@inheritDoc}
+     * <p>
+     * <p>The default implementation does nothing.</p>
+     *
+     * @param ctx
+     */
     @Override
-    public void enterVerticalDirectionParam(mintgrammarParser.VerticalDirectionParamContext ctx) {
-        super.enterVerticalDirectionParam(ctx);
+    public void enterDirectionConstraintParam(mintgrammarParser.DirectionConstraintParamContext ctx) {
+        super.enterDirectionConstraintParam(ctx);
 
-        //Set the current vertical direction flag
-
-        switch (ctx.getText()){
-            case "LEFT":
-                constraintContextVerticalDirection = Enumerations.VerticalDirection.LEFT;
-                break;
-            case "RIGHT":
-                constraintContextVerticalDirection = Enumerations.VerticalDirection.RIGHT;
-                break;
-        }
-
-
-    }
-
-    @Override
-    public void enterHorizontalDirectionParam(mintgrammarParser.HorizontalDirectionParamContext ctx) {
-        super.enterHorizontalDirectionParam(ctx);
-
-        //Set the current horizontal direction flag
-
-        switch (ctx.getText()){
+        switch (ctx.dir.getText()){
             case "UP":
-                constraintContextHorizontalDirection = Enumerations.HorizontalDirection.UP;
+                constraintContextDirection = Enumerations.Direction.UP;
                 break;
             case "DOWN":
-                constraintContextHorizontalDirection = Enumerations.HorizontalDirection.DOWN;
+                constraintContextDirection = Enumerations.Direction.DOWN;
                 break;
+            case "LEFT":
+                constraintContextDirection = Enumerations.Direction.LEFT;
+                break;
+            case "RIGHT":
+                constraintContextDirection = Enumerations.Direction.RIGHT;
+                break;
+
         }
 
     }
-
 
 
     //------------------ Private Helper Methods -------------------
@@ -398,8 +390,7 @@ public class PartialMINTConstraintParser extends PartialMINTNetlistParser {
      */
     private void clearConstraintFlags() {
         constriantContextOrientaiton = null;
-        constraintContextHorizontalDirection = null;
-        constraintContextVerticalDirection = null;
+        constraintContextDirection = null;
         constraintContextLength = null;
     }
 

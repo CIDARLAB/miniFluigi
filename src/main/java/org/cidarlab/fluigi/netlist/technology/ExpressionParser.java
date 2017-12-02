@@ -23,10 +23,12 @@ public class ExpressionParser extends expressiongrammarBaseListener {
 
     private HashMap<String, Double> expressionPrams;
     private Stack<Double> atomstack;
+    private Stack<Double> functionstack;
 
     public ExpressionParser(){
         expressionPrams = new HashMap<>();
         atomstack = new Stack<>();
+        functionstack = new Stack<>();
     }
 
     public void setExpressionPrams(Map<String, String> parameters){
@@ -101,6 +103,30 @@ public class ExpressionParser extends expressiongrammarBaseListener {
 
     }
 
+    /**
+     * {@inheritDoc}
+     * <p>
+     * <p>The default implementation does nothing.</p>
+     *
+     * @param ctx
+     */
+    @Override
+    public void exitFunction_expression(expressiongrammarParser.Function_expressionContext ctx) {
+        String function = ctx.function.getText();
+        switch (function){
+            case "log2":
+                ExpressionFunctions.log2(atomstack);
+                break;
+            case "lt":
+                ExpressionFunctions.lt(atomstack);
+                break;
+            case "gt":
+                ExpressionFunctions.gt(atomstack);
+                break;
+            default:
+                throw new UnsupportedOperationException("Expression parser does not support this operation");
+        }
+    }
 
     public class UnspecifiedParameterException extends Exception {
         public UnspecifiedParameterException(String message){

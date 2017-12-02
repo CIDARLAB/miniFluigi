@@ -1,4 +1,4 @@
-// Generated from C:/Users/krishna/Documents/GitHub/miniFluigi/src/main/ANTLR\mintgrammar.g4 by ANTLR 4.7
+// Generated from /Users/krishna/CIDAR/MiniFluigi/src/main/ANTLR/mintgrammar.g4 by ANTLR 4.7
 package org.cidarlab.fluigi.netlist.mintgrammar;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -376,25 +376,13 @@ public class mintgrammarBaseListener implements mintgrammarListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterVerticalDirectionParam(mintgrammarParser.VerticalDirectionParamContext ctx) { }
+	@Override public void enterDirectionConstraintParam(mintgrammarParser.DirectionConstraintParamContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitVerticalDirectionParam(mintgrammarParser.VerticalDirectionParamContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterHorizontalDirectionParam(mintgrammarParser.HorizontalDirectionParamContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitHorizontalDirectionParam(mintgrammarParser.HorizontalDirectionParamContext ctx) { }
+	@Override public void exitDirectionConstraintParam(mintgrammarParser.DirectionConstraintParamContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

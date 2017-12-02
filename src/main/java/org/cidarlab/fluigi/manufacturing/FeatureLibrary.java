@@ -2,6 +2,10 @@ package org.cidarlab.fluigi.manufacturing;
 
 import java.util.HashMap;
 
+/**
+ * The Feature library is a class holds the information about all the features that are associated with every component
+ * that is in the application library
+ */
 public class FeatureLibrary {
 
     /**
@@ -16,11 +20,20 @@ public class FeatureLibrary {
         this.entityHashMap = new HashMap<>();
     }
 
-    public void addEntity(FeatureEntity featureEntity) {
+    /**
+     * Add FeatureEntity to the feature library
+     * @param featureEntity
+     */
+    public void addEntity(@NotNull FeatureEntity featureEntity) {
         this.entityHashMap.put(featureEntity.getMINTName(), featureEntity);
     }
 
-    public FeatureEntity getMINTEntity(String mintname){
+    /**
+     * Returns the Feature entity assocociate with the mint name
+     * @param mintname
+     * @return
+     */
+    public FeatureEntity getMINTEntity(@NotNull String mintname){
         return this.entityHashMap.get(mintname);
     }
 }

@@ -21,6 +21,7 @@ public class   PartialMINTNetlistParser extends PartialMINTParamsParser {
     protected MINTArbitraryTerminalMap terminalMap = null;
     HashMap<String, Object> gridparamsHashmap;
     HashMap<String, Object> bankparamsHashmap;
+    private int spanlimit;
 
     public PartialMINTNetlistParser(){
         super();
@@ -250,6 +251,8 @@ public class   PartialMINTNetlistParser extends PartialMINTParamsParser {
         paramsHashmap.put("in", invalue);
         paramsHashmap.put("out", outvalue);
 
+        spanlimit = Integer.parseInt(outvalue) + Integer.parseInt(invalue);
+
         List<UfnameContext> componentnames = ctx.ufnames().ufname();
         for(UfnameContext componentname : componentnames){
 
@@ -414,9 +417,8 @@ public class   PartialMINTNetlistParser extends PartialMINTParamsParser {
         //Q. Figure out if this should be the key or the reference to the actual tech entity object.
         //A. We use the string key here instead of the entity object because we might want to include subdevices as
         // modules.
-
         ret.setTechnology(componententity.getMINTName());
-        ret.setTerminals(componententity.getDefaultTerminals());
+        ret.setTerminals(componententity.getComponentTerminals(paramsHashmap));
         ret.setType(componententity.getType());
         verifyAndAddParams(ret);
         return ret;

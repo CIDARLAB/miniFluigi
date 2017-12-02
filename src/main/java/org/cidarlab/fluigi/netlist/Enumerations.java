@@ -7,14 +7,11 @@ public class Enumerations {
         VERTICAL
     }
 
-    public enum HorizontalDirection {
+    public enum Direction {
+        RIGHT,
+        LEFT,
         UP,
         DOWN
-    }
-
-    public enum VerticalDirection {
-        RIGHT,
-        LEFT
     }
 
     public enum Boolean {

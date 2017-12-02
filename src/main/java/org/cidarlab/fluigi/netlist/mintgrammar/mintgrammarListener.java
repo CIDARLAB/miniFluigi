@@ -1,4 +1,4 @@
-// Generated from C:/Users/krishna/Documents/GitHub/miniFluigi/src/main/ANTLR\mintgrammar.g4 by ANTLR 4.7
+// Generated from /Users/krishna/CIDAR/MiniFluigi/src/main/ANTLR/mintgrammar.g4 by ANTLR 4.7
 package org.cidarlab.fluigi.netlist.mintgrammar;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -308,25 +308,15 @@ public interface mintgrammarListener extends ParseTreeListener {
 	 */
 	void exitWidthParam(mintgrammarParser.WidthParamContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link mintgrammarParser#verticalDirectionParam}.
+	 * Enter a parse tree produced by {@link mintgrammarParser#directionConstraintParam}.
 	 * @param ctx the parse tree
 	 */
-	void enterVerticalDirectionParam(mintgrammarParser.VerticalDirectionParamContext ctx);
+	void enterDirectionConstraintParam(mintgrammarParser.DirectionConstraintParamContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link mintgrammarParser#verticalDirectionParam}.
+	 * Exit a parse tree produced by {@link mintgrammarParser#directionConstraintParam}.
 	 * @param ctx the parse tree
 	 */
-	void exitVerticalDirectionParam(mintgrammarParser.VerticalDirectionParamContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link mintgrammarParser#horizontalDirectionParam}.
-	 * @param ctx the parse tree
-	 */
-	void enterHorizontalDirectionParam(mintgrammarParser.HorizontalDirectionParamContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link mintgrammarParser#horizontalDirectionParam}.
-	 * @param ctx the parse tree
-	 */
-	void exitHorizontalDirectionParam(mintgrammarParser.HorizontalDirectionParamContext ctx);
+	void exitDirectionConstraintParam(mintgrammarParser.DirectionConstraintParamContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link mintgrammarParser#gridParam}.
 	 * @param ctx the parse tree

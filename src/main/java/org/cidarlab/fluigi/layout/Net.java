@@ -19,20 +19,36 @@ public class Net extends DefaultEdge {
     private Point source;
     private Point target;
 
+    /**
+     * Returns the source Point of the Net
+     * @return
+     */
     @Override
     public Point getSource() {
         return source;
     }
 
+    /**
+     * Sets the target Point of the Net
+     * @return
+     */
     public void setSource(Point source) {
         this.source = source;
     }
 
+    /**
+     * Returns the target Point of the Net
+     * @return
+     */
     @Override
     public Point getTarget() {
         return target;
     }
 
+    /**
+     * Sets the target Point of the Net
+     * @return
+     */
     public void setTarget(Point target) {
         this.target = target;
     }

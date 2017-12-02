@@ -23,40 +23,80 @@ public class Cell {
         return id;
     }
 
+    /**
+     * Returns the X co-ordinate of the ce;; (top left corner)
+     * @return
+     */
     public int getX() {
         return x;
     }
 
+    /**
+     * Sets the X co-ordinate of the ce;; (top left corner)
+     * @return
+     */
     public void setX(int x) {
         this.x = x;
     }
 
+    /**
+     * Returns the Y co-ordinate of the ce;; (top left corner)
+     * @return
+     */
     public int getY() {
         return y;
     }
 
+    /**
+     * Sets the Y co-ordinate of the ce;; (top left corner)
+     * @return
+     */
     public void setY(int y) {
         this.y = y;
     }
 
+    /**
+     * Returns the X-Dimension of the cell
+     * @return
+     */
     public int getXspan() {
         return xspan;
     }
 
+    /**
+     * Sets the X-Dimension of the cell
+     * @return
+     */
     public void setXspan(int xspan) {
         this.xspan = xspan;
     }
 
+    /**
+     * Returns the Y-Dimension of the cell
+     * @return
+     */
     public int getYspan() {
         return yspan;
     }
 
+    /**
+     * Sets the Y-Dimension of the cell
+     * @return
+     */
     public void setYspan(int yspan) {
         this.yspan = yspan;
     }
 
+    /**
+     * Returns the center X coordinate of the cell
+     * @return
+     */
     public double getCenterX(){ return (x+ xspan)/2; }
 
+    /**
+     * Returns the center Y coordinate of the cell
+     * @return
+     */
     public double getCenterY(){ return (y+ yspan)/2; }
 
     @Override
@@ -64,10 +104,18 @@ public class Cell {
         return (obj instanceof Cell) && ((Cell) obj).getID().equals(this.getID());
     }
 
+    /**
+     * Returns the largest X coordinate of the cell
+     * @return
+     */
     public int getMaxX() {
         return x + xspan;
     }
 
+    /**
+     * Returns the largest Y coordinate of the cell
+     * @return
+     */
     public int getMaxY() {
         return y + yspan;
     }

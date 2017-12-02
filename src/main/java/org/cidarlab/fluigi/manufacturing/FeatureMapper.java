@@ -17,6 +17,7 @@ public class FeatureMapper {
 
     public List<Feature> generateFeatureList(){
         //TODO: Implement following algorithm
+        //TODO: Update the algorithm to take into account the new feature entity defintion and also associate the features with each draw layer
         /*
         Step 1: Get the layerblocks of the device
         Step 2: Get the respective featureEntity for the component

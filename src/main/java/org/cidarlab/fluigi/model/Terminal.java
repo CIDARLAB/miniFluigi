@@ -10,22 +10,43 @@ import java.util.HashMap;
 public class Terminal extends Point {
     private String label;
     private String layer;
+
+    /**
+     * Returns the label of the terminal
+     * @return
+     */
     public String getLabel() {
         return label;
     }
 
+    /**
+     * Sets the label of the terminal
+     * @param label
+     */
     public void setLabel(String label) {
         this.label = label;
     }
 
+    /**
+     * Sets the X value of the terminal position relative to the component position
+     * @param XOffSet
+     */
     public void setXOffset(int XOffSet) {
         this.setX(XOffSet);
     }
 
+    /**
+     * Sets the logical layer to which the terminal belongs to
+     * @param layer
+     */
     public void setLayer(String layer) {
         this.layer = layer;
     }
 
+    /**
+     * Sets the Y value of the terminal position relative to the component position
+     * @param YOffset
+     */
     public void setYOffset(int YOffset) {
         this.setY(YOffset);
     }
