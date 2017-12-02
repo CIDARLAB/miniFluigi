@@ -1,9 +1,5 @@
 grammar expressiongrammar;
 
-@header {
-package org.cidarlab.fluigi.netlist.expressiongrammar;
-}
-
 atom
     :   number_atom
     |   parameter_atom
@@ -20,8 +16,13 @@ signed_atom
     :   '-' atom
     ;
 
+function_expression
+    :   function=ID LPAREN bracket_expression (',' bracket_expression)*  RPAREN
+    ;
+
 primary_expression
     :   bracket_expression
+    |   function_expression
     |   additive_expression
     |   signed_atom
     |   atom
@@ -29,6 +30,7 @@ primary_expression
 
 bracket_expression
     :   LPAREN additive_expression RPAREN
+    |   function_expression
     |   signed_atom
     |   atom
     ;
@@ -57,7 +59,7 @@ SUB : '-';
 MUL : '*';
 DIV : '/';
 
-ID :    ('a'..'z'|'_')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
+ID :    ('a'..'z'|'_'|'A'..'Z')('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
 
 FLOAT : [0-9]+'.'[0-9]+;
 

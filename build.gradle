@@ -7,7 +7,7 @@ apply plugin: 'java'
 apply plugin: 'application'
 
 // Apply the antlr plugin
-apply plugin: 'antlr'
+// apply plugin: 'antlr'
 
 // Apply IDE related plugin
 apply plugin: 'idea'
@@ -35,7 +35,7 @@ dependencies {
     compile 'org.jgrapht:jgrapht-core:1.0.0'
 
     // Antlr
-    antlr 'org.antlr:antlr4:4.7'
+    compile 'org.antlr:antlr4:4.7'
 
     // Use JUnit test framework
     testCompile 'junit:junit:4.12'
@@ -43,10 +43,6 @@ dependencies {
 
 run {
     standardInput = System.in
-}
-
-generateGrammarSource {
-    arguments += ["-visitor"]
 }
 
 // Define the main class for the application

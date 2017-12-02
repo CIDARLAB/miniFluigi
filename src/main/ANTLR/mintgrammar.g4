@@ -4,10 +4,6 @@
 
 grammar mintgrammar;
 
-@header {
-package org.cidarlab.fluigi.netlist.mintgrammar;
-}
-
 netlist
     :   importBlock?
         header
@@ -139,8 +135,7 @@ paramsStat
 paramStat
     :   intParam
     |   boolParam
-    |   verticalDirectionParam
-    |   horizontalDirectionParam
+    |   directionConstraintParam
     |   gridParam
     |   widthParam
     ;
@@ -163,12 +158,9 @@ widthParam
     |   'channelWidth' '=' value
     ;
 
-verticalDirectionParam
-    :   'dir''='dir=('RIGHT'|'LEFT')
-    ;
-
-horizontalDirectionParam
-    :   'dir''='dir=('UP'|'DOWN')
+directionConstraintParam
+    :   'dir''='dir=('RIGHT'|'LEFT' | 'UP'|'DOWN')
+    |   'direction''='dir=('RIGHT'|'LEFT' | 'UP'|'DOWN')
     ;
 
 gridParam
