@@ -318,6 +318,26 @@ public interface mintgrammarListener extends ParseTreeListener {
 	 */
 	void exitDirectionConstraintParam(mintgrammarParser.DirectionConstraintParamContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link mintgrammarParser#bankParam}.
+	 * @param ctx the parse tree
+	 */
+	void enterBankParam(mintgrammarParser.BankParamContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link mintgrammarParser#bankParam}.
+	 * @param ctx the parse tree
+	 */
+	void exitBankParam(mintgrammarParser.BankParamContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link mintgrammarParser#bankParamKey}.
+	 * @param ctx the parse tree
+	 */
+	void enterBankParamKey(mintgrammarParser.BankParamKeyContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link mintgrammarParser#bankParamKey}.
+	 * @param ctx the parse tree
+	 */
+	void exitBankParamKey(mintgrammarParser.BankParamKeyContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link mintgrammarParser#gridParam}.
 	 * @param ctx the parse tree
 	 */

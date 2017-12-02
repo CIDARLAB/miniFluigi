@@ -74,9 +74,9 @@ flowStat
 
 controlStat
     :   valveStat
+    |   primitiveWithOrientationConstraintStat
     |   channelStat
     |   netStat
-    |   bankStat
     |   primitiveStat
     ;
 
@@ -137,6 +137,7 @@ paramStat
     |   boolParam
     |   directionConstraintParam
     |   gridParam
+    |   bankParam
     |   widthParam
     ;
 
@@ -163,6 +164,14 @@ directionConstraintParam
     |   'direction''='dir=('RIGHT'|'LEFT' | 'UP'|'DOWN')
     ;
 
+bankParam
+    :   bankParamKey '=' (boolvalue | value)
+    ;
+
+bankParamKey
+    :   'spacing'
+    ;
+
 gridParam
     :   gridParamKey '=' gridParamValue
     ;
@@ -171,7 +180,8 @@ gridParamValue : boolvalue | value;
 
 gridParamKey
     :   'horizontalConnect' |    'verticalConnect'  |   'verticalValves'    |   'horizontalValves'
-    |   'verticalSpacing'   |   'horizontalSpacing' ;
+    |   'verticalSpacing'   |   'horizontalSpacing'
+    ;
 
 ufmodulename
     :   ID_BIG

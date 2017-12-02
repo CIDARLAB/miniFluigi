@@ -375,7 +375,7 @@ public class   PartialMINTNetlistParser extends PartialMINTParamsParser {
     public void enterEntity(EntityContext ctx) {
         currententity = techLibrary.getMINTEntity(ctx.getText());
         if (null == currententity) {
-            System.out.println("Entity does not exist");
+            System.out.println("Entity does not exist: " + ctx.getText());
             throw new UnsupportedOperationException("Need to implement system to throw error when entity does not exist");
         }
     }
@@ -417,6 +417,9 @@ public class   PartialMINTNetlistParser extends PartialMINTParamsParser {
         //Q. Figure out if this should be the key or the reference to the actual tech entity object.
         //A. We use the string key here instead of the entity object because we might want to include subdevices as
         // modules.
+        //TODO: Check if this is an importable component later on
+        ret.setXSpan(componententity.getXSpan(paramsHashmap));
+        ret.setYSpan(componententity.getYSpan(paramsHashmap));
         ret.setTechnology(componententity.getMINTName());
         ret.setTerminals(componententity.getComponentTerminals(paramsHashmap));
         ret.setType(componententity.getType());

@@ -5,10 +5,7 @@
  */
 package org.cidarlab.fluigi.model;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 import org.cidarlab.fluigi.netlist.json.JSONKeyWords;
 import org.cidarlab.fluigi.netlist.technology.TechEntity;
@@ -214,23 +211,10 @@ public class Component {
      */
     public void setTerminals(List<Terminal> terminalList) {
 
-        for (Terminal terminal: terminalList) {
-            this.terminalsHashMap.put(terminal.getLabel(), terminal);
-
-            //Figuring out the max and min locations of the terminals
-            if(terminal.getX() <= xmin){
-                xmin = terminal.getX();
-            }
-            if(terminal.getY() <= ymin){
-                ymin = terminal.getY();
-            }
-            if(terminal.getX() >= xmax){
-                xmax = terminal.getX();
-            }
-            if(terminal.getY() >= ymax){
-                ymax = terminal.getY();
-            }
-        }
+        xmin = this.getX();
+        ymin = this.getY();
+        xmax = this.getX() + this.getW();
+        ymax = this.getY() + this.getH();
 
         //Arrange all the terminals in clockwise direction and then add them to top, bottom, left and right
 
@@ -248,68 +232,36 @@ public class Component {
         leftedgelist = new ArrayList<>();
         bottomedgelist = new ArrayList<>();
 
+        //Simplifying this to catch weird edge case
         for(Terminal terminal: terminalList){
             //Check which edge the terminal falls on
             if(ymin == terminal.getY()){ //Top Edge
                 //if x:increasing -> terminal:increasing
                 //Go through list and add accordingly
-                if(topedgelist.isEmpty()){
-                    topedgelist.add(terminal);
-                    continue;
-                }
-                for(int i = 0; i<topedgelist.size(); i++){
-                    Terminal terminal2 = topedgelist.get(i);
-                    if(terminal.getX()<=terminal2.getX()){
-                        topedgelist.add(i,terminal);
-                        break;
-                    }
-                }
+                insertIncreasingXOrder(terminal, topedgelist);
                 continue;
+
             }else if(xmax == terminal.getX()){ //Right Edge
                 //if y:increasing -> terminal:increasing
-                if(rightedgelist.isEmpty()){
-                    rightedgelist.add(terminal);
-                    continue;
-                }
-                for(int i = 0; i<rightedgelist.size(); i++){
-                    Terminal terminal2 = rightedgelist.get(i);
-                    if(terminal.getY()<=terminal2.getY()){
-                        rightedgelist.add(i,terminal);
-                        break;
-                    }
-                }
+                insertIncreasingYOrder(terminal, rightedgelist);
                 continue;
+
             }else if(ymax == terminal.getY()){ //Bottom Edge
                 //if x:increasing -> terminal:decreasing
-                if(bottomedgelist.isEmpty()){
-                    bottomedgelist.add(terminal);
-                    continue;
-                }
-                for(int i = bottomedgelist.size()-1 ; i>-1; i--){
-                    Terminal terminal2 = bottomedgelist.get(i);
-                    if(terminal.getX()<=terminal2.getX()){
-                        bottomedgelist.add(i+1,terminal);
-                        break;
-                    }
-                }
+                insertIncreasingXOrder(terminal, bottomedgelist);
                 continue;
+
             }else if(xmin == terminal.getX()){ //Left Edge
                 //if y:increasing -> terminal:decreasing
-                if(leftedgelist.isEmpty()){
-                    leftedgelist.add(terminal);
-                    continue;
-                }
-                for(int i = bottomedgelist.size()-1 ; i>-1; i--){
-                    Terminal terminal2 = bottomedgelist.get(i);
-                    if(terminal.getY()<=terminal2.getY()){
-                        bottomedgelist.add(i+1,terminal);
-                        break;
-                    }
-                }
+                insertIncreasingYOrder(terminal, leftedgelist);
                 continue;
+
+            }else{
+                throw new UnsupportedOperationException("Non-fence terminal found");
             }
         }
-
+        Collections.reverse(bottomedgelist);
+        Collections.reverse(leftedgelist);
         //Final stitching of the linked lists
         clockwiselist = new LinkedList<>();
         clockwiselist.addAll(topedgelist);
@@ -318,6 +270,30 @@ public class Component {
         clockwiselist.addAll(leftedgelist);
 
 
+    }
+
+    private static void insertIncreasingXOrder(Terminal terminal, List<Terminal> edgelist) {
+        int lowindex= edgelist.size();
+        Terminal terminal2;
+        for(int i = 0; i < edgelist.size(); i++){
+            terminal2 = edgelist.get(i);
+            if(terminal.getX()<=terminal2.getX()){
+                lowindex = i;
+            }
+        }
+        edgelist.add(lowindex, terminal);
+    }
+
+    private static void insertIncreasingYOrder(Terminal terminal, List<Terminal> edgelist) {
+        int lowindex=edgelist.size();
+        Terminal terminal2;
+        for(int i = 0; i < edgelist.size(); i++){
+            terminal2 = edgelist.get(i);
+            if(terminal.getY()<=terminal2.getY()){
+                lowindex = i;
+            }
+        }
+        edgelist.add(lowindex, terminal);
     }
 
     /**

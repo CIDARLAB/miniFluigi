@@ -119,6 +119,7 @@ public class MINTArbitraryTerminalMap {
             if(null == childreference){
                 throw new UnsupportedOperationException("need to implement null handling");
             }else if (!this.children.containsKey(childreference)){
+                System.err.println("Could not find reference: "+ this.id + " " + childreference);
                 throw new UnsupportedOperationException("Need to implement error when child reference is not found");
             }else{
                 return this.children.get(childreference);

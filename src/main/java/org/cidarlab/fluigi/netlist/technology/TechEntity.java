@@ -1,5 +1,6 @@
 package org.cidarlab.fluigi.netlist.technology;
 
+import com.sun.istack.internal.NotNull;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -32,11 +33,11 @@ public class TechEntity {
 
     private HashMap<String, ParameterType> paramsTypes;
 
-    private HashMap<String, String>  paramDefaults;
+    private HashMap<String, String> paramDefaults;
 
     private HashMap<String, TechTerminal> terminalHashMap;
 
-    public TechEntity(){
+    public TechEntity() {
         paramsTypes = new HashMap<>();
         paramDefaults = new HashMap<>();
         terminalHashMap = new HashMap<>();
@@ -46,13 +47,13 @@ public class TechEntity {
         return name;
     }
 
-    public void importFromJSON(JSONObject entityjson){
+    public void importFromJSON(JSONObject entityjson) {
         this.name = (String) entityjson.get("name");
         this.mintname = (String) entityjson.get("mint");
         this.xspanexpression = (String) entityjson.get("xspan");
         this.yspanexpression = (String) entityjson.get("yspan");
         String typestring = (String) entityjson.get("type");
-        switch (typestring){
+        switch (typestring) {
             case "PRIMITIVE":
                 this.type = PRIMITIVE;
                 break;
@@ -70,9 +71,9 @@ public class TechEntity {
 
         //go through all the parameter keys and Types
         ParameterType paramtype;
-        for(Object key : paramtypeshmobject.keySet()){
+        for (Object key : paramtypeshmobject.keySet()) {
 
-            switch ((String) paramtypeshmobject.get(key)){
+            switch ((String) paramtypeshmobject.get(key)) {
                 case "INT":
                     paramtype = ParameterType.INT;
                     break;
@@ -89,12 +90,12 @@ public class TechEntity {
                     paramtype = ParameterType.INT;
             }
 
-            paramsTypes.put((String)key, paramtype);
+            paramsTypes.put((String) key, paramtype);
 
         }
 
         //Go through all the default values for the parameters
-        if(entityjson.containsKey("defaults")) {
+        if (entityjson.containsKey("defaults")) {
             JSONObject tempdefaulvalues = (JSONObject) entityjson.get("defaults");
             for (Object key : tempdefaulvalues.keySet()) {
                 String keystring = (String) key;
@@ -104,8 +105,22 @@ public class TechEntity {
             throw new UnsupportedOperationException("Implement warning if there are no default param values");
         }
 
+        //Import all the design rules into the default params
+        if (this.type != FEATURE) {
+
+            if (entityjson.containsKey("designRules")) {
+                JSONObject tempdesignrules = (JSONObject) entityjson.get("designRules");
+                for (Object key : tempdesignrules.keySet()) {
+                    String keystring = (String) key;
+                    paramDefaults.put(keystring, tempdesignrules.get(key).toString());
+                }
+            } else {
+                throw new UnsupportedOperationException("Implement warning if there are no design rules");
+            }
+        }
+
         //Import all the terminal information if its a composite or a primitive, there needs to be more mojo if its scaling
-        if(this.type == COMPOSITE || this.type == PRIMITIVE) {
+        if (this.type == COMPOSITE || this.type == PRIMITIVE) {
             if (entityjson.containsKey("terminals")) {
                 JSONArray terminalarray = (JSONArray) entityjson.get("terminals");
                 Iterator it = terminalarray.listIterator();
@@ -125,52 +140,56 @@ public class TechEntity {
                 Iterator it = terminalarray.listIterator();
                 while (it.hasNext()) {
                     JSONObject terminalobject = (JSONObject) it.next();
-                    TechTerminal techTerminal = new TechTerminal((String) terminalobject.get("start")); //Sets the label
+                    TechTerminal techTerminal = new TechTerminal(
+                            (String) terminalobject.get("start")
+                                    + terminalobject.get("label") + terminalobject.get("end")
+                    ); //Sets the label
                     techTerminal.setXposexpression((String) terminalobject.get("x"));
                     techTerminal.setYposexpression((String) terminalobject.get("y"));
                     techTerminal.setLayer((String) terminalobject.get("layer"));
                     techTerminal.setStart((String) terminalobject.get("start"));
                     techTerminal.setEnd((String) terminalobject.get("end"));
+                    techTerminal.setLabelexpression((String) terminalobject.get("label"));
 
                     this.terminalHashMap.put(techTerminal.getLabel(), techTerminal);
                 }
             }
-        } else if(this.type == FEATURE) {
+        } else if (this.type == FEATURE) {
             //Noop
-        } else{
+        } else {
             throw new UnsupportedOperationException("Unsupported component type");
         }
 
     }
 
-    public ParamVerificationResult verifyParam(String parameter, String valuestring){
+    public ParamVerificationResult verifyParam(String parameter, String valuestring) {
 
         //Checking if the parameter is defined in the techfile
-        if(paramsTypes.containsKey(parameter)){
+        if (paramsTypes.containsKey(parameter)) {
             //Parameter is defined in the techfile description
             //Now check for correct type
             ParameterType parameterType = paramsTypes.get(parameter);
-            switch (parameterType){
+            switch (parameterType) {
                 case INT:
-                    if(StringUtils.isNumeric(valuestring)){
+                    if (StringUtils.isNumeric(valuestring)) {
                         return ParamVerificationResult.VALID;
                     } else {
                         return ParamVerificationResult.INVALID_VALUE;
                     }
                 case BOOL:
-                    if("YES" == valuestring || "NO" == valuestring){
+                    if ("YES" == valuestring || "NO" == valuestring) {
                         return ParamVerificationResult.VALID;
                     } else {
                         return ParamVerificationResult.INVALID_VALUE;
                     }
                 case DIRECTION:
-                    if("LEFT" == valuestring || "RIGHT" == valuestring || "UP" == valuestring || "DOWN" == valuestring){
+                    if ("LEFT" == valuestring || "RIGHT" == valuestring || "UP" == valuestring || "DOWN" == valuestring) {
                         return ParamVerificationResult.VALID;
                     } else {
                         return ParamVerificationResult.INVALID_VALUE;
                     }
                 case ORIENTATION:
-                    if("VERTICAL" == valuestring || "HORIZONTAL" == valuestring){
+                    if ("VERTICAL" == valuestring || "HORIZONTAL" == valuestring) {
                         return ParamVerificationResult.VALID;
                     } else {
                         return ParamVerificationResult.INVALID_VALUE;
@@ -185,8 +204,8 @@ public class TechEntity {
         }
     }
 
-    public String getDefaultParamValue(String paramkey){
-        if(!paramDefaults.containsKey(paramkey)){
+    public String getDefaultParamValue(String paramkey) {
+        if (!paramDefaults.containsKey(paramkey)) {
             return null;
         }
         return paramDefaults.get(paramkey);
@@ -196,13 +215,13 @@ public class TechEntity {
         return mintname;
     }
 
-    public List<Terminal> getComponentTerminals(HashMap<String, String> componentparams){
+    public List<Terminal> getComponentTerminals(HashMap<String, String> componentparams) {
         List<Terminal> ret = new ArrayList<>();
         HashMap<String, String> tempparams = new HashMap<>();
         tempparams.putAll(componentparams);
         Terminal terminal;
         TechTerminal techterminal;
-        if(this.type == COMPOSITE || this.type == PRIMITIVE) {
+        if (this.type == COMPOSITE || this.type == PRIMITIVE) {
             for (String key : terminalHashMap.keySet()) {
                 terminal = new Terminal();
                 techterminal = terminalHashMap.get(key);
@@ -212,21 +231,21 @@ public class TechEntity {
                 terminal.setLayer(terminalHashMap.get(key).getLayer());
                 ret.add(terminal);
             }
-        }else if(this.type == SCALING){
-            //TODO: Loop through each of the terminals. Start the index at the given start expression value
+        } else if (this.type == SCALING) {
+            //Loop through each of the terminals. Start the index at the given start expression value
             HashMap<String, Terminal> temp = new HashMap<>();
             int i, N;
-            for( String key : terminalHashMap.keySet()){
+            for (String key : terminalHashMap.keySet()) {
                 techterminal = terminalHashMap.get(key);
                 //We figure out the start location from the label which is the start for the scaling component
                 i = parseExpression(techterminal.getStart(), tempparams);
                 N = parseExpression(techterminal.getEnd(), tempparams);
-                //Now that we know the i value put it back in for the scaling primitive to work
-                tempparams.put("i",Integer.toString(i));
                 //Now put tech terminals until N, we effective replace the terminal sets as we keep doing the iterations
-                while (i<=N){
+                while (i <= N) {
                     terminal = new Terminal();
-                    terminal.setLabel((Integer.toString(i)));
+                    //Now that we know the i value put it back in for the scaling primitive to work
+                    tempparams.put("i", Integer.toString(i));
+                    terminal.setLabel((Integer.toString(this.parseExpression(techterminal.getLabelexpression(), tempparams))));
                     terminal.setXOffset(this.parseExpression(techterminal.getXposexpression(), tempparams));
                     terminal.setYOffset(this.parseExpression(techterminal.getYposexpression(), tempparams));
                     terminal.setLayer(terminalHashMap.get(key).getLayer());
@@ -247,6 +266,7 @@ public class TechEntity {
 
     /**
      * Parses the given expression
+     *
      * @param stringtoparse
      * @param params
      * @return
@@ -278,19 +298,23 @@ public class TechEntity {
 
     /**
      * Returns the XSpan (Width) of the device
+     *
      * @param params
      * @return
      */
+    @NotNull
     public int getXSpan(Map<String, String> params) {
         return parseExpression(xspanexpression, params);
     }
 
     /**
      * Returns the Y Span (Length) of the device
+     *
      * @param params
      * @return
      */
-    public int getYSpan(Map<String, String> params){
+    @NotNull
+    public int getYSpan(Map<String, String> params) {
         return parseExpression(yspanexpression, params);
     }
 
@@ -305,7 +329,7 @@ public class TechEntity {
         INVALID_VALUE
     }
 
-    public enum ParameterType{
+    public enum ParameterType {
         INT,
         ORIENTATION,
         DIRECTION,
