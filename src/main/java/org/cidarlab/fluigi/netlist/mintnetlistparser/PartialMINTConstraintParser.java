@@ -79,8 +79,12 @@ public class PartialMINTConstraintParser extends PartialMINTNetlistParser {
                             rotation = 0;
                             break;
                         default:
-                            throw new UnsupportedOperationException("Missing direction parameter for component: " +
-                                    constraintContextComponents.get(0).getId());
+                            System.out.println("Warning: Missing constraint direction parameter for component: "
+                                    + constraintContextComponents.get(0).getId());
+                            rotation = 0;
+                            System.out.println("Setting rotation : "
+                                    + rotation);
+
                     }
                 }
             }else {
@@ -109,7 +113,11 @@ public class PartialMINTConstraintParser extends PartialMINTNetlistParser {
                             rotation = 270;
                             break;
                         default:
-                            throw new UnsupportedOperationException("Need to implement error throwing mech for error in tech file");
+                            System.out.println("Warning: Missing constraint direction parameter for component: "
+                                    + constraintContextComponents.get(0).getId());
+                            rotation = 90;
+                            System.out.println("Setting rotation : "
+                                    + rotation);
                     }
                 }
             }else {

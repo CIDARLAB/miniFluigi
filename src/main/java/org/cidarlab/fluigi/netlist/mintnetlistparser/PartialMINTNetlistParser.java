@@ -215,10 +215,12 @@ public class   PartialMINTNetlistParser extends PartialMINTParamsParser {
                 );
             }
 
+            //Subtract 1 for the last terminal
+
             //Add bottom
             for(Terminal terminal : componentbottomedgeterminals){
                 finalterminalcount = componenttopedgeterminals.size() * dim +
-                        componentbottomedgeterminals.size() * i + terminalitertor++;
+                        componentbottomedgeterminals.size() * i + terminalitertor++ -1;
                 terminalMap.addRecord(
                         componentname,
                         component,
@@ -247,6 +249,10 @@ public class   PartialMINTNetlistParser extends PartialMINTParamsParser {
         super.exitSpanStat(ctx);
         String invalue = ctx.in.getText();
         String outvalue = ctx.out.getText();
+        if(Integer.parseInt(outvalue) < Integer.parseInt(invalue)){
+            System.err.println("Error with span statement, output greater than input");
+            throw new UnsupportedOperationException("Need to implement error message when out value is greater than in value");
+        }
 
         paramsHashmap.put("in", invalue);
         paramsHashmap.put("out", outvalue);

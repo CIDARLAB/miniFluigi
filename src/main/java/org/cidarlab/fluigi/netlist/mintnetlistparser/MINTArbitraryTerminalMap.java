@@ -116,6 +116,9 @@ public class MINTArbitraryTerminalMap {
         }
 
         public TargetNode getChild(String childreference) {
+            if(null == this.children){
+                throw new UnsupportedOperationException("Target: " + this.id + " does not have any children references");
+            }
             if(null == childreference){
                 throw new UnsupportedOperationException("need to implement null handling");
             }else if (!this.children.containsKey(childreference)){
