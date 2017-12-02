@@ -1,6 +1,5 @@
 package org.cidarlab.fluigi.manufacturing.process;
 
-import com.sun.xml.internal.ws.config.metro.dev.FeatureReader;
 import org.cidarlab.fluigi.manufacturing.DrawLayer;
 import org.cidarlab.fluigi.manufacturing.Feature;
 

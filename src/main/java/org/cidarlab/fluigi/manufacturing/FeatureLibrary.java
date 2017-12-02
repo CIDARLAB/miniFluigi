@@ -24,7 +24,7 @@ public class FeatureLibrary {
      * Add FeatureEntity to the feature library
      * @param featureEntity
      */
-    public void addEntity(@NotNull FeatureEntity featureEntity) {
+    public void addEntity(FeatureEntity featureEntity) {
         this.entityHashMap.put(featureEntity.getMINTName(), featureEntity);
     }
 
@@ -33,7 +33,7 @@ public class FeatureLibrary {
      * @param mintname
      * @return
      */
-    public FeatureEntity getMINTEntity(@NotNull String mintname){
+    public FeatureEntity getMINTEntity(String mintname){
         return this.entityHashMap.get(mintname);
     }
 }
