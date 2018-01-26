@@ -39,6 +39,18 @@ public class Cell {
         this.x = x;
     }
 
+    public void addX(double delta) {
+        if (Math.abs(delta) < 1e-6) {
+            return;
+        }
+        if (delta > 0 && delta < 1) {
+            delta = 1;
+        } else if (delta < 0 && delta > -1) {
+            delta = -1;
+        }
+        this.x += (int) delta;
+    }
+
     /**
      * Returns the Y co-ordinate of the ce;; (top left corner)
      * @return
@@ -53,6 +65,18 @@ public class Cell {
      */
     public void setY(int y) {
         this.y = y;
+    }
+
+    public void addY(double delta) {
+        if (Math.abs(delta) < 1e-6) {
+            return;
+        }
+        if (delta > 0 && delta < 1) {
+            delta = 1;
+        } else if (delta < 0 && delta > -1) {
+            delta = -1;
+        }
+        this.y += (int) delta;
     }
 
     /**
