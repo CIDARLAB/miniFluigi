@@ -54,15 +54,15 @@ public class Density {
         calculatePenalty();
     }
 
-    public void calculatePenalty() {
+    private void calculatePenalty() {
         List<Cell> cells = mProblem.getCells();
         for (Cell cell : cells) {
             double cx = cell.getCenterX() / mGridLength;
             double cy = cell.getCenterY() / mGridLength;
-            int lx = (int) (Math.floor(cx) - mRadius - 1);
-            int ly = (int) (Math.floor(cy) - mRadius - 1);
-            int rx = (int) (Math.ceil(cx) + mRadius + 1);
-            int ry = (int) (Math.ceil(cy) + mRadius + 1);
+            int lx = (int) (Math.floor(cx) - mRadius - 2);
+            int ly = (int) (Math.floor(cy) - mRadius - 2);
+            int rx = (int) (Math.ceil(cx) + mRadius + 2);
+            int ry = (int) (Math.ceil(cy) + mRadius + 2);
             mCellPointMap.put(cell.getID(), new Values(lx, ly, rx, ry));
             for (int x = lx; x <= rx; ++x) {
                 for (int y = ly; y <= ry; ++y) {
@@ -115,6 +115,14 @@ public class Density {
             }
         }
         return result;
+    }
+
+    public double step(String respect, int axis) {
+        return gradient(respect, axis);
+    }
+
+    public double step(Cell respect, int axis) {
+        return gradient(respect, axis);
     }
 
     private double gradient(double v, double v0, double C, double K, double A) {
