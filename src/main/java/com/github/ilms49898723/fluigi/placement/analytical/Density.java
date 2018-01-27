@@ -26,7 +26,6 @@ public class Density {
     private Placement mProblem;
     private Map<String, Values> mCellPointMap;
     private double[][] mGridMap;
-    private double mAlpha;
     private double mRadius;
     private double mGridLength;
     private double mExpectedPotential;
@@ -37,9 +36,8 @@ public class Density {
 
     public Density(Placement problem, int width, int height, double radius, double alpha) {
         mProblem = problem;
-        mAlpha = alpha;
         mRadius = radius;
-        mGridLength = mAlpha / mRadius;
+        mGridLength = alpha / mRadius;
         mWidth = width;
         mHeight = height;
         initialize();
@@ -61,10 +59,10 @@ public class Density {
         for (Cell cell : cells) {
             double cx = cell.getCenterX() / mGridLength;
             double cy = cell.getCenterY() / mGridLength;
-            int lx = (int) (Math.floor(cx / mGridLength) - mRadius);
-            int ly = (int) (Math.floor(cy / mGridLength) - mRadius);
-            int rx = (int) (Math.ceil(cx / mGridLength) + mRadius);
-            int ry = (int) (Math.ceil(cy / mGridLength) + mRadius);
+            int lx = (int) (Math.floor(cx) - mRadius - 1);
+            int ly = (int) (Math.floor(cy) - mRadius - 1);
+            int rx = (int) (Math.ceil(cx) + mRadius + 1);
+            int ry = (int) (Math.ceil(cy) + mRadius + 1);
             mCellPointMap.put(cell.getID(), new Values(lx, ly, rx, ry));
             for (int x = lx; x <= rx; ++x) {
                 for (int y = ly; y <= ry; ++y) {
@@ -74,11 +72,12 @@ public class Density {
                 }
             }
         }
-        double totalArea = 0.0;
-        for (Cell cell : cells) {
-            totalArea += cell.getXspan() * cell.getYspan();
-        }
-        mExpectedPotential = totalArea / (mGridWidth * mGridHeight);
+        mExpectedPotential = 0.0;
+//        double totalArea = 0.0;
+//        for (Cell cell : cells) {
+//            totalArea += cell.getXspan() * cell.getYspan();
+//        }
+//        mExpectedPotential = totalArea / (mGridWidth * mGridHeight);
     }
 
     public double totalPenalty() {
@@ -91,15 +90,15 @@ public class Density {
         return totalPenalty;
     }
 
-    public double gradient(String cell, int axis) {
-        return gradient(mProblem.getCell(cell), axis);
+    public double gradient(String respect, int axis) {
+        return gradient(mProblem.getCell(respect), axis);
     }
 
-    public double gradient(Cell cell, int axis) {
+    public double gradient(Cell respect, int axis) {
         double result = 0.0;
-        Values points = mCellPointMap.get(cell.getID());
-        double cx = cell.getCenterX() / mGridLength;
-        double cy = cell.getCenterY() / mGridLength;
+        Values points = mCellPointMap.get(respect.getID());
+        double cx = respect.getCenterX() / mGridLength;
+        double cy = respect.getCenterY() / mGridLength;
         int lx = points.a;
         int ly = points.b;
         int rx = points.x;
@@ -110,7 +109,8 @@ public class Density {
                     double C = mGridMap[x][y] - potential(x, cx, y, cy, mRadius);
                     double K = (axis == 1) ? potential(y, cy, mRadius) : potential(x, cx, mRadius);
                     double A = mExpectedPotential;
-                    result += (axis == 1) ? gradient(x, cx, C, K, A) : gradient(y, cy, C, K, A);
+                    double g = (axis == 1) ? gradient(x, cx, C, K, A) : gradient(y, cy, C, K, A);
+                    result += g;
                 }
             }
         }
@@ -118,23 +118,23 @@ public class Density {
     }
 
     private double gradient(double v, double v0, double C, double K, double A) {
-        double delta = Math.abs(v - v0);
-        v = v - v0;
-        if (delta >= mRadius) {
+        double coeff = (v - v0 < 0) ? (-1.0) : 1.0;
+        v = Math.abs(v - v0);
+        if (v >= mRadius) {
             return 0.0;
-        } else if (0 <= delta && delta <= mRadius / 2) {
+        } else if (0 <= v && v <= mRadius / 2) {
             double kSquare = K * K;
             double rSquare = mRadius * mRadius;
             double rQuad = rSquare * rSquare;
-            return 16 * kSquare / rQuad * v * v * v -
+            return (16 * kSquare / rQuad * v * v * v -
                     8 * kSquare / rSquare * v -
-                    8 * K * (C - A) / rSquare * v;
+                    8 * K * (C - A) / rSquare * v) * coeff;
         } else {
             double kSquare = K * K;
             double rSquare = mRadius * mRadius;
             double rQuad = rSquare * rSquare;
-            return 16 * kSquare / rQuad * (v - mRadius) * (v - mRadius) * (v - mRadius) +
-                    8 * K * (C - A) / rSquare * (v - mRadius);
+            return (16 * kSquare / rQuad * (v - mRadius) * (v - mRadius) * (v - mRadius) +
+                    8 * K * (C - A) / rSquare * (v - mRadius)) * coeff;
         }
     }
 
@@ -143,12 +143,7 @@ public class Density {
     }
 
     private double penaltyForGridPoint(int x, int y) {
-//        return (mGridMap[x][y] - mExpectedPotential) * (mGridMap[x][y] - mExpectedPotential);
-        if (mGridMap[x][y] >= mExpectedPotential) {
-            return (mGridMap[x][y] - mExpectedPotential) * (mGridMap[x][y] - mExpectedPotential);
-        } else {
-            return 0.0;
-        }
+        return (mGridMap[x][y] - mExpectedPotential) * (mGridMap[x][y] - mExpectedPotential);
     }
 
     public static double potential(double x, double x0, double y, double y0, double radius) {
