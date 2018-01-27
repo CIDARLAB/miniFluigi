@@ -14,10 +14,10 @@ public class WireLength {
     }
 
     public double totalWireLength(double alpha) {
-        return totalWireLength(1, alpha) + totalWireLength(2, alpha);
+        return totalWireLength(alpha, 1) + totalWireLength(alpha, 2);
     }
 
-    public double totalWireLength(int axis, double alpha) {
+    public double totalWireLength(double alpha, int axis) {
         double result = 0.0;
         Set<Net> nets = mProblem.getNets();
         for (Net net : nets) {
@@ -29,11 +29,11 @@ public class WireLength {
         return result;
     }
 
-    public double wireLength(String respect, int axis, double alpha) {
-        return wireLength(mProblem.getCell(respect), axis, alpha);
+    public double wireLength(String respect, double alpha, int axis) {
+        return wireLength(mProblem.getCell(respect), alpha, axis);
     }
 
-    public double wireLength(Cell respect, int axis, double alpha) {
+    public double wireLength(Cell respect, double alpha, int axis) {
         double result = 0.0;
         Set<Net> nets = mProblem.getNets();
         for (Net net : nets) {
@@ -47,11 +47,11 @@ public class WireLength {
         return result;
     }
 
-    public double gradient(String respect, int axis, double alpha) {
-        return gradient(mProblem.getCell(respect), axis, alpha);
+    public double gradient(String respect, double alpha, int axis) {
+        return gradient(mProblem.getCell(respect), alpha, axis);
     }
 
-    public double gradient(Cell respect, int axis, double alpha) {
+    public double gradient(Cell respect, double alpha, int axis) {
         double result = 0.0;
         Set<Net> nets = mProblem.getNets();
         for (Net net : nets) {
@@ -63,6 +63,14 @@ public class WireLength {
             }
         }
         return result;
+    }
+
+    public double step(String respect, double alpha, int axis) {
+        return (-1) * gradient(respect, alpha, axis);
+    }
+
+    public double step(Cell respect, double alpha, int axis) {
+        return (-1) * gradient(respect, alpha, axis);
     }
 
     public static double exp(Cell cell, double alpha, int axis) {
