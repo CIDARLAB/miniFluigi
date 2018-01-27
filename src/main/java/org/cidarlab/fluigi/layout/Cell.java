@@ -115,13 +115,13 @@ public class Cell {
      * Returns the center X coordinate of the cell
      * @return
      */
-    public double getCenterX(){ return (x+ xspan)/2; }
+    public double getCenterX(){ return x + xspan / 2; }
 
     /**
      * Returns the center Y coordinate of the cell
      * @return
      */
-    public double getCenterY(){ return (y+ yspan)/2; }
+    public double getCenterY(){ return y + yspan / 2; }
 
     @Override
     public boolean equals(Object obj) {
