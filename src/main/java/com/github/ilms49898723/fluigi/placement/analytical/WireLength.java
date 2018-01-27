@@ -7,28 +7,38 @@ import org.cidarlab.fluigi.layout.Placement;
 import java.util.Set;
 
 public class WireLength {
-    public static double totalWireLength(Placement problem, double alpha) {
-        return totalWireLength(problem, 1, alpha) + totalWireLength(problem, 2, alpha);
+    private Placement mProblem;
+
+    public WireLength(Placement problem) {
+        mProblem = problem;
     }
 
-    public static double totalWireLength(Placement problem, int axis, double alpha) {
+    public double totalWireLength(double alpha) {
+        return totalWireLength(1, alpha) + totalWireLength(2, alpha);
+    }
+
+    public double totalWireLength(int axis, double alpha) {
         double result = 0.0;
-        Set<Net> nets = problem.getNets();
+        Set<Net> nets = mProblem.getNets();
         for (Net net : nets) {
-            Cell src = problem.getNetSource(net);
-            Cell tgt = problem.getNetTarget(net);
+            Cell src = mProblem.getNetSource(net);
+            Cell tgt = mProblem.getNetTarget(net);
             double weight = 1.0;
             result += weight * logSumExp(src, tgt, alpha, axis);
         }
         return result;
     }
 
-    public static double partialWireLength(Placement problem, Cell respect, int axis, double alpha) {
+    public double wireLength(String respect, int axis, double alpha) {
+        return wireLength(mProblem.getCell(respect), axis, alpha);
+    }
+
+    public double wireLength(Cell respect, int axis, double alpha) {
         double result = 0.0;
-        Set<Net> nets = problem.getNets();
+        Set<Net> nets = mProblem.getNets();
         for (Net net : nets) {
-            Cell src = problem.getNetSource(net);
-            Cell tgt = problem.getNetTarget(net);
+            Cell src = mProblem.getNetSource(net);
+            Cell tgt = mProblem.getNetTarget(net);
             if (src.equals(respect) || tgt.equals(respect)) {
                 double weight = 1.0;
                 result += weight * logSumExp(src, tgt, alpha, axis);
@@ -37,12 +47,16 @@ public class WireLength {
         return result;
     }
 
-    public static double gradient(Placement problem, Cell respect, int axis, double alpha) {
+    public double gradient(String respect, int axis, double alpha) {
+        return gradient(mProblem.getCell(respect), axis, alpha);
+    }
+
+    public double gradient(Cell respect, int axis, double alpha) {
         double result = 0.0;
-        Set<Net> nets = problem.getNets();
+        Set<Net> nets = mProblem.getNets();
         for (Net net : nets) {
-            Cell src = problem.getNetSource(net);
-            Cell tgt = problem.getNetTarget(net);
+            Cell src = mProblem.getNetSource(net);
+            Cell tgt = mProblem.getNetTarget(net);
             if (src.equals(respect) || tgt.equals(respect)) {
                 result += exp(respect, 1.0, alpha, axis) / sumExp(src, tgt, 1.0, alpha, axis) -
                         exp(respect, -1.0, alpha, axis) / sumExp(src, tgt, -1.0, alpha, axis);
