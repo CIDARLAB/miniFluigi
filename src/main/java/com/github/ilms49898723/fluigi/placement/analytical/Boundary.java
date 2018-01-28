@@ -18,6 +18,14 @@ public class Boundary {
         mTe = te;
     }
 
+    public double penalty(double alpha) {
+        double total = 0.0;
+        for (Cell cell : mProblem.getCells()) {
+            total += penalty(cell, alpha);
+        }
+        return total;
+    }
+
     public double penalty(String cell, double alpha) {
         return penaltyForCell(mProblem.getCell(cell), mLe, mBe, mRe, mTe, alpha);
     }

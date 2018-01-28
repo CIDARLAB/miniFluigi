@@ -80,7 +80,7 @@ public class Density {
 //        mExpectedPotential = totalArea / (mGridWidth * mGridHeight);
     }
 
-    public double totalPenalty() {
+    public double penalty() {
         double totalPenalty = 0.0;
         for (int i = 0; i < mGridWidth; ++i) {
             for (int j = 0; j < mGridHeight; ++j) {

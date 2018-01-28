@@ -24,7 +24,8 @@ public class WireLength {
             Cell src = mProblem.getNetSource(net);
             Cell tgt = mProblem.getNetTarget(net);
             double weight = 1.0;
-            result += weight * logSumExp(src, tgt, alpha, axis);
+            result += weight * logSumExp(src, tgt, alpha, axis) -
+                    weight * logSumExp(src, tgt, -alpha, axis);
         }
         return result;
     }
@@ -41,7 +42,8 @@ public class WireLength {
             Cell tgt = mProblem.getNetTarget(net);
             if (src.equals(respect) || tgt.equals(respect)) {
                 double weight = 1.0;
-                result += weight * logSumExp(src, tgt, alpha, axis);
+                result += weight * logSumExp(src, tgt, alpha, axis) -
+                        weight * logSumExp(src, tgt, -alpha, axis);
             }
         }
         return result;
@@ -102,10 +104,6 @@ public class WireLength {
     }
 
     public static double logSumExp(Cell a, Cell b, double coeff, double alpha, int axis) {
-        if (axis == 1) {
-            return alpha * Math.log(sumExp(a, b, coeff, alpha, axis));
-        } else {
-            return alpha * Math.log(sumExp(a, b, coeff, alpha, axis));
-        }
+        return alpha * Math.log(sumExp(a, b, coeff, alpha, axis));
     }
 }
