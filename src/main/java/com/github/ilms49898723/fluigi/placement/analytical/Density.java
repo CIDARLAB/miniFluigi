@@ -54,32 +54,6 @@ public class Density {
         calculatePenalty();
     }
 
-    private void calculatePenalty() {
-        List<Cell> cells = mProblem.getCells();
-        for (Cell cell : cells) {
-            double cx = cell.getCenterX() / mGridLength;
-            double cy = cell.getCenterY() / mGridLength;
-            int lx = (int) (Math.floor(cx) - mRadius - 2);
-            int ly = (int) (Math.floor(cy) - mRadius - 2);
-            int rx = (int) (Math.ceil(cx) + mRadius + 2);
-            int ry = (int) (Math.ceil(cy) + mRadius + 2);
-            mCellPointMap.put(cell.getID(), new Values(lx, ly, rx, ry));
-            for (int x = lx; x <= rx; ++x) {
-                for (int y = ly; y <= ry; ++y) {
-                    if (isValidCoordinate(x, y)) {
-                        mGridMap[x][y] += potential(x, cx, y, cy, mRadius);
-                    }
-                }
-            }
-        }
-        mExpectedPotential = 0.0;
-//        double totalArea = 0.0;
-//        for (Cell cell : cells) {
-//            totalArea += cell.getXspan() * cell.getYspan();
-//        }
-//        mExpectedPotential = totalArea / (mGridWidth * mGridHeight);
-    }
-
     public double penalty() {
         double totalPenalty = 0.0;
         for (int i = 0; i < mGridWidth; ++i) {
@@ -123,6 +97,32 @@ public class Density {
 
     public double step(Cell respect, int axis) {
         return gradient(respect, axis);
+    }
+
+    private void calculatePenalty() {
+        List<Cell> cells = mProblem.getCells();
+        for (Cell cell : cells) {
+            double cx = cell.getCenterX() / mGridLength;
+            double cy = cell.getCenterY() / mGridLength;
+            int lx = (int) (Math.floor(cx) - mRadius - 2);
+            int ly = (int) (Math.floor(cy) - mRadius - 2);
+            int rx = (int) (Math.ceil(cx) + mRadius + 2);
+            int ry = (int) (Math.ceil(cy) + mRadius + 2);
+            mCellPointMap.put(cell.getID(), new Values(lx, ly, rx, ry));
+            for (int x = lx; x <= rx; ++x) {
+                for (int y = ly; y <= ry; ++y) {
+                    if (isValidCoordinate(x, y)) {
+                        mGridMap[x][y] += potential(x, cx, y, cy, mRadius);
+                    }
+                }
+            }
+        }
+        mExpectedPotential = 0.0;
+//        double totalArea = 0.0;
+//        for (Cell cell : cells) {
+//            totalArea += cell.getXspan() * cell.getYspan();
+//        }
+//        mExpectedPotential = totalArea / (mGridWidth * mGridHeight);
     }
 
     private double gradient(double v, double v0, double C, double K, double A) {

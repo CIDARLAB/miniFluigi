@@ -8,33 +8,35 @@ import java.util.Set;
 
 public class WireLength {
     private Placement mProblem;
+    private double mAlpha;
 
-    public WireLength(Placement problem) {
+    public WireLength(Placement problem, double alpha) {
         mProblem = problem;
+        mAlpha = alpha;
     }
 
-    public double totalWireLength(double alpha) {
-        return totalWireLength(alpha, 1) + totalWireLength(alpha, 2);
+    public double penalty() {
+        return penalty(1) + penalty(2);
     }
 
-    public double totalWireLength(double alpha, int axis) {
+    public double penalty(int axis) {
         double result = 0.0;
         Set<Net> nets = mProblem.getNets();
         for (Net net : nets) {
             Cell src = mProblem.getNetSource(net);
             Cell tgt = mProblem.getNetTarget(net);
             double weight = 1.0;
-            result += weight * logSumExp(src, tgt, alpha, axis) -
-                    weight * logSumExp(src, tgt, -alpha, axis);
+            result += weight * logSumExp(src, tgt, mAlpha, axis) -
+                    weight * logSumExp(src, tgt, -mAlpha, axis);
         }
         return result;
     }
 
-    public double wireLength(String respect, double alpha, int axis) {
-        return wireLength(mProblem.getCell(respect), alpha, axis);
+    public double penalty(String respect, int axis) {
+        return penalty(mProblem.getCell(respect), axis);
     }
 
-    public double wireLength(Cell respect, double alpha, int axis) {
+    public double penalty(Cell respect, int axis) {
         double result = 0.0;
         Set<Net> nets = mProblem.getNets();
         for (Net net : nets) {
@@ -42,37 +44,37 @@ public class WireLength {
             Cell tgt = mProblem.getNetTarget(net);
             if (src.equals(respect) || tgt.equals(respect)) {
                 double weight = 1.0;
-                result += weight * logSumExp(src, tgt, alpha, axis) -
-                        weight * logSumExp(src, tgt, -alpha, axis);
+                result += weight * logSumExp(src, tgt, mAlpha, axis) -
+                        weight * logSumExp(src, tgt, -mAlpha, axis);
             }
         }
         return result;
     }
 
-    public double gradient(String respect, double alpha, int axis) {
-        return gradient(mProblem.getCell(respect), alpha, axis);
+    public double gradient(String respect, int axis) {
+        return gradient(mProblem.getCell(respect), axis);
     }
 
-    public double gradient(Cell respect, double alpha, int axis) {
+    public double gradient(Cell respect, int axis) {
         double result = 0.0;
         Set<Net> nets = mProblem.getNets();
         for (Net net : nets) {
             Cell src = mProblem.getNetSource(net);
             Cell tgt = mProblem.getNetTarget(net);
             if (src.equals(respect) || tgt.equals(respect)) {
-                result += exp(respect, 1.0, alpha, axis) / sumExp(src, tgt, 1.0, alpha, axis) -
-                        exp(respect, -1.0, alpha, axis) / sumExp(src, tgt, -1.0, alpha, axis);
+                result += exp(respect, 1.0, mAlpha, axis) / sumExp(src, tgt, 1.0, mAlpha, axis) -
+                        exp(respect, -1.0, mAlpha, axis) / sumExp(src, tgt, -1.0, mAlpha, axis);
             }
         }
         return result;
     }
 
-    public double step(String respect, double alpha, int axis) {
-        return (-1) * gradient(respect, alpha, axis);
+    public double step(String respect, int axis) {
+        return (-1) * gradient(respect, axis);
     }
 
-    public double step(Cell respect, double alpha, int axis) {
-        return (-1) * gradient(respect, alpha, axis);
+    public double step(Cell respect, int axis) {
+        return (-1) * gradient(respect, axis);
     }
 
     public static double exp(Cell cell, double alpha, int axis) {

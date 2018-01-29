@@ -39,7 +39,7 @@ public class Cell {
         this.x = x;
     }
 
-    public void addX(double delta) {
+    public void addX(double delta, int max) {
         if (Math.abs(delta) < 1e-6) {
             return;
         }
@@ -48,7 +48,13 @@ public class Cell {
         } else if (delta < 0 && delta > -1) {
             delta = -1;
         }
-        this.x += (int) delta;
+        if (this.x + delta >= max) {
+            this.x = max;
+        } else if (this.x + delta < 0) {
+            this.x = 0;
+        } else {
+            this.x += (int) delta;
+        }
     }
 
     /**
@@ -67,7 +73,7 @@ public class Cell {
         this.y = y;
     }
 
-    public void addY(double delta) {
+    public void addY(double delta, int max) {
         if (Math.abs(delta) < 1e-6) {
             return;
         }
@@ -76,7 +82,13 @@ public class Cell {
         } else if (delta < 0 && delta > -1) {
             delta = -1;
         }
-        this.y += (int) delta;
+        if (this.y + delta >= max) {
+            this.y = max;
+        } else if (this.y + delta < 0) {
+            this.y = 0;
+        } else {
+            this.y += (int) delta;
+        }
     }
 
     /**
