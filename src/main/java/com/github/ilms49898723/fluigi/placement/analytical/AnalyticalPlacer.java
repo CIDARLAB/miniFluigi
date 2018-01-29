@@ -47,32 +47,26 @@ public class AnalyticalPlacer extends Placer {
     private void globalDistribute(double initAlpha, double finalAlpha, double epsilon) {
 //        initializeCellCoordinate(InitializeFunction.CENTER_INITIALIZE);
         int cellId = 0;
-        double cost = 1e8;
-        double prevCost = 0.0;
         double[][] direct = new double[problem.getCells().size()][2];
         Map<String, Integer> cellId2Idx = new HashMap<>();
         for (Cell cell : problem.getCells()) {
             cellId2Idx.put(cell.getID(), cellId++);
         }
         int iter = 0;
-        for (double alpha = initAlpha; alpha >= finalAlpha || Math.abs(cost - prevCost) > epsilon; alpha *= 1.0) {
+        for (double alpha = initAlpha; alpha >= finalAlpha; alpha *= 0.5) {
             double radius = (alpha > initAlpha * 0.8) ? 2 : (alpha > initAlpha * 0.2) ? 3 : 4;
             double[][] prevDirect = direct;
             direct = new double[problem.getCells().size()][2];
-            prevCost = cost;
-            WireLength wl = new WireLength(problem);
-            Boundary bd = new Boundary(problem, 0, 0, MAX_WIDTH, MAX_HEIGHT);
+            WireLength wl = new WireLength(problem, alpha);
+            Boundary bd = new Boundary(problem, 0, 0, MAX_WIDTH, MAX_HEIGHT, alpha);
             Density ds = new Density(problem, MAX_WIDTH, MAX_HEIGHT, radius, alpha);
-            cost = wl.totalWireLength(alpha) + bd.penalty(alpha) + ds.penalty();
-            System.out.println("wire len " + wl.totalWireLength(alpha));
-            System.out.println("boundary " + bd.penalty(alpha));
-            System.out.println("density  " + ds.penalty());
+            double cost = wl.penalty() + bd.penalty() + ds.penalty();
             for (Cell cell : problem.getCells()) {
                 for (int axis = 1; axis <= 2; ++axis) {
                     cellId = cellId2Idx.get(cell.getID());
                     direct[cellId][axis - 1] =
-                            WIRE_LENGTH_GRAD_WEIGHT * wl.step(cell, alpha, axis) +
-                            BOUNDARY_GRAD_WEIGHT * bd.step(cell, alpha, axis) +
+                            WIRE_LENGTH_GRAD_WEIGHT * wl.step(cell, axis) +
+                            BOUNDARY_GRAD_WEIGHT * bd.step(cell, axis) +
                             DENSITY_GRAD_WEIGHT * ds.step(cell, axis);
                 }
             }
@@ -80,18 +74,17 @@ public class AnalyticalPlacer extends Placer {
                 double[][] beta = calculateBeta(direct, prevDirect);
                 for (Cell cell : problem.getCells()) {
                     cellId = cellId2Idx.get(cell.getID());
-                    double deltaX = direct[cellId][0] + beta[cellId][0] * prevDirect[cellId][0];
-                    double deltaY = direct[cellId][1] + beta[cellId][1] * prevDirect[cellId][1];
-//                    double deltaX = direct[cellId][0];
-//                    double deltaY = direct[cellId][1];
-                    direct[cellId][0] = deltaX;
-                    direct[cellId][1] = deltaY;
-                    cell.addX(deltaX);
-                    cell.addY(deltaY);
+                    double[] delta = new double[2];
+                    for (int axis = 1; axis <= 2; ++axis) {
+                        double p = direct[cellId][axis - 1] + beta[cellId][axis - 1] * prevDirect[cellId][axis - 1];
+                        double stepLength = backtrackingLineSearch(-direct[cellId][axis - 1], p, cost, alpha, radius, cell, axis);
+                        delta[axis - 1] = stepLength * p;
+                    }
+                    cell.addX(delta[0], MAX_WIDTH);
+                    cell.addY(delta[1], MAX_HEIGHT);
                 }
             }
             ++iter;
-            System.out.printf("Iter %d: alpha %f, cost %e, delta %e\n", iter, alpha, cost, Math.abs(cost - prevCost));
         }
     }
 
@@ -125,12 +118,43 @@ public class AnalyticalPlacer extends Placer {
         }
     }
 
+    private double backtrackingLineSearch(double g, double p, double f, double alpha, double radius, Cell cell, int axis) {
+        double m = p * g;
+        double stepSize = 20;
+        double searchControl = 0.5;
+        double c = 0.5;
+        double t = (-1) * c * m;
+        if (m >= 0) {
+            return 0.0;
+        }
+        int originalCoord = cell.getCoord(axis);
+        while (stepSize > 1.0) {
+            double delta = stepSize * p;
+            cell.setCoord(originalCoord, axis);
+            cell.addCoord(delta, axis, (axis == 1) ? MAX_WIDTH : MAX_HEIGHT);
+            WireLength wl = new WireLength(problem, alpha);
+            Boundary bd = new Boundary(problem, 0, 0, MAX_WIDTH, MAX_HEIGHT, alpha);
+            Density ds = new Density(problem, MAX_WIDTH, MAX_HEIGHT, radius, alpha);
+            double newf = wl.penalty() + bd.penalty() + ds.penalty();
+            if (f - newf >= stepSize * t) {
+                break;
+            }
+            stepSize = searchControl * stepSize;
+        }
+        cell.setCoord(originalCoord, axis);
+        return stepSize;
+    }
+
     private double[][] calculateBeta(double[][] direct, double[][] prevDirect) {
         double[][] beta = new double[direct.length][direct[0].length];
         for (int i = 0; i < direct.length; ++i) {
             for (int j = 0; j < direct[i].length; ++j) {
-                beta[i][j] = direct[i][j] / prevDirect[i][j] *
-                        (direct[i][j] - prevDirect[i][j]) / prevDirect[i][j];
+                if (prevDirect[i][j] != 0) {
+                    beta[i][j] = direct[i][j] / prevDirect[i][j] *
+                            (direct[i][j] - prevDirect[i][j]) / prevDirect[i][j];
+                } else {
+                    beta[i][j] = 0.0;
+                }
             }
         }
         return beta;
