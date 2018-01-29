@@ -149,7 +149,7 @@ public class AnalyticalPlacer extends Placer {
         double[][] beta = new double[direct.length][direct[0].length];
         for (int i = 0; i < direct.length; ++i) {
             for (int j = 0; j < direct[i].length; ++j) {
-                if (Math.abs(prevDirect[i][j]) < 1e-6) {
+                if (Math.abs(prevDirect[i][j]) > 1e-6) {
                     beta[i][j] = direct[i][j] / prevDirect[i][j] *
                             (direct[i][j] - prevDirect[i][j]) / prevDirect[i][j];
                 } else {
