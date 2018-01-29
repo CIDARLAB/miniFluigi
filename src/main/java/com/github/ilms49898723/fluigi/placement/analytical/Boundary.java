@@ -9,45 +9,47 @@ public class Boundary {
     private double mRe;
     private double mBe;
     private double mTe;
+    private double mAlpha;
 
-    public Boundary(Placement problem, double le, double be, double re, double te) {
+    public Boundary(Placement problem, double le, double be, double re, double te, double alpha) {
         mProblem = problem;
         mLe = le;
         mBe = be;
         mRe = re;
         mTe = te;
+        mAlpha = alpha;
     }
 
-    public double penalty(double alpha) {
+    public double penalty() {
         double total = 0.0;
         for (Cell cell : mProblem.getCells()) {
-            total += penalty(cell, alpha);
+            total += penalty(cell);
         }
         return total;
     }
 
-    public double penalty(String cell, double alpha) {
-        return penaltyForCell(mProblem.getCell(cell), mLe, mBe, mRe, mTe, alpha);
+    public double penalty(String cell) {
+        return penaltyForCell(mProblem.getCell(cell), mLe, mBe, mRe, mTe, mAlpha);
     }
 
-    public double penalty(Cell cell, double alpha) {
-        return penaltyForCell(cell, mLe, mBe, mRe, mTe, alpha);
+    public double penalty(Cell cell) {
+        return penaltyForCell(cell, mLe, mBe, mRe, mTe, mAlpha);
     }
 
-    public double gradient(String respect, double alpha, int axis) {
-        return penaltyGradientForCell(mProblem.getCell(respect), mLe, mBe, mRe, mTe, alpha, axis);
+    public double gradient(String respect, int axis) {
+        return penaltyGradientForCell(mProblem.getCell(respect), mLe, mBe, mRe, mTe, mAlpha, axis);
     }
 
-    public double gradient(Cell respect, double alpha, int axis) {
-        return penaltyGradientForCell(respect, mLe, mBe, mRe, mTe, alpha, axis);
+    public double gradient(Cell respect, int axis) {
+        return penaltyGradientForCell(respect, mLe, mBe, mRe, mTe, mAlpha, axis);
     }
 
-    public double step(String respect, double alpha, int axis) {
-        return (-1) * gradient(respect, alpha, axis);
+    public double step(String respect, int axis) {
+        return (-1) * gradient(respect, axis);
     }
 
-    public double step(Cell respect, double alpha, int axis) {
-        return (-1) * gradient(respect, alpha, axis);
+    public double step(Cell respect, int axis) {
+        return (-1) * gradient(respect, axis);
     }
 
     public static double penaltyForCell(Cell c, double le, double be, double re, double te, double alpha) {
