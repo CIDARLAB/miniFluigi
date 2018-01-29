@@ -23,6 +23,30 @@ public class Cell {
         return id;
     }
 
+    public int getCoord(int axis) {
+        if (axis == 1) {
+            return x;
+        } else {
+            return y;
+        }
+    }
+
+    public void setCoord(int value, int axis) {
+        if (axis == 1) {
+            x = value;
+        } else {
+            y = value;
+        }
+    }
+
+    public void addCoord(double delta, int axis, int max) {
+        if (axis == 1) {
+            addX(delta, max);
+        } else {
+            addY(delta, max);
+        }
+    }
+
     /**
      * Returns the X co-ordinate of the ce;; (top left corner)
      * @return
@@ -138,6 +162,11 @@ public class Cell {
     @Override
     public boolean equals(Object obj) {
         return (obj instanceof Cell) && ((Cell) obj).getID().equals(this.getID());
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Cell %s (%f, %f)", getID(), getCenterX(), getCenterY());
     }
 
     /**
