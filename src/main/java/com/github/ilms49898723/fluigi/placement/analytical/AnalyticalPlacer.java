@@ -15,16 +15,16 @@ public class AnalyticalPlacer extends Placer {
         ZERO_INITIALIZE
     }
 
-    private static final int MAX_WIDTH = 100;
-    private static final int MAX_HEIGHT = 100;
+    private static final int MAX_WIDTH = AnalyticalPlacerConstants.MAX_WIDTH;
+    private static final int MAX_HEIGHT = AnalyticalPlacerConstants.MAX_HEIGHT;
 
-    private static final double INITIAL_ALPHA = 5.0;
-    private static final double FINAL_ALPHA = 1e-1;
-    private static final double EPSILON = 1e-3;
+    private static final double INITIAL_ALPHA = AnalyticalPlacerConstants.INITIAL_ALPHA;
+    private static final double FINAL_ALPHA = AnalyticalPlacerConstants.FINAL_ALPHA;
+    private static final double EPSILON = AnalyticalPlacerConstants.EPSILON;
 
-    private static final double WIRE_LENGTH_GRAD_WEIGHT = 1;
-    private static final double BOUNDARY_GRAD_WEIGHT = 1;
-    private static final double DENSITY_GRAD_WEIGHT = 1;
+    private static final double WIRE_LENGTH_GRAD_WEIGHT = AnalyticalPlacerConstants.WIRE_LENGTH_GRAD_WEIGHT;
+    private static final double BOUNDARY_GRAD_WEIGHT = AnalyticalPlacerConstants.BOUNDARY_GRAD_WEIGHT;
+    private static final double DENSITY_GRAD_WEIGHT = AnalyticalPlacerConstants.DENSITY_GRAD_WEIGHT;
 
     public AnalyticalPlacer() {
         super();

@@ -47,6 +47,22 @@ public class Cell {
         }
     }
 
+    public double getCenterCoord(int axis) {
+        if (axis == 1) {
+            return getCenterX();
+        } else {
+            return getCenterY();
+        }
+    }
+
+    public int getSpan(int axis) {
+        if (axis == 1) {
+            return xspan;
+        } else {
+            return yspan;
+        }
+    }
+
     /**
      * Returns the X co-ordinate of the ce;; (top left corner)
      * @return
