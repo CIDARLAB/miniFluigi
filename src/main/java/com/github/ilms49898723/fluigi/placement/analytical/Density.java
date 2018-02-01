@@ -9,6 +9,34 @@ import java.util.List;
 import java.util.Map;
 
 public class Density {
+    private class Point2D {
+        public int x;
+        public int y;
+
+        public Point2D(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            Point2D point2D = (Point2D) o;
+
+            if (x != point2D.x) return false;
+            return y == point2D.y;
+        }
+
+        @Override
+        public int hashCode() {
+            int result = x;
+            result = 31 * result + y;
+            return result;
+        }
+    }
+
     private class Values {
         public int a;
         public int b;
@@ -25,7 +53,7 @@ public class Density {
 
     private Placement mProblem;
     private Map<String, Values> mCellPointMap;
-    private double[][] mGridMap;
+    private Map<Point2D, Double> mGridMap;
     private double mRadius;
     private double mGridLength;
     private double mExpectedPotential;
@@ -47,19 +75,14 @@ public class Density {
         mCellPointMap = new HashMap<>();
         mGridWidth = (int) Math.floor(mWidth / mGridLength + 1);
         mGridHeight = (int) Math.floor(mHeight / mGridLength + 1);
-        mGridMap = new double[mGridWidth][mGridHeight];
-        for (double[] mapArray : mGridMap) {
-            Arrays.fill(mapArray, 0.0);
-        }
+        mGridMap = new HashMap<>();
         calculatePenalty();
     }
 
     public double penalty() {
         double totalPenalty = 0.0;
-        for (int i = 0; i < mGridWidth; ++i) {
-            for (int j = 0; j < mGridHeight; ++j) {
-                totalPenalty += penaltyForGridPoint(i, j);
-            }
+        for (double v : mGridMap.values()) {
+            totalPenalty += (v - mExpectedPotential) * (v - mExpectedPotential);
         }
         return totalPenalty;
     }
@@ -80,7 +103,7 @@ public class Density {
         for (int x = lx; x <= rx; ++x) {
             for (int y = ly; y <= ry; ++y) {
                 if (isValidCoordinate(x, y)) {
-                    double C = mGridMap[x][y] - potential(x, cx, y, cy, mRadius);
+                    double C = gridMap(x, y) - potential(x, cx, y, cy, mRadius);
                     double K = (axis == 1) ? potential(y, cy, mRadius) : potential(x, cx, mRadius);
                     double A = mExpectedPotential;
                     double g = (axis == 1) ? gradient(x, cx, C, K, A) : gradient(y, cy, C, K, A);
@@ -99,6 +122,20 @@ public class Density {
         return gradient(respect, axis);
     }
 
+    private double gridMap(int x, int y) {
+        return mGridMap.getOrDefault(new Point2D(x, y), 0.0);
+    }
+
+    private void addGridMap(int x, int y, double v) {
+        Point2D key = new Point2D(x, y);
+        if (!mGridMap.containsKey(key)) {
+            mGridMap.put(key, v);
+        } else {
+            double newValue = mGridMap.get(key);
+            mGridMap.put(key, newValue + v);
+        }
+    }
+
     private void calculatePenalty() {
         List<Cell> cells = mProblem.getCells();
         for (Cell cell : cells) {
@@ -112,7 +149,7 @@ public class Density {
             for (int x = lx; x <= rx; ++x) {
                 for (int y = ly; y <= ry; ++y) {
                     if (isValidCoordinate(x, y)) {
-                        mGridMap[x][y] += potential(x, cx, y, cy, mRadius);
+                        addGridMap(x, y, potential(x, cx, y, cy, mRadius));
                     }
                 }
             }
@@ -151,7 +188,7 @@ public class Density {
     }
 
     private double penaltyForGridPoint(int x, int y) {
-        return (mGridMap[x][y] - mExpectedPotential) * (mGridMap[x][y] - mExpectedPotential);
+        return (gridMap(x, y) - mExpectedPotential) * (gridMap(x, y) - mExpectedPotential);
     }
 
     public static double potential(double x, double x0, double y, double y0, double radius) {
