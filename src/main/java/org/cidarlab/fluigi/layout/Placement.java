@@ -190,9 +190,9 @@ public class Placement {
      */
     public int getXSpan() {
         int maxX = 0;
-        for(Cell c  : getCells()){
+        for(Cell c : getCells()){
             if(c.getMaxX() > maxX){
-                maxX = c.getX();
+                maxX = c.getMaxX();
             }
         }
 
@@ -205,9 +205,9 @@ public class Placement {
      */
     public int getYSpan() {
         int maxY = 0;
-        for(Cell c  : getCells()){
+        for(Cell c : getCells()){
             if(c.getMaxY() > maxY){
-                maxY = c.getX();
+                maxY = c.getMaxY();
             }
         }
 
