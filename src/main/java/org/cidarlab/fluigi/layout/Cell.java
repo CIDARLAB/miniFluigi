@@ -47,6 +47,14 @@ public class Cell {
         }
     }
 
+    public void addCoord(double delta, int axis, int min, int max) {
+        if (axis == 1) {
+            addX(delta, min, max);
+        } else {
+            addY(delta, min, max);
+        }
+    }
+
     public double getCenterCoord(int axis) {
         if (axis == 1) {
             return getCenterX();
@@ -88,10 +96,28 @@ public class Cell {
         } else if (delta < 0 && delta > -1) {
             delta = -1;
         }
-        if (this.x + delta >= max) {
-            this.x = max;
+        if (this.x + this.xspan + delta >= max) {
+            this.x = (int) (max - delta - this.xspan);
         } else if (this.x + delta < 0) {
             this.x = 0;
+        } else {
+            this.x += (int) delta;
+        }
+    }
+
+    public void addX(double delta, int min, int max) {
+        if (Math.abs(delta) < 1e-6) {
+            return;
+        }
+        if (delta > 0 && delta < 1) {
+            delta = 1;
+        } else if (delta < 0 && delta > -1) {
+            delta = -1;
+        }
+        if (this.x + this.xspan + delta >= max) {
+            this.x = (int) (max - delta - this.xspan);
+        } else if (this.x + delta < min) {
+            this.x = min;
         } else {
             this.x += (int) delta;
         }
@@ -122,10 +148,28 @@ public class Cell {
         } else if (delta < 0 && delta > -1) {
             delta = -1;
         }
-        if (this.y + delta >= max) {
-            this.y = max;
+        if (this.y + this.yspan + delta >= max) {
+            this.y = (int) (max - delta - this.yspan);
         } else if (this.y + delta < 0) {
             this.y = 0;
+        } else {
+            this.y += (int) delta;
+        }
+    }
+
+    public void addY(double delta, int min, int max) {
+        if (Math.abs(delta) < 1e-6) {
+            return;
+        }
+        if (delta > 0 && delta < 1) {
+            delta = 1;
+        } else if (delta < 0 && delta > -1) {
+            delta = -1;
+        }
+        if (this.y + this.yspan + delta >= max) {
+            this.y = (int) (max - delta - this.yspan);
+        } else if (this.y + delta < min) {
+            this.y = min;
         } else {
             this.y += (int) delta;
         }

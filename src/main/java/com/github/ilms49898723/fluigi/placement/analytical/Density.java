@@ -3,7 +3,6 @@ package com.github.ilms49898723.fluigi.placement.analytical;
 import org.cidarlab.fluigi.layout.Cell;
 import org.cidarlab.fluigi.layout.Placement;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
