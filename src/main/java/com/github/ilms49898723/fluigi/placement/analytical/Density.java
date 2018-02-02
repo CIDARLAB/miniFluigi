@@ -114,11 +114,11 @@ public class Density {
     }
 
     public double step(String respect, int axis) {
-        return gradient(respect, axis);
+        return (-1) * gradient(respect, axis);
     }
 
     public double step(Cell respect, int axis) {
-        return gradient(respect, axis);
+        return (-1) * gradient(respect, axis);
     }
 
     private double gridMap(int x, int y) {
@@ -162,8 +162,8 @@ public class Density {
     }
 
     private double gradient(double v, double v0, double C, double K, double A) {
-        double coeff = (v - v0 < 0) ? (-1.0) : 1.0;
-        v = Math.abs(v - v0);
+        double coeff = (v0 - v < 0) ? (-1.0) : 1.0;
+        v = Math.abs(v0 - v);
         if (v >= mRadius) {
             return 0.0;
         } else if (0 <= v && v <= mRadius / 2) {
@@ -195,7 +195,7 @@ public class Density {
     }
 
     public static double potential(double v, double v0, double radius) {
-        v = Math.abs(v - v0);
+        v = Math.abs(v0 - v);
         if (v >= radius) {
             return 0.0;
         } else if (0 <= v && v <= radius / 2) {
