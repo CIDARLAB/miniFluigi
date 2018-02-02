@@ -45,7 +45,7 @@ public class AnalyticalPlacer extends Placer {
     }
 
     private void globalDistribute(double initAlpha, double finalAlpha, double epsilon) {
-//        initializeCellCoordinate(InitializeFunction.CENTER_INITIALIZE);
+        initializeCellCoordinate(InitializeFunction.RANDOM_INITIALIZE);
         int cellId = 0;
         double[][] direct = new double[problem.getCells().size()][2];
         Map<String, Integer> cellId2Idx = new HashMap<>();
@@ -54,6 +54,7 @@ public class AnalyticalPlacer extends Placer {
         }
         int iter = 0;
         for (double alpha = initAlpha; alpha >= finalAlpha; alpha *= 0.5) {
+            System.out.println("Current alpha: " + alpha);
             double radius = (alpha > initAlpha * 0.8) ? 2 : (alpha > initAlpha * 0.2) ? 3 : 4;
             double[][] prevDirect = direct;
             direct = new double[problem.getCells().size()][2];
@@ -89,7 +90,8 @@ public class AnalyticalPlacer extends Placer {
     }
 
     private void legalize() {
-
+        LocalLegalizer legalizer = new LocalLegalizer(problem, MAX_WIDTH, MAX_HEIGHT);
+        legalizer.place();
     }
 
     private void initializeCellCoordinate(InitializeFunction function) {
