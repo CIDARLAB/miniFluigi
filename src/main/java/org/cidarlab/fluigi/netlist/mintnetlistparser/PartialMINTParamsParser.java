@@ -53,7 +53,21 @@ public class PartialMINTParamsParser extends PartialMINTDeviceArchitectureParser
     public void enterBoolParam(mintgrammarParser.BoolParamContext ctx) {
         String paramkey = ctx.param_element().getText();
         String value = ctx.boolvalue().getText();
-        paramsHashmap.put(paramkey,value);
+        paramsHashmap.put(paramkey, value);
+    }
+
+    /**
+     * {@inheritDoc}
+     * <p>
+     * <p>The default implementation does nothing.</p>
+     *
+     * @param ctx
+     */
+    @Override
+    public void enterWidthParam(mintgrammarParser.WidthParamContext ctx) {
+        String paramkey = "width";
+        String value = ctx.value().getText();
+        paramsHashmap.put(paramkey, value);
     }
 
     protected void verifyAndAddParams(Component component) {

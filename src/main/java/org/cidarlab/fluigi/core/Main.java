@@ -5,6 +5,7 @@
  */
 package org.cidarlab.fluigi.core;
 
+import com.github.ilms49898723.fluigi.placement.analytical.AnalyticalPlacer;
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -221,7 +222,7 @@ public class Main {
                 placementproblems = cellMapper.generateLayouts();
 
                 for (Placement placementproblem : placementproblems) {
-                    SAPlacer placer = new SAPlacer();
+                    AnalyticalPlacer placer = new AnalyticalPlacer();
 
                     placer.loadProblem(placementproblem);
 

@@ -34,19 +34,21 @@ public class LocalLegalizer extends Placer {
     private static final double INITIAL_ALPHA = AnalyticalPlacerConstants.INITIAL_ALPHA;
     private static final double FINAL_ALPHA = AnalyticalPlacerConstants.FINAL_ALPHA;
 
-    private Placement mPlacement;
     private int mMaxWidth;
     private int mMaxHeight;
 
     public LocalLegalizer(Placement placement, int maxWidth, int maxHeight) {
-        mPlacement = placement;
+        super.problem = placement;
         mMaxWidth = maxWidth;
         mMaxHeight = maxHeight;
     }
 
     @Override
     public void place() {
-        List<Cell> allCells = new ArrayList<>(mPlacement.getCells());
+        if(null == super.problem){
+            System.exit(9999);
+        }
+        List<Cell> allCells = new ArrayList<>(super.problem.getCells());
         moduleAssign(allCells, 0, 0, MAX_WIDTH, MAX_HEIGHT);
     }
 
@@ -94,7 +96,7 @@ public class LocalLegalizer extends Placer {
 
     private double jag(int line, int axis) {
         double totalJag = 0.0;
-        for (Cell cell : mPlacement.getCells()) {
+        for (Cell cell : super.problem.getCells()) {
             totalJag += jagForCell(cell, line, axis);
         }
         return totalJag;
@@ -152,6 +154,7 @@ public class LocalLegalizer extends Placer {
             double[][] prevDirect = direct;
             direct = new double[cells.size()][2];
             // Only consider density
+            System.out.println("Alpha Value : " + alpha);
             Density ds = new Density(problem, MAX_WIDTH, MAX_HEIGHT, radius, alpha);
             double cost = ds.penalty();
             for (Cell cell : cells) {

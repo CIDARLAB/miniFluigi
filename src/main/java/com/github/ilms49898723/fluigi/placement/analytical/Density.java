@@ -62,6 +62,9 @@ public class Density {
     private int mGridHeight;
 
     public Density(Placement problem, int width, int height, double radius, double alpha) {
+        if(null == problem){
+            System.exit(9999);
+        }
         mProblem = problem;
         mRadius = radius;
         mGridLength = alpha / mRadius;

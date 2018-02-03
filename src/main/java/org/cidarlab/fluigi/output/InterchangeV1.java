@@ -135,7 +135,10 @@ public class InterchangeV1 {
             sinks.add(new TerminalJSON(componentid, connection.getTerminalLabel(componentid)).getJSONObject());
         }
         tempJSONObject.put("sinks",sinks);
-        //TODO: Create the JSON params of the connection
+
+        //Create the JSON params of the connection
+        AbstractJSONMap abstractJSONMap = new AbstractJSONMap(connection.getParams());
+        tempJSONObject.put("params", abstractJSONMap.getJSONObject());
         connectionArray.add(tempJSONObject);
 
     }

@@ -37,7 +37,10 @@ public class AnalyticalPlacer extends Placer {
 
     @Override
     public void place() {
-        if (problem.getCells().size() < 1) {
+        if(null == problem){
+            System.exit(9999);
+        }
+        if(problem.getCells().size() < 1) {
             return;
         }
         globalDistribute(INITIAL_ALPHA, FINAL_ALPHA, EPSILON);
