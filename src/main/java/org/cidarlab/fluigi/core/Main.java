@@ -29,10 +29,18 @@ import org.cidarlab.fluigi.netlist.mintnetlistparser.PartialMINTConstraintParser
 import org.cidarlab.fluigi.netlist.technology.TechLibrary;
 import org.cidarlab.fluigi.output.InterchangeV1;
 import org.cidarlab.fluigi.output.JSONNetlist;
+import org.cidarlab.fluigi.output.LayoutSnapshot;
 import org.cidarlab.fluigi.place.simulatedannealing.SAPlacer;
+import org.jfree.graphics2d.svg.SVGGraphics2D;
+import org.jfree.graphics2d.svg.SVGUnits;
+import org.jfree.graphics2d.svg.SVGUtils;
 
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -141,6 +149,19 @@ public class Main {
     }
 
     public static void main(String[] args) {
+
+//        SVGGraphics2D svgGraphics2D = new SVGGraphics2D(500,500, SVGUnits.MM);
+//        svgGraphics2D.setColor(Color.BLUE);
+//        svgGraphics2D.fillRect(100,100,100,100);
+//
+//        try {
+//            SVGUtils.writeToSVG(new File("svg.svg"), svgGraphics2D.getSVGElement());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+
+//        System.exit(0);
+
         final Options options = createCommandLineOptions();
 
         CommandLineParser parser = new DefaultParser();
@@ -227,6 +248,11 @@ public class Main {
                     placer.loadProblem(placementproblem);
 
                     placer.place();
+
+                    //Print layout snapshot
+                    Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+                    Instant instant = timestamp.toInstant();
+                    new LayoutSnapshot("snapshot_" + instant, placementproblem);
 
                     /*
                     TODO: Create a verification system to ensure that the placement is working correctly.
