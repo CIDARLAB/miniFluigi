@@ -2,17 +2,13 @@ package org.cidarlab.fluigi.output;
 
 import org.cidarlab.fluigi.core.Parameters;
 import org.cidarlab.fluigi.layout.Cell;
+import org.cidarlab.fluigi.layout.Net;
 import org.cidarlab.fluigi.layout.Placement;
 import org.jfree.graphics2d.svg.SVGGraphics2D;
-import org.jfree.graphics2d.svg.SVGUnits;
 import org.jfree.graphics2d.svg.SVGUtils;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 
 /**
@@ -59,11 +55,21 @@ public class LayoutSnapshot {
         //TODO: scale the device correctly
         //Draw Rectangles for each of the cells
         snapshot.setColor(Color.BLUE);
-        System.out.println("Print each of the layout cells:");
+        System.out.println("Printing each of the layout cells:");
         for(Cell c : placement.getCells()){
             System.out.println("--> X: " + c.getX() + " Y: " + c.getY() + " X-Span: " + c.getXspan() + " Y-Span: "
                     + c.getYspan());
             g2D.fillRect(c.getX(), c.getY(), c.getXspan(), c.getYspan());
+        }
+        g2D.setStroke(new BasicStroke(100));
+        g2D.setColor(Color.MAGENTA);
+        System.out.println("Printing each of the nets");
+        for (Net n : placement.getNets()){
+            Cell source = placement.getNetSource(n);
+            Cell target = placement.getNetTarget(n);
+            System.out.println("--> Source: " + source.getID() + " Target: " + target.getID());
+            g2D.drawLine((int)source.getCenterX(), (int)source.getCenterY(), (int)target.getCenterX(),
+                    (int)target.getCenterY());
         }
     }
 
