@@ -1,6 +1,5 @@
 package org.cidarlab.fluigi.netlist.technology;
 
-import com.sun.istack.internal.NotNull;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -302,7 +301,6 @@ public class TechEntity {
      * @param params
      * @return
      */
-    @NotNull
     public int getXSpan(Map<String, String> params) {
         return parseExpression(xspanexpression, params);
     }
@@ -313,7 +311,6 @@ public class TechEntity {
      * @param params
      * @return
      */
-    @NotNull
     public int getYSpan(Map<String, String> params) {
         return parseExpression(yspanexpression, params);
     }

@@ -434,4 +434,39 @@ public class PartialMINTConstraintParser extends PartialMINTNetlistParser {
         return ret;
     }
 
+    //**** NODE PATH CONSTRAINT STUFF*********
+
+
+    /**
+     * {@inheritDoc}
+     * <p>
+     * <p>The default implementation does nothing.</p>
+     *
+     * @param ctx
+     */
+    @Override
+    public void exitNodeStat(mintgrammarParser.NodeStatContext ctx) {
+        super.exitNodeStat(ctx);
+    }
+
+    /**
+     * {@inheritDoc}
+     * <p>
+     * <p>The default implementation does nothing.</p>
+     *
+     * @param ctx
+     */
+    @Override
+    public void exitLayerBlock(mintgrammarParser.LayerBlockContext ctx) {
+        super.exitLayerBlock(ctx);
+        //TODO: Need to implement node traversal to figure out constraint context
+        ArrayList<Component> contextcomponents = new ArrayList<>();
+        for (String componentname: nodelist) {
+            contextcomponents.add(super.device.getComponent(componentname));
+        }
+        Constraint constraint = new NodePathConstraint(contextcomponents);
+        ((NodePathConstraint)constraint).findNodeNetworkComponents(device, nodelist, contextcomponents);
+        device.addConstraint(constraint);
+    }
+
 }

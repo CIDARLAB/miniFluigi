@@ -36,6 +36,45 @@ public class PartialMINTParamsParser extends PartialMINTDeviceArchitectureParser
      * @param ctx
      */
     @Override
+    public void enterFlowStat(mintgrammarParser.FlowStatContext ctx) {
+        super.enterFlowStat(ctx);
+        paramsHashmap.clear();
+    }
+
+    /**
+     * {@inheritDoc}
+     * <p>
+     * <p>The default implementation does nothing.</p>
+     *
+     * @param ctx
+     */
+    @Override
+    public void enterControlStat(mintgrammarParser.ControlStatContext ctx) {
+        super.enterControlStat(ctx);
+        paramsHashmap.clear();
+    }
+
+    /**
+     * {@inheritDoc}
+     * <p>
+     * <p>The default implementation does nothing.</p>
+     *
+     * @param ctx
+     */
+    @Override
+    public void enterIntegrationStat(mintgrammarParser.IntegrationStatContext ctx) {
+        super.enterIntegrationStat(ctx);
+        paramsHashmap.clear();
+    }
+
+    /**
+     * {@inheritDoc}
+     * <p>
+     * <p>The default implementation does nothing.</p>
+     *
+     * @param ctx
+     */
+    @Override
     public void enterIntParam(mintgrammarParser.IntParamContext ctx) {
         String paramkey = ctx.param_element().getText();
         String value = ctx.value().getText();

@@ -10,8 +10,10 @@ import org.cidarlab.fluigi.manufacturing.Feature;
 import org.cidarlab.fluigi.netlist.constraints.Constraint;
 import org.cidarlab.fluigi.netlist.technology.TechEntity;
 import org.cidarlab.fluigi.netlist.technology.TechLibrary;
-
-import java.util.*;
+import org.jgrapht.graph.DirectedMultigraph;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  *
@@ -31,6 +33,7 @@ public class Device {
     private List<Constraint> constraintList;
     private List<Feature> features;
     private List<DrawLayer> drawLayers;
+    private DirectedMultigraph<Component, Connection> globalConnectionGraph;
 
     public Device(){
         layerBlocks = new ArrayList<>();
@@ -41,6 +44,7 @@ public class Device {
         valvemap = new HashMap<>();
         imports = new ArrayList<>();
         constraintList = new ArrayList<>();
+        globalConnectionGraph = new DirectedMultigraph<>(Connection.class);
     }
 
     public Device(String string) {
@@ -82,6 +86,9 @@ public class Device {
         }
         LogicalLayer layer = layersHashMap.get(layerid);
         layer.addComponent(component);
+
+        //Also add something to the global graph
+        globalConnectionGraph.addVertex(component);
     }
 
     /**
@@ -96,6 +103,11 @@ public class Device {
         }
         LogicalLayer layer = layersHashMap.get(layerid);
         layer.addConnection(connection);
+
+        for(String sinkid : connection.getSinks()){
+            //TODO: Change this if it breaks
+            globalConnectionGraph.addEdge(this.getComponent(connection.getSourceID()), this.getComponent(sinkid), connection);
+        }
 
     }
 
@@ -139,6 +151,10 @@ public class Device {
     }
 
 
+    /**
+     * Removes a valve from the valvemap in the device object
+     * @param connection
+     */
     public void removeValve(Connection connection){
         this.valvemap.remove(connection);
     }
@@ -268,5 +284,9 @@ public class Device {
 
     public List<DrawLayer> getDrawLayers() {
         return drawLayers;
+    }
+
+    public DirectedMultigraph getGlobalGraph() {
+        return globalConnectionGraph;
     }
 }

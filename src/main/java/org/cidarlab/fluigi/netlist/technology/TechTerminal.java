@@ -1,6 +1,5 @@
 package org.cidarlab.fluigi.netlist.technology;
 
-import com.sun.istack.internal.NotNull;
 import org.cidarlab.fluigi.layout.Point;
 
 /**
@@ -21,60 +20,53 @@ public class TechTerminal extends Point{
         this.label = label;
     }
 
-    @NotNull
     public String getXposexpression() {
         return xposexpression;
     }
 
-    public void setXposexpression(@NotNull String xposexpression) {
+    public void setXposexpression( String xposexpression) {
         this.xposexpression = xposexpression;
     }
 
-    @NotNull
     public String getYposexpression() {
         return yposexpression;
     }
 
-    public void setYposexpression(@NotNull String yposexpression) {
+    public void setYposexpression( String yposexpression) {
         this.yposexpression = yposexpression;
     }
 
-    public void setLayer(@NotNull String layer) {
+    public void setLayer( String layer) {
         this.layer = layer;
     }
 
-    @NotNull
     public String getLabel() {
         return label;
     }
 
-    @NotNull
     public String getLayer() {
         return layer;
     }
 
-    @NotNull
     public String getStart() {
         return start;
     }
 
-    @NotNull
     public String getEnd() { return end; }
 
-    public void setStart(@NotNull String start) {
+    public void setStart( String start) {
         this.start = start;
     }
 
-    public void setEnd(@NotNull String end){
+    public void setEnd( String end){
         this.end = end;
     }
 
-    @NotNull
     public String getLabelexpression() {
         return labelexpression;
     }
 
-    public void setLabelexpression(@NotNull String labelexpression) {
+    public void setLabelexpression( String labelexpression) {
         this.labelexpression = labelexpression;
     }
 }

@@ -96,7 +96,7 @@ public class Connection {
     }
 
     /**
-     * Returns sinks of the connection
+     * Returns sinks (IDs) of the connection
      *
      * @return
      */

@@ -116,7 +116,7 @@ public class Component {
     /**
      * @return the w
      */
-    public int getW() {
+    public int getXSpan() {
         return w;
     }
 
@@ -130,7 +130,7 @@ public class Component {
     /**
      * @return the h
      */
-    public int getH() {
+    public int getYSpan() {
         return h;
     }
 
@@ -213,8 +213,8 @@ public class Component {
 
         xmin = this.getX();
         ymin = this.getY();
-        xmax = this.getX() + this.getW();
-        ymax = this.getY() + this.getH();
+        xmax = this.getX() + this.getXSpan();
+        ymax = this.getY() + this.getYSpan();
 
         //Arrange all the terminals in clockwise direction and then add them to top, bottom, left and right
 

@@ -22,6 +22,7 @@ public class   PartialMINTNetlistParser extends PartialMINTParamsParser {
     HashMap<String, Object> gridparamsHashmap;
     HashMap<String, Object> bankparamsHashmap;
     private int spanlimit;
+    protected ArrayList<String> nodelist;
 
     public PartialMINTNetlistParser(){
         super();
@@ -29,6 +30,7 @@ public class   PartialMINTNetlistParser extends PartialMINTParamsParser {
         bankparamsHashmap = new HashMap<>();
         constraintContextComponents = new ArrayList<>();
         terminalMap = new MINTArbitraryTerminalMap();
+        nodelist = new ArrayList<>();
     }
 
     /**
@@ -383,6 +385,73 @@ public class   PartialMINTNetlistParser extends PartialMINTParamsParser {
         if (null == currententity) {
             System.out.println("Entity does not exist: " + ctx.getText());
             throw new UnsupportedOperationException("Need to implement system to throw error when entity does not exist");
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     * <p>
+     * <p>The default implementation does nothing.</p>
+     *
+     * @param ctx
+     */
+    @Override
+    public void exitNodeStat(NodeStatContext ctx) {
+        super.exitNodeStat(ctx);
+        this.currententity = techLibrary.getMINTEntity("NODE");
+        List<UfnameContext> componentnames = ctx.ufnames().ufname();
+        for(UfnameContext componentname : componentnames){
+            this.nodelist.add(componentname.getText());
+            Component component = createAndVerifyComponentHelper(componentname.getText(), currententity);
+
+            //Add the terminal map
+            addAllTerminalsToTerminalMapHelper(component);
+
+            //Add the component to constraint context for applying constraints
+            constraintContextComponents.add(component);
+            //Adding the component to the device
+            device.addComponent(component, currentlayer.getId());
+        }
+
+    }
+
+    /**
+     * {@inheritDoc}
+     * <p>
+     * <p>The default implementation does nothing.</p>
+     *
+     * @param ctx
+     */
+    @Override
+    public void exitNetlist(NetlistContext ctx) {
+        super.exitNetlist(ctx);
+        //Beef up the nodes
+        Component component;
+        for(Connection c : device.getConnections()){
+            //Check if source is node
+            if(nodelist.contains(c.getSourceID())){
+                //Beef up node dimensions
+                component = device.getComponent(c.getSourceID());
+                int newthickness = Integer.parseInt((String)c.getParams().get("width"));
+                if(newthickness > component.getXSpan()) {
+                    component.setXSpan(newthickness);
+                    component.setYSpan(newthickness);
+                }
+            }
+            //Check if target is node
+            for(String sinkid : c.getSinks()){
+                //Check if sink is node
+                if(nodelist.contains(sinkid)){
+                    //Beef up node dimensions
+                    component = device.getComponent(sinkid);
+                    int newthickness = Integer.parseInt((String)c.getParams().get("width"));
+                    if(newthickness > component.getXSpan()) {
+                        component.setXSpan(newthickness);
+                        component.setYSpan(newthickness);
+                    }
+                }
+            }
+
         }
     }
 

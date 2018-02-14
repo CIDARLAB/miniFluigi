@@ -81,8 +81,8 @@ public class NaiveCellMapper extends CellMapper {
 
             //Add all the components into the placement problem
             for(Component c : connectedset){
-                placementprolem.addCell(c.getId(), c.getX(), c.getY(), c.getW(),
-                        c.getH());
+                placementprolem.addCell(c.getId(), c.getX(), c.getY(), c.getXSpan(),
+                        c.getYSpan());
             }
 
             //Add all the corresponding connections into the placement problem

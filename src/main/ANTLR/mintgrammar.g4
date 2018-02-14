@@ -70,6 +70,8 @@ flowStat
     |   bankStat
     |   gridStat
     |   spanStat
+    |   nodeStat
+    |   positionStat
     ;
 
 controlStat
@@ -78,10 +80,12 @@ controlStat
     |   channelStat
     |   netStat
     |   primitiveStat
+    |   positionStat
     ;
 
 integrationStat
     :   primitiveStat
+    |   positionStat
     ;
 
 //Flow and Control Statements
@@ -116,6 +120,14 @@ channelStat
 
 netStat
     :   'NET' ufname 'from' source=uftarget 'to' sinks=uftargets paramsStat ';'
+    ;
+
+nodeStat
+    :   'NODE' ufnames ';'
+    ;
+
+positionStat
+    :   'SET' ufname ('X'|'Y') '=' value ('Y' '=' value)? ';'
     ;
 
 //Common Parser Rules
@@ -156,7 +168,6 @@ boolParam
 widthParam
     :   'width' '=' value
     |   'w' '=' value
-    |   'channelWidth' '=' value
     ;
 
 directionConstraintParam
