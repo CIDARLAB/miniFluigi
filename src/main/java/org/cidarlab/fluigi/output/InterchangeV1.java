@@ -188,7 +188,14 @@ public class InterchangeV1 {
             }
 
             tempJSONObject.put("ports", portJSONarray);
-            tempJSONObject.put("params", abstractJSONMap.getJSONObject());
+            JSONObject paramsobject = abstractJSONMap.getJSONObject();
+            //Put the position of the component into the this
+            JSONArray positionarary = new JSONArray();
+            positionarary.add(component.getX());
+            positionarary.add(component.getY());
+            paramsobject.put("position", positionarary);
+
+            tempJSONObject.put("params", paramsobject);
             componentsMap.put(component.getId(), tempJSONObject);
         }
     }
