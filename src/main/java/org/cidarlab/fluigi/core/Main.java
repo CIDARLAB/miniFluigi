@@ -80,8 +80,6 @@ public class Main {
 
     /**
      * @param options <p>
-     *                <p>
-     *                <p>
      */
     private static void outputCommandLineHelp(final Options options) {
         final HelpFormatter formatter = new HelpFormatter();
@@ -117,6 +115,7 @@ public class Main {
 
         if ((null != cl) && cl.hasOption("place")) {
             //SET THE APPLICATION FLAGS
+            PLACE_DO_FLAG = true;
             ROUTE_DO_FLAG = false;
             DRC_DO_FLAG = false;
         }
@@ -124,6 +123,7 @@ public class Main {
         if ((null != cl) && cl.hasOption("route")) {
             //SET THE APPLICATION FLAGS
             PLACE_DO_FLAG = false;
+            ROUTE_DO_FLAG = true;
             DRC_DO_FLAG = false;
         }
 
@@ -131,6 +131,7 @@ public class Main {
             //SET THE APPLICATION FLAGS
             PLACE_DO_FLAG = false;
             ROUTE_DO_FLAG = false;
+            DRC_DO_FLAG = true;
         }
 
         isDebugPrintEnabled = cl.hasOption("debug");

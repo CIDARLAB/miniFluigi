@@ -105,4 +105,12 @@ public class Terminal extends Point {
             return false;
         }
     }
+
+    /**
+     * Returns the layer of the terminal
+     * @return
+     */
+    public String getLayer() {
+        return layer;
+    }
 }

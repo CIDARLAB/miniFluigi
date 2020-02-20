@@ -7,6 +7,7 @@ package org.cidarlab.fluigi.model;
 
 import java.util.*;
 
+import org.cidarlab.fluigi.layout.Point;
 import org.cidarlab.fluigi.netlist.json.JSONKeyWords;
 import org.cidarlab.fluigi.netlist.technology.TechEntity;
 import org.json.simple.JSONObject;
@@ -257,7 +258,44 @@ public class Component {
                 continue;
 
             }else{
-                throw new UnsupportedOperationException("Non-fence terminal found");
+                /*
+                For non-fence terminals we need to first figure out which is the closest side
+
+                We do this by dividing the rectangle into 4 triangles and then check and if its on
+                the triangle line, then push it to anticlockwise quadrant
+                 */
+
+                /*
+                Generate the component rectangle/triangle points
+                 */
+                Point topleft = new Point(this.getX(), this.getY());
+                Point topright = new Point(this.getX() + this.getXSpan(), this.getY());
+                Point bottomright = new Point(this.getX() + this.getXSpan(), this.getY() + this.getYSpan());
+                Point bottomleft = new Point(this.getX(), this.getY() + this.getYSpan());
+
+                Point center = new Point(this.getX() + this.getXSpan()/2, this.getY() + this.getYSpan()/2);
+                /*
+                Check if its in the top triangle
+                 */
+                if (terminal.isPointInTriangle(topleft, topright, center)){
+                    //Add it to the top list
+                    insertIncreasingXOrder(terminal, topedgelist);
+                    continue;
+                }else if (terminal.isPointInTriangle(topright, bottomright, center)){
+                    //Add it to the right list
+                    insertIncreasingYOrder(terminal, rightedgelist);
+                    continue;
+                }else if (terminal.isPointInTriangle(bottomright, bottomleft, center)){
+                    //Add it to the bottom list
+                    insertIncreasingXOrder(terminal, bottomedgelist);
+                    continue;
+                }else if (terminal.isPointInTriangle(bottomleft, topleft, center)){
+                    //Add it to the left list
+                    insertIncreasingYOrder(terminal, leftedgelist);
+                    continue;
+                }else{
+                    throw new UnsupportedOperationException("Non-fence terminal found on quadrant edges");
+                }
             }
         }
         Collections.reverse(bottomedgelist);

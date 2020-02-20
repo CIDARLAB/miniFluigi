@@ -6,10 +6,7 @@ package org.cidarlab.fluigi.output;
 
 import org.cidarlab.fluigi.manufacturing.DrawLayer;
 import org.cidarlab.fluigi.manufacturing.Feature;
-import org.cidarlab.fluigi.model.Component;
-import org.cidarlab.fluigi.model.Connection;
-import org.cidarlab.fluigi.model.Device;
-import org.cidarlab.fluigi.model.LogicalLayer;
+import org.cidarlab.fluigi.model.*;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -128,6 +125,7 @@ public class InterchangeV1 {
         tempJSONObject = new JSONObject();
         tempJSONObject.put("id",connection.getId());
         tempJSONObject.put("name", connection.getId());
+        tempJSONObject.put("entity", connection.getTechnology());
         tempJSONObject.put("source", new TerminalJSON(connection.getSourceID(), connection.getTerminalLabel(connection.getSourceID())).getJSONObject());
         JSONArray sinks = new JSONArray();
         //Loop through the sinks
@@ -135,6 +133,11 @@ public class InterchangeV1 {
             sinks.add(new TerminalJSON(componentid, connection.getTerminalLabel(componentid)).getJSONObject());
         }
         tempJSONObject.put("sinks",sinks);
+
+        //Get layers
+        JSONArray layersJSONArray = new JSONArray();
+        layersJSONArray.add(connection.getLayerID());
+        tempJSONObject.put("layer", layersJSONArray);
 
         //Create the JSON params of the connection
         AbstractJSONMap abstractJSONMap = new AbstractJSONMap(connection.getParams());
@@ -144,13 +147,16 @@ public class InterchangeV1 {
     }
 
     /**
-     *
+     * Inserts a component
      * @param component
      * @param layerid
      */
     private void insertComponent(Component component, String layerid) {
         //Check if it already exists
         tempJSONObject = new JSONObject();
+
+        //This piece of code ensures that if the component is present on another layer,
+        // it will be added again - TODO: This is wrong and has to change I believe
         if(componentsMap.containsKey(component.getId())){
             //Update the layers for this component
             ((JSONArray)
@@ -162,12 +168,26 @@ public class InterchangeV1 {
             //Create the JSON of the component
             tempJSONObject.put("id", component.getId());
             tempJSONObject.put("name", component.getId());
+            tempJSONObject.put("x-span", component.getXSpan());
+            tempJSONObject.put("y-span", component.getYSpan());
             JSONArray layers = new JSONArray();
             layers.add(layerid);
             tempJSONObject.put("layers",layers);
-
+            tempJSONObject.put("entity", component.getTechnology());
             AbstractJSONMap abstractJSONMap = new AbstractJSONMap(component.getParams());
 
+            //Generate ports
+            JSONArray portJSONarray = new JSONArray();
+            for(Terminal t : component.getTerminals()){
+                JSONObject terminalJSONObject = new JSONObject();
+                terminalJSONObject.put("x", t.getX());
+                terminalJSONObject.put("y", t.getY());
+                terminalJSONObject.put("label", t.getLabel());
+                terminalJSONObject.put("layer", t.getLayer());
+                portJSONarray.add(terminalJSONObject);
+            }
+
+            tempJSONObject.put("ports", portJSONarray);
             tempJSONObject.put("params", abstractJSONMap.getJSONObject());
             componentsMap.put(component.getId(), tempJSONObject);
         }

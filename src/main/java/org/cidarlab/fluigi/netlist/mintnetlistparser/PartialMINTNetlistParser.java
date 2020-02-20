@@ -320,7 +320,7 @@ public class   PartialMINTNetlistParser extends PartialMINTParamsParser {
 
         //Create the connection (for the channel)
         Connection connection = new Connection(connection_name);
-        connection.setTechnology(currententity.getMINTName());
+        connection.setTechnology("CHANNEL");
         //Set the layer
         connection.setLayerID(currentlayer.getId());
         //Set the source and sink
@@ -347,6 +347,8 @@ public class   PartialMINTNetlistParser extends PartialMINTParamsParser {
     public void exitNetStat(NetStatContext ctx) {
         String connection_name = ctx.ufname().getText();
         Connection connection = new Connection(connection_name);
+        connection.setTechnology("CHANNEL");
+
         //Set the layer
         connection.setLayerID(currentlayer.getId());
 
